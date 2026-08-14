@@ -37,10 +37,10 @@ git checkout -b feat/your-feature-name
 
 ### **Step 2: Build the Feature**
 
-- Write clean, modular code following the project guidelines in `.agents/AGENTS.md`.
+- Write clean, modular code following the project guidelines in `.agents/AGENTS.md` and `DEVELOPMENT.md`.
+- **Decoupling Rule**: Features and components must be loosely coupled. Feature components (`src/components/features/`) must be self-contained; generic UI components (`src/components/ui/`) must never import domain features.
 - **Environment Variables**: Never access `process.env` directly. Always import `env` from `@/config/env`.
 - **Component Architecture**: Use **React Server Components (RSC)** by default. Add `"use client"` only when interactivity, hooks, or DOM events are needed.
-- **Component Structure**: Place generic UI primitives in `src/components/ui/` and domain features in `src/components/features/`.
 - **API Requests**: Centralize API client calls in `src/services/` or `src/lib/api.ts` using `apiClient`.
 
 ### **Step 3: Write Tests for Every New Feature**
@@ -79,10 +79,11 @@ pnpm test
 
 ## 3. 🚨 Golden Rules (Do's and Don'ts)
 
-| ❌ **DONT'S**                                                      | ✅ **DO'S**                                                                  |
-| :----------------------------------------------------------------- | :--------------------------------------------------------------------------- |
-| **Don't** push directly to `main` or `dev`.                        | **Do** push to a feature branch and open a PR to `dev`.                      |
-| **Don't** use `process.env.NEXT_PUBLIC_X ?? ""` inline fallbacks.  | **Do** declare environment variables in `src/config/env.ts` with Zod schema. |
-| **Don't** use `any` or forced type casting (`as any`).             | **Do** write strict, explicit TypeScript interfaces in `src/types/`.         |
-| **Don't** skip writing unit tests for new components or utilities. | **Do** add tests in `tests/` verifying UI & logic scenarios.                 |
-| **Don't** bypass local hooks unless strictly necessary.            | **Do** fix linting/formatting errors locally before pushing.                 |
+| ❌ **DONT'S**                                                                               | ✅ **DO'S**                                                                                  |
+| :------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------- |
+| **Don't** push directly to `main` or `dev`.                                                 | **Do** push to a feature branch and open a PR to `dev`.                                      |
+| **Don't** tightly couple features or create cross-feature imports in generic UI components. | **Do** keep components decoupled and maintain generic UI primitives in `src/components/ui/`. |
+| **Don't** use `process.env.NEXT_PUBLIC_X ?? ""` inline fallbacks.                           | **Do** declare environment variables in `src/config/env.ts` with Zod schema.                 |
+| **Don't** use `any` or forced type casting (`as any`).                                      | **Do** write strict, explicit TypeScript interfaces in `src/types/`.                         |
+| **Don't** skip writing unit tests for new components or utilities.                          | **Do** add tests in `tests/` verifying UI & logic scenarios.                                 |
+| **Don't** bypass local hooks unless strictly necessary.                                     | **Do** fix linting/formatting errors locally before pushing.                                 |
