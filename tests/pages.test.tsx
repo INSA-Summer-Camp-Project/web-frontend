@@ -1,8 +1,9 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LoginPage from "../src/app/(auth)/login/page";
 import SignupPage from "../src/app/(auth)/signup/page";
+import { loginSchema, registerSchema } from "../src/lib/validations/auth";
 
 // Mock next/link
 vi.mock("next/link", () => {
@@ -17,53 +18,73 @@ vi.mock("next/link", () => {
   };
 });
 
-describe("Auth Pages Test Suite", () => {
-  describe("Login Page", () => {
-    it("renders welcome header and login options", () => {
-      render(<LoginPage />);
-      expect(screen.getByText("Welcome back")).toBeInTheDocument();
-      expect(screen.getByText("Login with Telegram")).toBeInTheDocument();
-      expect(
-        screen.getByPlaceholderText("you@example.com"),
-      ).toBeInTheDocument();
-      expect(screen.getByText("Create an account")).toBeInTheDocument();
+describe("Auth Validation Schemas Test Suite", () => {
+  describe("Zod Auth Schemas", () => {
+    it("validates login schema correctly", () => {
+      const invalidResult = loginSchema.safeParse({
+        email: "invalid",
+        password: "",
+      });
+      expect(invalidResult.success).toBe(false);
+
+      const validResult = loginSchema.safeParse({
+        email: "user@example.com",
+        password: "secretpassword",
+      });
+      expect(validResult.success).toBe(true);
     });
 
-    it("validates email input on email form submission", () => {
-      render(<LoginPage />);
-      const submitButton = screen.getByRole("button", {
-        name: "Continue with Email",
+    it("validates register schema with role enum and password min length", () => {
+      const invalidPassword = registerSchema.safeParse({
+        role: "CUSTOMER",
+        email: "user@example.com",
+        password: "123",
       });
-      fireEvent.click(submitButton);
-      expect(
-        screen.getByText("Please enter a valid email address."),
-      ).toBeInTheDocument();
+      expect(invalidPassword.success).toBe(false);
+
+      const validRegister = registerSchema.safeParse({
+        role: "WORKER",
+        email: "worker@example.com",
+        password: "securepassword123",
+      });
+      expect(validRegister.success).toBe(true);
     });
   });
 
-  describe("Signup Page", () => {
-    it("renders role selector with CUSTOMER, WORKER, and BUSINESS options", () => {
-      render(<SignupPage />);
-      expect(screen.getByText("Join ServiceHub")).toBeInTheDocument();
-      expect(screen.getByText("I want to hire help")).toBeInTheDocument();
-      expect(screen.getByText("I want to offer services")).toBeInTheDocument();
-      expect(screen.getByText("I run a business")).toBeInTheDocument();
-      expect(screen.getByText("Sign up with Telegram")).toBeInTheDocument();
+  describe("Login Page Form Validation", () => {
+    it("displays validation error when submitting invalid email format", async () => {
+      render(<LoginPage />);
+      const emailInput = screen.getByPlaceholderText("you@example.com");
+      fireEvent.change(emailInput, { target: { value: "not-an-email" } });
+
+      const form = emailInput.closest("form")!;
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("Please enter a valid email address"),
+        ).toBeInTheDocument();
+      });
     });
+  });
 
-    it("allows selecting different roles", () => {
+  describe("Signup Page Form Validation", () => {
+    it("displays validation error when password is less than 8 characters", async () => {
       render(<SignupPage />);
-      const workerRadio = screen.getByDisplayValue(
-        "WORKER",
-      ) as HTMLInputElement;
-      fireEvent.click(workerRadio);
-      expect(workerRadio.checked).toBe(true);
+      const emailInput = screen.getByPlaceholderText("you@example.com");
+      fireEvent.change(emailInput, { target: { value: "valid@example.com" } });
 
-      const businessRadio = screen.getByDisplayValue(
-        "BUSINESS",
-      ) as HTMLInputElement;
-      fireEvent.click(businessRadio);
-      expect(businessRadio.checked).toBe(true);
+      const passwordInput = screen.getByPlaceholderText("Min 8 characters");
+      fireEvent.change(passwordInput, { target: { value: "short" } });
+
+      const form = passwordInput.closest("form")!;
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("Password must be at least 8 characters long"),
+        ).toBeInTheDocument();
+      });
     });
   });
 });

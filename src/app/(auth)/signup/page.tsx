@@ -2,50 +2,42 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  AuthCard,
-  Button,
-  Input,
-  RoleSelector,
-  RoleType,
-} from "@/components/ui";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthCard, Button, Input, RoleSelector } from "@/components/ui";
+import { registerSchema, RegisterInput } from "@/lib/validations/auth";
 
 export default function SignupPage() {
-  const [selectedRole, setSelectedRole] = useState<RoleType>("CUSTOMER");
-  const [email, setEmail] = useState("");
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
-  const [isEmailLoading, setIsEmailLoading] = useState(false);
-  const [roleError, setRoleError] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [serverError, setServerError] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      role: "CUSTOMER",
+      email: "",
+      password: "",
+      fullName: "",
+    },
+  });
 
   const handleTelegramSignup = () => {
-    if (!selectedRole) {
-      setRoleError("Please select a role to continue.");
-      return;
-    }
-    setRoleError("");
     setIsTelegramLoading(true);
     setTimeout(() => {
       setIsTelegramLoading(false);
     }, 1200);
   };
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedRole) {
-      setRoleError("Please select a role to continue.");
-      return;
-    }
-    if (!email || !email.includes("@")) {
-      setEmailError("Please enter a valid email address.");
-      return;
-    }
-    setRoleError("");
-    setEmailError("");
-    setIsEmailLoading(true);
-    setTimeout(() => {
-      setIsEmailLoading(false);
-    }, 1200);
+  const onSubmit = async (data: RegisterInput) => {
+    setServerError("");
+    // Simulated form submission (no API call per requirement)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log("Register submitted:", data);
   };
 
   return (
@@ -87,18 +79,27 @@ export default function SignupPage() {
       }
     >
       <div className="flex flex-col gap-6 w-full text-left">
-        {/* Role Selection */}
+        {serverError && (
+          <div className="p-3 rounded-lg bg-error-container text-on-error-container text-xs font-medium">
+            {serverError}
+          </div>
+        )}
+
+        {/* Role Selection via Controller */}
         <div>
           <label className="block text-sm font-semibold text-ink mb-3 text-center md:text-left">
             Choose your role
           </label>
-          <RoleSelector
-            value={selectedRole}
-            onChange={(role) => {
-              setSelectedRole(role);
-              if (roleError) setRoleError("");
-            }}
-            error={roleError}
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <RoleSelector
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.role?.message}
+              />
+            )}
           />
         </div>
 
@@ -109,7 +110,7 @@ export default function SignupPage() {
           <button
             type="button"
             onClick={handleTelegramSignup}
-            disabled={isTelegramLoading}
+            disabled={isTelegramLoading || isSubmitting}
             className="w-full bg-primary hover:bg-primary-dark active:bg-primary-dark/90 text-on-primary rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
           >
             {isTelegramLoading ? (
@@ -147,31 +148,55 @@ export default function SignupPage() {
         </div>
 
         {/* Email Form */}
-        <form onSubmit={handleEmailSubmit} className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+          <Input
+            label="Full Name (Optional)"
+            type="text"
+            placeholder="John Doe"
+            error={errors.fullName?.message}
+            leftIcon={
+              <span className="material-symbols-outlined text-[20px]">
+                person
+              </span>
+            }
+            {...register("fullName")}
+          />
+
           <Input
             label="Email Address"
             type="email"
             placeholder="you@example.com"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (emailError) setEmailError("");
-            }}
-            error={emailError}
+            error={errors.email?.message}
             leftIcon={
               <span className="material-symbols-outlined text-[20px]">
                 mail
               </span>
             }
+            {...register("email")}
           />
+
+          <Input
+            label="Password"
+            type="password"
+            placeholder="Min 8 characters"
+            error={errors.password?.message}
+            leftIcon={
+              <span className="material-symbols-outlined text-[20px]">
+                lock
+              </span>
+            }
+            {...register("password")}
+          />
+
           <Button
             type="submit"
             variant="secondary"
             fullWidth
-            isLoading={isEmailLoading}
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
             loadingText="Creating Account..."
           >
-            Continue with Email
+            Create Account with Email
           </Button>
         </form>
       </div>

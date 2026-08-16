@@ -2,33 +2,39 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthCard, Button, Input } from "@/components/ui";
+import { loginSchema, LoginInput } from "@/lib/validations/auth";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
-  const [isEmailLoading, setIsEmailLoading] = useState(false);
-  const [emailError, setEmailError] = useState("");
+  const [serverError, setServerError] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   const handleTelegramLogin = () => {
     setIsTelegramLoading(true);
-    // Visual feedback simulation (no API call)
     setTimeout(() => {
       setIsTelegramLoading(false);
     }, 1200);
   };
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes("@")) {
-      setEmailError("Please enter a valid email address.");
-      return;
-    }
-    setEmailError("");
-    setIsEmailLoading(true);
-    setTimeout(() => {
-      setIsEmailLoading(false);
-    }, 1200);
+  const onSubmit = async (data: LoginInput) => {
+    setServerError("");
+    // Simulated form submission (no API call per requirement)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log("Login submitted:", data);
   };
 
   return (
@@ -82,7 +88,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={handleTelegramLogin}
-          disabled={isTelegramLoading}
+          disabled={isTelegramLoading || isSubmitting}
           className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
         >
           {isTelegramLoading ? (
@@ -117,33 +123,50 @@ export default function LoginPage() {
 
         {/* Email Form */}
         <form
-          onSubmit={handleEmailSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-3 text-left"
         >
+          {serverError && (
+            <div className="p-3 rounded-lg bg-error-container text-on-error-container text-xs font-medium">
+              {serverError}
+            </div>
+          )}
+
           <Input
             label="Email Address"
             type="email"
             placeholder="you@example.com"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (emailError) setEmailError("");
-            }}
-            error={emailError}
+            error={errors.email?.message}
             leftIcon={
               <span className="material-symbols-outlined text-[20px]">
                 mail
               </span>
             }
+            {...register("email")}
           />
+
+          <Input
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            error={errors.password?.message}
+            leftIcon={
+              <span className="material-symbols-outlined text-[20px]">
+                lock
+              </span>
+            }
+            {...register("password")}
+          />
+
           <Button
             type="submit"
             variant="secondary"
             fullWidth
-            isLoading={isEmailLoading}
-            loadingText="Sending Magic Link..."
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+            loadingText="Logging in..."
           >
-            Continue with Email
+            Log In with Email
           </Button>
         </form>
       </div>
