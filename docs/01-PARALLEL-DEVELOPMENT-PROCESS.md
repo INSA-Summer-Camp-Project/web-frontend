@@ -11,27 +11,28 @@ Read alongside `02-API-CONTRACT.md` (the frozen interface) and `03-FRONTEND-PAGE
 **No one writes implementation code against an endpoint until that endpoint exists in `02-API-CONTRACT.md` with its exact request and response shape.**
 
 This means, in order, for any new endpoint:
+
 1. Someone drafts the shape in `02-API-CONTRACT.md` (a PR, not a Slack message).
 2. Both a backend person and a frontend person look at it — specifically checking "does this give the frontend everything it needs to render without a second request, and does this match what the backend can produce without excessive joins."
 3. Once merged, it's **frozen**. Backend builds to it. Frontend builds against a mock of it (Section 3). Neither side needs to wait for the other's actual code.
 4. If reality forces a change mid-build (it will, at least once), that change follows the process in Section 4 — it never happens silently in one side's codebase.
 
-This is what makes true parallelism possible: frontend isn't blocked waiting for backend to finish an endpoint, because frontend was never waiting on backend's *code* — only on the *contract*, which existed on day 1.
+This is what makes true parallelism possible: frontend isn't blocked waiting for backend to finish an endpoint, because frontend was never waiting on backend's _code_ — only on the _contract_, which existed on day 1.
 
 ---
 
 ## 2. Team Split & Ownership
 
-*(Fill in actual names — structure below assumes a small team; adjust if your split differs.)*
+_(Fill in actual names — structure below assumes a small team; adjust if your split differs.)_
 
-| Area | Owner | Responsibility |
-|---|---|---|
-| API Contract | [Both leads agree; one person merges] | Final say on any contract change |
-| Auth (Telegram, roles, tokens) | [TBD] | Backend: implement per `AUTH_FLOW.md`. Frontend: login/onboarding/role-switch screens |
-| Worker/Search | [TBD] | |
-| Job marketplace (post/apply/select) | [TBD] | |
-| Payments (cash only) | [TBD] | |
-| Reviews | [TBD] | |
+| Area                                | Owner                                 | Responsibility                                                                        |
+| ----------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------- |
+| API Contract                        | [Both leads agree; one person merges] | Final say on any contract change                                                      |
+| Auth (Telegram, roles, tokens)      | [TBD]                                 | Backend: implement per `AUTH_FLOW.md`. Frontend: login/onboarding/role-switch screens |
+| Worker/Search                       | [TBD]                                 |                                                                                       |
+| Job marketplace (post/apply/select) | [TBD]                                 |                                                                                       |
+| Payments (cash only)                | [TBD]                                 |                                                                                       |
+| Reviews                             | [TBD]                                 |                                                                                       |
 
 Given the 5-day timeline, prefer **one backend + one frontend person per vertical slice** (see the one-week plan) working the same slice simultaneously, rather than "all backend people on the API, all frontend people on the UI." This keeps each pair tightly scoped to one contract surface at a time and avoids the whole team blocking on one shared endpoint file.
 
@@ -86,6 +87,7 @@ With this little time, a short daily check-in matters more than usual — misali
 ## 7. Definition of Done (per slice, both sides)
 
 A slice isn't "done" when the code is written — it's done when:
+
 - [ ] Contract entry exists and matches what was actually built (not what was planned).
 - [ ] Backend endpoint tested directly (Postman/curl) against the contract's example request/response.
 - [ ] Frontend screen works against the mock.
@@ -106,4 +108,5 @@ docs/
   DATA_MODELS_AND_ENDPOINTS.md         ← (already written) DB schema + endpoint list
   DESIGN.md                            ← (already written) visual system
 ```
+
 If your IDE agent (Claude Code, Cursor, etc.) is scaffolding the project, point it at this whole folder as context before it generates either the backend routes or the frontend API client — that's the intended use of keeping all of this in one place.

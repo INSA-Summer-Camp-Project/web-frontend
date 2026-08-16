@@ -26,26 +26,26 @@ These are the "why" behind every rule in this document. When a new screen or edg
 
 ## 2. Color System
 
-| Token | Hex | Usage |
-|---|---|---|
-| `color-primary` | `#C1622D` | Primary actions, links, active states — a burnt terracotta, not a tech blue |
-| `color-primary-dark` | `#9C4C21` | Primary hover/pressed |
-| `color-primary-tint` | `#F1DFCF` | Primary-tinted backgrounds, selected chips |
-| `color-accent` | `#2F6F5E` | Trust/verification signals — verified badge, success confirmations, completed status |
-| `color-accent-tint` | `#DCEAE4` | Accent-tinted backgrounds |
-| `color-info` | `#4F6D7A` | Neutral informational states (e.g. "payment processes within 24h") — distinct from success/warning/error |
-| `color-info-tint` | `#E4ECEF` | Info-tinted backgrounds |
-| `color-ink` | `#211D18` | Primary text — a warm near-black, never pure `#000000` |
-| `color-ink-muted` | `#5B564C` | Secondary text, captions, metadata |
-| `color-background` | `#FAF6EF` | App background — warm off-white/limestone, never pure white |
-| `color-surface` | `#FFFFFF` | Cards, sheets, modals |
-| `color-surface-alt` | `#F3EDE1` | Alternate surface (e.g. filters panel, input backgrounds) |
-| `color-border` | `#E4DCC9` | Default borders/dividers |
-| `color-border-strong` | `#CBBFA3` | Emphasized borders (focused input, active tab underline) |
-| `color-error` | `#B3261E` | Errors, destructive actions |
-| `color-warning` | `#B5790F` | Pending/attention states (e.g. unverified business, pending payment) |
-| `color-success` | `#2F6F5E` | Reuses accent — success and trust are the same visual language here |
-| `color-star` | `#C1622D` | Rating stars — reuse primary, not a separate yellow |
+| Token                 | Hex       | Usage                                                                                                    |
+| --------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| `color-primary`       | `#C1622D` | Primary actions, links, active states — a burnt terracotta, not a tech blue                              |
+| `color-primary-dark`  | `#9C4C21` | Primary hover/pressed                                                                                    |
+| `color-primary-tint`  | `#F1DFCF` | Primary-tinted backgrounds, selected chips                                                               |
+| `color-accent`        | `#2F6F5E` | Trust/verification signals — verified badge, success confirmations, completed status                     |
+| `color-accent-tint`   | `#DCEAE4` | Accent-tinted backgrounds                                                                                |
+| `color-info`          | `#4F6D7A` | Neutral informational states (e.g. "payment processes within 24h") — distinct from success/warning/error |
+| `color-info-tint`     | `#E4ECEF` | Info-tinted backgrounds                                                                                  |
+| `color-ink`           | `#211D18` | Primary text — a warm near-black, never pure `#000000`                                                   |
+| `color-ink-muted`     | `#5B564C` | Secondary text, captions, metadata                                                                       |
+| `color-background`    | `#FAF6EF` | App background — warm off-white/limestone, never pure white                                              |
+| `color-surface`       | `#FFFFFF` | Cards, sheets, modals                                                                                    |
+| `color-surface-alt`   | `#F3EDE1` | Alternate surface (e.g. filters panel, input backgrounds)                                                |
+| `color-border`        | `#E4DCC9` | Default borders/dividers                                                                                 |
+| `color-border-strong` | `#CBBFA3` | Emphasized borders (focused input, active tab underline)                                                 |
+| `color-error`         | `#B3261E` | Errors, destructive actions                                                                              |
+| `color-warning`       | `#B5790F` | Pending/attention states (e.g. unverified business, pending payment)                                     |
+| `color-success`       | `#2F6F5E` | Reuses accent — success and trust are the same visual language here                                      |
+| `color-star`          | `#C1622D` | Rating stars — reuse primary, not a separate yellow                                                      |
 
 **Rule:** No gradients anywhere except one permitted subtle use — a soft one-directional tint (`color-primary` → `color-primary-tint`) behind the landing page hero photograph, never a multi-hue gradient, never on buttons or cards.
 
@@ -55,27 +55,27 @@ These are the "why" behind every rule in this document. When a new screen or edg
 
 ## 3. Typography
 
-| Token | Family | Weight(s) | Usage |
-|---|---|---|---|
-| `font-display` | **Fraunces** (Google Fonts, serif, optical size + soft slab) | 500, 600 | H1/H2 headlines, hero statements, page titles |
-| `font-body` | **Public Sans** (Google Fonts, humanist sans) | 400, 500, 600, 700 | Body text, UI labels, buttons, forms, navigation |
-| `font-mono` | **IBM Plex Mono** | 400 | Reference numbers only (job IDs, transaction IDs) |
+| Token          | Family                                                       | Weight(s)          | Usage                                             |
+| -------------- | ------------------------------------------------------------ | ------------------ | ------------------------------------------------- |
+| `font-display` | **Fraunces** (Google Fonts, serif, optical size + soft slab) | 500, 600           | H1/H2 headlines, hero statements, page titles     |
+| `font-body`    | **Public Sans** (Google Fonts, humanist sans)                | 400, 500, 600, 700 | Body text, UI labels, buttons, forms, navigation  |
+| `font-mono`    | **IBM Plex Mono**                                            | 400                | Reference numbers only (job IDs, transaction IDs) |
 
 Chosen instead of Inter/Poppins/Roboto — clean but with more personality and less "default AI tool" association.
 
 ### Type scale (responsive)
 
-| Token | Desktop | Mobile | Family | Weight |
-|---|---|---|---|---|
-| `text-hero` | 48–56px / 1.1 | 36–40px / 1.15 | display | 600 |
-| `text-h1` | 40px / 46px | 32px / 38px | display | 600 |
-| `text-h2` | 28px / 34px | 24px / 30px | display | 500 |
-| `text-h3` | 22px / 28px | 20px / 26px | display | 500 |
-| `text-h4` | 18px / 24px | 18px / 24px | body | 700 |
-| `text-body-lg` | 16px / 24px | 16px / 24px | body | 400 |
-| `text-body` | 14px / 20px | 14px / 20px | body | 400 |
-| `text-caption` | 12px / 16px | 12px / 16px | body | 500 |
-| `text-button` | 14px / 20px | 14px / 20px | body | 600 |
+| Token          | Desktop       | Mobile         | Family  | Weight |
+| -------------- | ------------- | -------------- | ------- | ------ |
+| `text-hero`    | 48–56px / 1.1 | 36–40px / 1.15 | display | 600    |
+| `text-h1`      | 40px / 46px   | 32px / 38px    | display | 600    |
+| `text-h2`      | 28px / 34px   | 24px / 30px    | display | 500    |
+| `text-h3`      | 22px / 28px   | 20px / 26px    | display | 500    |
+| `text-h4`      | 18px / 24px   | 18px / 24px    | body    | 700    |
+| `text-body-lg` | 16px / 24px   | 16px / 24px    | body    | 400    |
+| `text-body`    | 14px / 20px   | 14px / 20px    | body    | 400    |
+| `text-caption` | 12px / 16px   | 12px / 16px    | body    | 500    |
+| `text-button`  | 14px / 20px   | 14px / 20px    | body    | 600    |
 
 `text-hero` is reserved for the landing page only ("Find the right person for the job."). All other page titles use `text-h1`. Headlines (`font-display`) are used sparingly — never for body copy, buttons, or form fields.
 
@@ -87,15 +87,15 @@ Chosen instead of Inter/Poppins/Roboto — clean but with more personality and l
 
 Base unit: `4px`
 
-| Token | Value |
-|---|---|
-| `space-xs` | 4px |
-| `space-sm` | 8px |
-| `space-md` | 16px |
-| `space-lg` | 24px |
-| `space-xl` | 32px |
-| `space-2xl` | 48px |
-| `space-3xl` | 64px |
+| Token       | Value |
+| ----------- | ----- |
+| `space-xs`  | 4px   |
+| `space-sm`  | 8px   |
+| `space-md`  | 16px  |
+| `space-lg`  | 24px  |
+| `space-xl`  | 32px  |
+| `space-2xl` | 48px  |
+| `space-3xl` | 64px  |
 
 ---
 
@@ -111,19 +111,19 @@ Base unit: `4px`
 
 ## 6. Radius & Elevation
 
-| Token | Value | Usage |
-|---|---|---|
-| `radius-sm` | 6px | Buttons, inputs, chips |
-| `radius-md` | 10px | Cards |
-| `radius-lg` | 16px | Modals, bottom sheets |
+| Token       | Value | Usage                  |
+| ----------- | ----- | ---------------------- |
+| `radius-sm` | 6px   | Buttons, inputs, chips |
+| `radius-md` | 10px  | Cards                  |
+| `radius-lg` | 16px  | Modals, bottom sheets  |
 
 Deliberately not the heavily-rounded "pill everything" look common in AI-generated UI.
 
-| Token | Value | Usage |
-|---|---|---|
-| `shadow-sm` | `0 1px 2px rgba(33,29,24,0.06)` | Cards at rest |
-| `shadow-md` | `0 4px 12px rgba(33,29,24,0.10)` | Cards on hover, dropdowns |
-| `shadow-lg` | `0 12px 32px rgba(33,29,24,0.16)` | Modals, sheets |
+| Token       | Value                             | Usage                     |
+| ----------- | --------------------------------- | ------------------------- |
+| `shadow-sm` | `0 1px 2px rgba(33,29,24,0.06)`   | Cards at rest             |
+| `shadow-md` | `0 4px 12px rgba(33,29,24,0.10)`  | Cards on hover, dropdowns |
+| `shadow-lg` | `0 12px 32px rgba(33,29,24,0.16)` | Modals, sheets            |
 
 No glow/neon shadows, no glassmorphism. Shadows are soft, warm-toned (derived from `color-ink`), used sparingly.
 
@@ -133,13 +133,14 @@ No glow/neon shadows, no glassmorphism. Shadows are soft, warm-toned (derived fr
 
 Motion should communicate state, not decorate the interface.
 
-| Token | Duration | Usage |
-|---|---|---|
-| `motion-fast` | 100–150ms | Micro-interactions (button press, toggle) |
-| `motion-normal` | 150–250ms | Standard transitions (modal open, tab switch) |
-| `motion-slow` | 250–350ms | Larger layout shifts (page transition, sheet expand) |
+| Token           | Duration  | Usage                                                |
+| --------------- | --------- | ---------------------------------------------------- |
+| `motion-fast`   | 100–150ms | Micro-interactions (button press, toggle)            |
+| `motion-normal` | 150–250ms | Standard transitions (modal open, tab switch)        |
+| `motion-slow`   | 250–350ms | Larger layout shifts (page transition, sheet expand) |
 
 Rules:
+
 - No bouncing UI, no decorative floating objects, no unnecessary parallax.
 - Animate state changes only — not critical actions like payment confirmation, which should feel immediate and certain.
 - Respect `prefers-reduced-motion`; provide a non-animated equivalent for every transition.
@@ -148,14 +149,14 @@ Rules:
 
 ## 8. Z-Index / Layer System
 
-| Token | Value |
-|---|---|
-| `layer-base` | 0 |
-| `layer-sticky` | 10 |
-| `layer-dropdown` | 20 |
-| `layer-modal` | 30 |
-| `layer-toast` | 40 |
-| `layer-critical` | 50 |
+| Token            | Value |
+| ---------------- | ----- |
+| `layer-base`     | 0     |
+| `layer-sticky`   | 10    |
+| `layer-dropdown` | 20    |
+| `layer-modal`    | 30    |
+| `layer-toast`    | 40    |
+| `layer-critical` | 50    |
 
 Keeps navbar, dropdowns, bottom sheets, modals, and toasts from colliding as the product grows.
 
@@ -291,12 +292,14 @@ Design each of these individually — they are different situations and deserve 
 **Error / system states:** offline · slow connection · request timeout · server unavailable · upload failed · payment callback delayed · image upload interrupted · permission denied · account suspended
 
 Example pattern for offline:
+
 ```
 You're offline
 Some features may be unavailable.
 We'll reconnect automatically.
 [Retry]
 ```
+
 This is more useful to the user than a generic failure message, and matters more here than in most products given the target connectivity conditions (Section 10).
 
 ---
@@ -306,32 +309,18 @@ This is more useful to the user than a generic failure message, and matters more
 Group into batches of 5 for Stitch's multi-screen generation.
 
 **Batch 1 — Core discovery & trust**
+
 1. Landing page (search bar, categories, featured providers, how-it-works)
 2. Search results (worker/business list with filters)
 3. Worker profile page (bio, services, pricing, portfolio, certificates, ratings/reviews, availability, verification detail)
 4. Business profile page (same pattern, business-specific fields)
 5. Registration flow (role selection → phone entry → OTP verification)
 
-**Batch 2 — Hiring flows**
-6. Customer dashboard (active jobs, applications, messages, notifications)
-7. Post-a-job form (title, description, category, budget, deadline, images)
-8. Job detail page with received applications (comparison view: price, completion time, provider profile)
-9. Direct-hire confirmation flow (selected provider → contact reveal → schedule)
-10. Payment screen (method selection: cash / Telebirr / Chapa, with payment-state messaging)
+**Batch 2 — Hiring flows** 6. Customer dashboard (active jobs, applications, messages, notifications) 7. Post-a-job form (title, description, category, budget, deadline, images) 8. Job detail page with received applications (comparison view: price, completion time, provider profile) 9. Direct-hire confirmation flow (selected provider → contact reveal → schedule) 10. Payment screen (method selection: cash / Telebirr / Chapa, with payment-state messaging)
 
-**Batch 3 — Provider side**
-11. Worker dashboard (available jobs, my applications, active jobs, earnings)
-12. Worker profile edit screen (services, pricing, availability, portfolio upload, certificate upload)
-13. Job application form (proposed price, estimated completion time)
-14. Business dashboard (same pattern, business-specific)
-15. Ratings/review submission screen (post-job)
+**Batch 3 — Provider side** 11. Worker dashboard (available jobs, my applications, active jobs, earnings) 12. Worker profile edit screen (services, pricing, availability, portfolio upload, certificate upload) 13. Job application form (proposed price, estimated completion time) 14. Business dashboard (same pattern, business-specific) 15. Ratings/review submission screen (post-job)
 
-**Batch 4 — Trust, admin & system states**
-16. Admin dashboard (overview metrics: users, jobs, payments, reports)
-17. Admin user management table + report review screen
-18. Trust center / verification detail screen
-19. Notification center
-20. Empty and error states (see Section 15 for full list — design the 3–4 most common first: no search results, no jobs yet, offline, payment failed)
+**Batch 4 — Trust, admin & system states** 16. Admin dashboard (overview metrics: users, jobs, payments, reports) 17. Admin user management table + report review screen 18. Trust center / verification detail screen 19. Notification center 20. Empty and error states (see Section 15 for full list — design the 3–4 most common first: no search results, no jobs yet, offline, payment failed)
 
 ---
 
