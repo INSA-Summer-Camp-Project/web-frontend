@@ -2,12 +2,17 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthCard, Button, Input, RoleSelector } from "@/components/ui";
 import { registerSchema, RegisterInput } from "@/lib/validations/auth";
+import { useAuth } from "@/context/AuthContext";
+import { ApiError } from "@/lib/api";
 
 export default function SignupPage() {
+  const router = useRouter();
+  const { register: registerAuth } = useAuth();
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
   const [serverError, setServerError] = useState("");
 
@@ -35,9 +40,18 @@ export default function SignupPage() {
 
   const onSubmit = async (data: RegisterInput) => {
     setServerError("");
-    // Simulated form submission (no API call per requirement)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Register submitted:", data);
+    try {
+      await registerAuth(data);
+      router.push("/");
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setServerError(error.message);
+      } else {
+        setServerError(
+          "An unexpected error occurred during registration. Please try again.",
+        );
+      }
+    }
   };
 
   return (
@@ -80,8 +94,14 @@ export default function SignupPage() {
     >
       <div className="flex flex-col gap-6 w-full text-left">
         {serverError && (
-          <div className="p-3 rounded-lg bg-error-container text-on-error-container text-xs font-medium">
-            {serverError}
+          <div
+            role="alert"
+            className="p-3.5 rounded-lg bg-error-container text-on-error-container text-xs font-medium border border-error/20 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-error text-[18px] shrink-0">
+              error
+            </span>
+            <span>{serverError}</span>
           </div>
         )}
 

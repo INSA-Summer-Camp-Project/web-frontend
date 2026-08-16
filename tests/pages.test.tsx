@@ -4,6 +4,14 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LoginPage from "../src/app/(auth)/login/page";
 import SignupPage from "../src/app/(auth)/signup/page";
 import { loginSchema, registerSchema } from "../src/lib/validations/auth";
+import { AuthProvider } from "../src/context/AuthContext";
+
+// Mock next/navigation
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
 
 // Mock next/link
 vi.mock("next/link", () => {
@@ -53,7 +61,11 @@ describe("Auth Validation Schemas Test Suite", () => {
 
   describe("Login Page Form Validation", () => {
     it("displays validation error when submitting invalid email format", async () => {
-      render(<LoginPage />);
+      render(
+        <AuthProvider>
+          <LoginPage />
+        </AuthProvider>,
+      );
       const emailInput = screen.getByPlaceholderText("you@example.com");
       fireEvent.change(emailInput, { target: { value: "not-an-email" } });
 
@@ -70,7 +82,11 @@ describe("Auth Validation Schemas Test Suite", () => {
 
   describe("Signup Page Form Validation", () => {
     it("displays validation error when password is less than 8 characters", async () => {
-      render(<SignupPage />);
+      render(
+        <AuthProvider>
+          <SignupPage />
+        </AuthProvider>,
+      );
       const emailInput = screen.getByPlaceholderText("you@example.com");
       fireEvent.change(emailInput, { target: { value: "valid@example.com" } });
 

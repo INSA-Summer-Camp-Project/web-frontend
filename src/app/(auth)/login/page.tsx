@@ -2,12 +2,17 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthCard, Button, Input } from "@/components/ui";
 import { loginSchema, LoginInput } from "@/lib/validations/auth";
+import { useAuth } from "@/context/AuthContext";
+import { ApiError } from "@/lib/api";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuth();
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
   const [serverError, setServerError] = useState("");
 
@@ -32,9 +37,18 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginInput) => {
     setServerError("");
-    // Simulated form submission (no API call per requirement)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Login submitted:", data);
+    try {
+      await login(data);
+      router.push("/");
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setServerError(error.message);
+      } else {
+        setServerError(
+          "An unexpected error occurred during login. Please try again.",
+        );
+      }
+    }
   };
 
   return (
@@ -121,17 +135,24 @@ export default function LoginPage() {
           <div className="h-px bg-outline-variant flex-1" />
         </div>
 
+        {/* Inline Error Alert */}
+        {serverError && (
+          <div
+            role="alert"
+            className="p-3.5 rounded-lg bg-error-container text-on-error-container text-xs font-medium border border-error/20 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-error text-[18px] shrink-0">
+              error
+            </span>
+            <span>{serverError}</span>
+          </div>
+        )}
+
         {/* Email Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-3 text-left"
         >
-          {serverError && (
-            <div className="p-3 rounded-lg bg-error-container text-on-error-container text-xs font-medium">
-              {serverError}
-            </div>
-          )}
-
           <Input
             label="Email Address"
             type="email"
