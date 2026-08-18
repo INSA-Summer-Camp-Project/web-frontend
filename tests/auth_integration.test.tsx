@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { authApi } from "../src/lib/api/auth";
 import LoginPage from "../src/app/(auth)/login/page";
 import SignupPage from "../src/app/(auth)/signup/page";
-import { ApiError } from "../src/lib/api";
 
 // Mock next/navigation
 vi.mock("next/navigation", () => ({

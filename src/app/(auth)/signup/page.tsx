@@ -157,12 +157,14 @@ export default function SignupPage() {
           <button
             type="button"
             onClick={() => setStep(1)}
-            className="flex items-center gap-1 text-primary hover:underline font-medium cursor-pointer"
+            className="group flex items-center gap-1 text-primary font-medium cursor-pointer"
           >
             <span className="material-symbols-outlined text-[16px]">
               arrow_back
             </span>
-            Back to Telegram login
+            <span className="group-hover:underline">
+              Back to Telegram login
+            </span>
           </button>
           <span>Step 2 of 2</span>
         </div>
@@ -235,7 +237,7 @@ export default function SignupPage() {
                 aria-label="Gender"
                 required
                 {...register("gender")}
-                className={`w-full rounded-lg border bg-surface-alt py-2.5 text-sm text-ink pl-10 pr-10 focus:outline-none focus:ring-2 transition-colors duration-150 cursor-pointer ${
+                className={`w-full appearance-none rounded-lg border bg-surface-alt py-2.5 text-sm text-ink pl-10 pr-10 focus:outline-none focus:ring-2 transition-colors duration-150 cursor-pointer ${
                   errors.gender
                     ? "border-error focus:border-error focus:ring-error/20"
                     : "border-outline-variant focus:border-primary focus:ring-primary/20 hover:border-border-strong"

@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import LoginPage from "../src/app/(auth)/login/page";
 import SignupPage from "../src/app/(auth)/signup/page";
 import { loginSchema, registerSchema } from "../src/lib/validations/auth";
