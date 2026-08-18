@@ -10,6 +10,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          brown: "#8B2E0F",
+          "brown-hover": "#7A2800",
+          "brown-light": "#C4723A",
+          cream: "#F5F0E8",
+          "cream-dark": "#EDE8DC",
+          "card-bg": "#FDFAF5",
+          muted: "#9A8C7E",
+          "muted-light": "#B5A99A",
+        },
         "surface-container": "#fdeae3",
         background: "#FAF6EF",
         secondary: "#286958",
@@ -88,6 +98,7 @@ const config: Config = {
         "max-width": "1120px",
       },
       fontFamily: {
+        serif: ["Fraunces", "Georgia", "Cambria", "Times New Roman", "serif"],
         "text-caption": ["Public Sans", "sans-serif"],
         "text-button": ["Public Sans", "sans-serif"],
         "text-h3": ["Fraunces", "serif"],
@@ -100,6 +111,10 @@ const config: Config = {
         "text-mono": ["IBM Plex Mono", "monospace"],
         "text-h1": ["Fraunces", "serif"],
         "text-hero": ["Fraunces", "serif"],
+      },
+      boxShadow: {
+        card: "0 2px 20px rgba(139, 46, 15, 0.08)",
+        "card-hover": "0 8px 32px rgba(139, 46, 15, 0.14)",
       },
     },
   },

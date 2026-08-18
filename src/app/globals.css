@@ -3,6 +3,18 @@
 @import "tailwindcss";
 
 @theme {
+  --color-brand-brown: #8b2e0f;
+  --color-brand-brown-hover: #7a2800;
+  --color-brand-brown-light: #c4723a;
+  --color-brand-cream: #f5f0e8;
+  --color-brand-cream-dark: #ede8dc;
+  --color-brand-card-bg: #fdfaf5;
+  --color-brand-muted: #9a8c7e;
+  --color-brand-muted-light: #b5a99a;
+
+  --shadow-card: 0 2px 20px rgba(139, 46, 15, 0.08);
+  --shadow-card-hover: 0 8px 32px rgba(139, 46, 15, 0.14);
+
   --color-surface-container: #fdeae3;
   --color-background: #faf6ef;
   --color-secondary: #286958;
@@ -97,10 +109,77 @@
   --foreground: #231a15;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: "Public Sans", sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f0e8;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4a882;
+  border-radius: 3px;
+}
+
+/* Landing Utility Classes */
+.btn-primary {
+  background-color: var(--color-brand-brown, #8b2e0f);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-brand-brown-hover, #7a2800);
+}
+
+.section-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.875rem;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #2c1f14;
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2.25rem;
+  }
+}
+
+.section-subtitle {
+  color: var(--color-brand-muted, #9a8c7e);
+  font-size: 1.125rem;
+  line-height: 1.625;
+}
+
+.card {
+  background-color: var(--color-brand-card-bg, #fdfaf5);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 20px rgba(139, 46, 15, 0.08);
+  border: 1px solid #e8ddd0;
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(139, 46, 15, 0.14);
 }
 
 .material-symbols-outlined {
