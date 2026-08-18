@@ -1,7 +1,7 @@
 import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import SignupPage from "./page";
+import SignupPage from "@/app/(auth)/signup/page";
 import { ApiError } from "@/lib/api";
 
 const mockPush = vi.fn();

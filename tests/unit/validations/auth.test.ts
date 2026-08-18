@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { roleEnum, loginSchema, registerSchema, Role } from "./auth";
+import {
+  roleEnum,
+  loginSchema,
+  registerSchema,
+  Role,
+} from "@/lib/validations/auth";
 
 describe("Auth Validation Schemas Unit Tests", () => {
   describe("roleEnum", () => {
