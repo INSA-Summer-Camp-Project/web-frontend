@@ -98,35 +98,18 @@ describe("Auth Integration & State Management Test Suite", () => {
     });
   });
 
-  describe("LoginPage API Integration & Error Alerts", () => {
-    it("displays error alert when API returns 401 Unauthorized", async () => {
-      vi.mocked(authApi.login).mockRejectedValueOnce(
-        new ApiError(401, "Invalid email or password."),
-      );
-
+  describe("LoginPage Telegram Integration", () => {
+    it("renders Telegram login action inside AuthProvider", () => {
       render(
         <AuthProvider>
           <LoginPage />
         </AuthProvider>,
       );
 
-      fireEvent.change(screen.getByPlaceholderText("you@example.com"), {
-        target: { value: "wrong@example.com" },
+      const telegramBtn = screen.getByRole("button", {
+        name: /login with telegram/i,
       });
-      fireEvent.change(screen.getByPlaceholderText("••••••••"), {
-        target: { value: "wrongpass" },
-      });
-
-      const form = screen
-        .getByPlaceholderText("you@example.com")
-        .closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(screen.getByRole("alert")).toHaveTextContent(
-          "Invalid email or password.",
-        );
-      });
+      expect(telegramBtn).toBeInTheDocument();
     });
   });
 

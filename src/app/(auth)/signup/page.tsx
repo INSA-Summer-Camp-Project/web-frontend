@@ -131,7 +131,7 @@ export default function SignupPage() {
             type="button"
             onClick={handleTelegramSignup}
             disabled={isTelegramLoading || isSubmitting}
-            className="w-full bg-primary hover:bg-primary-dark active:bg-primary-dark/90 text-on-primary rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
+            className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
           >
             {isTelegramLoading ? (
               <span className="flex items-center gap-2">

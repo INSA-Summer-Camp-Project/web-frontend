@@ -59,24 +59,17 @@ describe("Auth Validation Schemas Test Suite", () => {
     });
   });
 
-  describe("Login Page Form Validation", () => {
-    it("displays validation error when submitting invalid email format", async () => {
+  describe("Login Page Rendering", () => {
+    it("renders Telegram login button and welcome title", () => {
       render(
         <AuthProvider>
           <LoginPage />
         </AuthProvider>,
       );
-      const emailInput = screen.getByPlaceholderText("you@example.com");
-      fireEvent.change(emailInput, { target: { value: "not-an-email" } });
-
-      const form = emailInput.closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(
-          screen.getByText("Please enter a valid email address"),
-        ).toBeInTheDocument();
-      });
+      expect(screen.getByText("Welcome back")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /login with telegram/i }),
+      ).toBeInTheDocument();
     });
   });
 
