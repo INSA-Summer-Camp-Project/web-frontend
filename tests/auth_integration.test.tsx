@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { authApi } from "../src/lib/api/auth";
 import LoginPage from "../src/app/(auth)/login/page";
 import SignupPage from "../src/app/(auth)/signup/page";
-import { ApiError } from "../src/lib/api";
 
 // Mock next/navigation
 vi.mock("next/navigation", () => ({
@@ -98,67 +97,33 @@ describe("Auth Integration & State Management Test Suite", () => {
     });
   });
 
-  describe("LoginPage API Integration & Error Alerts", () => {
-    it("displays error alert when API returns 401 Unauthorized", async () => {
-      vi.mocked(authApi.login).mockRejectedValueOnce(
-        new ApiError(401, "Invalid email or password."),
-      );
-
+  describe("LoginPage Telegram Integration", () => {
+    it("renders Telegram login action inside AuthProvider", () => {
       render(
         <AuthProvider>
           <LoginPage />
         </AuthProvider>,
       );
 
-      fireEvent.change(screen.getByPlaceholderText("you@example.com"), {
-        target: { value: "wrong@example.com" },
+      const telegramBtn = screen.getByRole("button", {
+        name: /login with telegram/i,
       });
-      fireEvent.change(screen.getByPlaceholderText("••••••••"), {
-        target: { value: "wrongpass" },
-      });
-
-      const form = screen
-        .getByPlaceholderText("you@example.com")
-        .closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(screen.getByRole("alert")).toHaveTextContent(
-          "Invalid email or password.",
-        );
-      });
+      expect(telegramBtn).toBeInTheDocument();
     });
   });
 
-  describe("SignupPage API Integration & Error Alerts", () => {
-    it("displays error alert when API returns 400 Validation Error", async () => {
-      vi.mocked(authApi.register).mockRejectedValueOnce(
-        new ApiError(400, "Email is already registered."),
-      );
-
+  describe("SignupPage Telegram Integration", () => {
+    it("renders Telegram signup action inside AuthProvider", () => {
       render(
         <AuthProvider>
           <SignupPage />
         </AuthProvider>,
       );
 
-      fireEvent.change(screen.getByPlaceholderText("you@example.com"), {
-        target: { value: "existing@example.com" },
+      const telegramBtn = screen.getByRole("button", {
+        name: /sign up with telegram/i,
       });
-      fireEvent.change(screen.getByPlaceholderText("Min 8 characters"), {
-        target: { value: "password123" },
-      });
-
-      const form = screen
-        .getByPlaceholderText("you@example.com")
-        .closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(screen.getByRole("alert")).toHaveTextContent(
-          "Email is already registered.",
-        );
-      });
+      expect(telegramBtn).toBeInTheDocument();
     });
   });
 });

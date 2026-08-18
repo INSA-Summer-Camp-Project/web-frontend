@@ -6,28 +6,36 @@ import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthCard, Button, Input, RoleSelector } from "@/components/ui";
-import { registerSchema, RegisterInput } from "@/lib/validations/auth";
+import {
+  onboardingSchema,
+  OnboardingInput,
+  OnboardingRole,
+} from "@/lib/validations/auth";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiError } from "@/lib/api";
 
 export default function SignupPage() {
   const router = useRouter();
   const { register: registerAuth } = useAuth();
+  const [step, setStep] = useState<1 | 2>(1);
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+
+  const todayStr = new Date().toISOString().split("T")[0];
 
   const {
     register,
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<OnboardingInput>({
+    resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      role: "CUSTOMER",
-      email: "",
-      password: "",
-      fullName: "",
+      firstName: "",
+      lastName: "",
+      gender: undefined,
+      dateOfBirth: "",
+      role: null as unknown as OnboardingRole,
     },
   });
 
@@ -35,103 +43,87 @@ export default function SignupPage() {
     setIsTelegramLoading(true);
     setTimeout(() => {
       setIsTelegramLoading(false);
-    }, 1200);
+      setStep(2);
+    }, 800);
   };
 
-  const onSubmit = async (data: RegisterInput) => {
+  const onSubmit = async (data: OnboardingInput) => {
     setServerError("");
     try {
-      await registerAuth(data);
+      if (registerAuth) {
+        await registerAuth({
+          role: data.role,
+          email: `${data.firstName.toLowerCase()}.${data.lastName.toLowerCase()}@telegram.user`,
+          password: "telegram-authenticated-session",
+          fullName: `${data.firstName} ${data.lastName}`.trim(),
+        });
+      }
       router.push("/");
     } catch (error) {
       if (error instanceof ApiError) {
         setServerError(error.message);
       } else {
         setServerError(
-          "An unexpected error occurred during registration. Please try again.",
+          "An unexpected error occurred during onboarding. Please try again.",
         );
       }
     }
   };
 
-  return (
-    <AuthCard
-      brandName="ServiceHub"
-      logoIcon="handyman"
-      title="Join ServiceHub"
-      subtitle="Professional & Trustworthy Service Marketplace. Choose your role to get started."
-      maxWidth="lg"
-      footer={
-        <div className="flex flex-col gap-3 text-center w-full">
-          <p className="text-sm text-ink-muted">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="text-primary font-bold hover:underline hover:text-primary-dark transition-colors"
-            >
-              Log In
-            </Link>
-          </p>
-          <p className="text-xs text-ink-muted leading-relaxed">
-            By signing up, you agree to our{" "}
-            <Link
-              href="#"
-              className="text-primary underline hover:text-primary-dark"
-            >
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="#"
-              className="text-primary underline hover:text-primary-dark"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </p>
-        </div>
-      }
-    >
-      <div className="flex flex-col gap-6 w-full text-left">
-        {serverError && (
-          <div
-            role="alert"
-            className="p-3.5 rounded-lg bg-error-container text-on-error-container text-xs font-medium border border-error/20 flex items-center gap-2"
-          >
-            <span className="material-symbols-outlined text-error text-[18px] shrink-0">
-              error
-            </span>
-            <span>{serverError}</span>
+  if (step === 1) {
+    return (
+      <AuthCard
+        brandName="ServiceHub"
+        logoIcon="handyman"
+        title="Join ServiceHub"
+        subtitle="Professional & trustworthy service marketplace. Get started with Telegram."
+        maxWidth="md"
+        footer={
+          <div className="flex flex-col gap-3 text-center w-full">
+            <p className="text-sm text-ink-muted">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-bold hover:underline hover:text-primary-dark transition-colors"
+              >
+                Log In
+              </Link>
+            </p>
+            <div className="bg-surface-alt rounded-lg p-3 border border-outline-variant/50">
+              <p className="text-xs text-ink-muted text-left flex gap-2 items-start leading-relaxed">
+                <span className="material-symbols-outlined text-info shrink-0 text-[16px] mt-0.5">
+                  lock
+                </span>
+                <span>
+                  By continuing, you acknowledge that you have read and
+                  understood, and agree to ServiceHub&apos;s{" "}
+                  <Link
+                    href="#"
+                    className="underline hover:text-primary transition-colors"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="#"
+                    className="underline hover:text-primary transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </span>
+              </p>
+            </div>
           </div>
-        )}
-
-        {/* Role Selection via Controller */}
-        <div>
-          <label className="block text-sm font-semibold text-ink mb-3 text-center md:text-left">
-            Choose your role
-          </label>
-          <Controller
-            name="role"
-            control={control}
-            render={({ field }) => (
-              <RoleSelector
-                value={field.value}
-                onChange={field.onChange}
-                error={errors.role?.message}
-              />
-            )}
-          />
-        </div>
-
-        <hr className="border-outline-variant/60" />
-
-        {/* Telegram Signup Action */}
-        <div className="flex flex-col gap-3">
+        }
+      >
+        <div className="flex flex-col gap-4 w-full">
+          {/* Telegram Signup Action */}
           <button
             type="button"
             onClick={handleTelegramSignup}
-            disabled={isTelegramLoading || isSubmitting}
-            className="w-full bg-primary hover:bg-primary-dark active:bg-primary-dark/90 text-on-primary rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
+            disabled={isTelegramLoading}
+            className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
           >
             {isTelegramLoading ? (
               <span className="flex items-center gap-2">
@@ -157,69 +149,174 @@ export default function SignupPage() {
             We use Telegram for instant, passwordless authentication.
           </p>
         </div>
+      </AuthCard>
+    );
+  }
 
-        {/* Divider */}
-        <div className="w-full flex items-center gap-3 relative my-0.5">
-          <div className="h-px bg-outline-variant flex-1" />
-          <span className="text-xs uppercase tracking-wider text-ink-muted bg-surface px-2">
-            or sign up with email
-          </span>
-          <div className="h-px bg-outline-variant flex-1" />
+  return (
+    <AuthCard
+      brandName="ServiceHub"
+      logoIcon="badge"
+      title="Complete your profile"
+      subtitle="Tell us a bit about yourself to personalize your experience."
+      maxWidth="lg"
+      footer={
+        <div className="flex justify-between items-center w-full text-xs text-ink-muted">
+          <button
+            type="button"
+            onClick={() => setStep(1)}
+            className="group flex items-center gap-1 text-primary font-medium cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[16px]">
+              arrow_back
+            </span>
+            <span className="group-hover:underline">
+              Back to Telegram login
+            </span>
+          </button>
+          <span>Step 2 of 2</span>
         </div>
+      }
+    >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 w-full text-left"
+        noValidate
+      >
+        {serverError && (
+          <div
+            role="alert"
+            className="p-3.5 rounded-lg bg-error-container text-on-error-container text-xs font-medium border border-error/20 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-error text-[18px] shrink-0">
+              error
+            </span>
+            <span>{serverError}</span>
+          </div>
+        )}
 
-        {/* Email Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+        {/* First Name & Last Name */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
           <Input
-            label="Full Name (Optional)"
+            label="First Name"
             type="text"
-            placeholder="John Doe"
-            error={errors.fullName?.message}
+            placeholder="John"
+            required
+            error={errors.firstName?.message}
+            leftIcon={
+              <span className="material-symbols-outlined text-[20px]">
+                badge
+              </span>
+            }
+            {...register("firstName")}
+          />
+          <Input
+            label="Last Name"
+            type="text"
+            placeholder="Doe"
+            required
+            error={errors.lastName?.message}
             leftIcon={
               <span className="material-symbols-outlined text-[20px]">
                 person
               </span>
             }
-            {...register("fullName")}
+            {...register("lastName")}
           />
+        </div>
+
+        {/* Gender & Date of Birth */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+          <div className="flex flex-col gap-1.5 w-full">
+            <label
+              htmlFor="gender"
+              className="text-sm font-semibold text-ink select-none"
+            >
+              Gender <span className="text-error">*</span>
+            </label>
+            <div className="relative flex items-center w-full">
+              <div className="absolute left-3 flex items-center justify-center text-ink-muted pointer-events-none">
+                <span className="material-symbols-outlined text-[20px]">
+                  wc
+                </span>
+              </div>
+              <select
+                id="gender"
+                aria-label="Gender"
+                required
+                {...register("gender")}
+                className={`w-full appearance-none rounded-lg border bg-surface-alt py-2.5 text-sm text-ink pl-10 pr-10 focus:outline-none focus:ring-2 transition-colors duration-150 cursor-pointer ${
+                  errors.gender
+                    ? "border-error focus:border-error focus:ring-error/20"
+                    : "border-outline-variant focus:border-primary focus:ring-primary/20 hover:border-border-strong"
+                }`}
+              >
+                <option value="">Select gender</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+              </select>
+              <div className="absolute right-3 flex items-center justify-center text-ink-muted pointer-events-none">
+                <span className="material-symbols-outlined text-[20px]">
+                  expand_more
+                </span>
+              </div>
+            </div>
+            {errors.gender && (
+              <p className="text-xs text-error flex items-center gap-1 font-medium mt-0.5">
+                <span className="material-symbols-outlined text-[14px]">
+                  error
+                </span>
+                {errors.gender.message}
+              </p>
+            )}
+          </div>
 
           <Input
-            label="Email Address"
-            type="email"
-            placeholder="you@example.com"
-            error={errors.email?.message}
+            label="Date of Birth"
+            type="date"
+            placeholder="YYYY-MM-DD"
+            required
+            max={todayStr}
+            error={errors.dateOfBirth?.message}
             leftIcon={
               <span className="material-symbols-outlined text-[20px]">
-                mail
+                calendar_today
               </span>
             }
-            {...register("email")}
+            {...register("dateOfBirth")}
           />
+        </div>
 
-          <Input
-            label="Password"
-            type="password"
-            placeholder="Min 8 characters"
-            error={errors.password?.message}
-            leftIcon={
-              <span className="material-symbols-outlined text-[20px]">
-                lock
-              </span>
-            }
-            {...register("password")}
+        {/* Role Selection via Controller */}
+        <div>
+          <label className="block text-sm font-semibold text-ink mb-2 text-center sm:text-left">
+            Choose your role <span className="text-error">*</span>
+          </label>
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <RoleSelector
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.role?.message}
+              />
+            )}
           />
+        </div>
 
-          <Button
-            type="submit"
-            variant="secondary"
-            fullWidth
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-            loadingText="Creating Account..."
-          >
-            Create Account with Email
-          </Button>
-        </form>
-      </div>
+        {/* Submit Action */}
+        <Button
+          type="submit"
+          variant="primary"
+          fullWidth
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+          loadingText="Completing Sign Up..."
+        >
+          Complete Sign Up
+        </Button>
+      </form>
     </AuthCard>
   );
 }

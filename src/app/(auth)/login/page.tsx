@@ -2,53 +2,16 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthCard, Button, Input } from "@/components/ui";
-import { loginSchema, LoginInput } from "@/lib/validations/auth";
-import { useAuth } from "@/hooks/useAuth";
-import { ApiError } from "@/lib/api";
+import { AuthCard } from "@/components/ui";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { login } = useAuth();
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
 
   const handleTelegramLogin = () => {
     setIsTelegramLoading(true);
     setTimeout(() => {
       setIsTelegramLoading(false);
     }, 1200);
-  };
-
-  const onSubmit = async (data: LoginInput) => {
-    setServerError("");
-    try {
-      await login(data);
-      router.push("/");
-    } catch (error) {
-      if (error instanceof ApiError) {
-        setServerError(error.message);
-      } else {
-        setServerError(
-          "An unexpected error occurred during login. Please try again.",
-        );
-      }
-    }
   };
 
   return (
@@ -102,7 +65,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={handleTelegramLogin}
-          disabled={isTelegramLoading || isSubmitting}
+          disabled={isTelegramLoading}
           className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
         >
           {isTelegramLoading ? (
@@ -125,71 +88,6 @@ export default function LoginPage() {
             </>
           )}
         </button>
-
-        {/* Divider */}
-        <div className="w-full flex items-center gap-3 relative my-1">
-          <div className="h-px bg-outline-variant flex-1" />
-          <span className="text-xs uppercase tracking-wider text-ink-muted bg-surface px-2">
-            or continue with
-          </span>
-          <div className="h-px bg-outline-variant flex-1" />
-        </div>
-
-        {/* Inline Error Alert */}
-        {serverError && (
-          <div
-            role="alert"
-            className="p-3.5 rounded-lg bg-error-container text-on-error-container text-xs font-medium border border-error/20 flex items-center gap-2"
-          >
-            <span className="material-symbols-outlined text-error text-[18px] shrink-0">
-              error
-            </span>
-            <span>{serverError}</span>
-          </div>
-        )}
-
-        {/* Email Form */}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-3 text-left"
-        >
-          <Input
-            label="Email Address"
-            type="email"
-            placeholder="you@example.com"
-            error={errors.email?.message}
-            leftIcon={
-              <span className="material-symbols-outlined text-[20px]">
-                mail
-              </span>
-            }
-            {...register("email")}
-          />
-
-          <Input
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            error={errors.password?.message}
-            leftIcon={
-              <span className="material-symbols-outlined text-[20px]">
-                lock
-              </span>
-            }
-            {...register("password")}
-          />
-
-          <Button
-            type="submit"
-            variant="secondary"
-            fullWidth
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-            loadingText="Logging in..."
-          >
-            Log In with Email
-          </Button>
-        </form>
       </div>
     </AuthCard>
   );

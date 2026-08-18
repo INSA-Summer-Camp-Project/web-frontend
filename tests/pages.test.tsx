@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import LoginPage from "../src/app/(auth)/login/page";
 import SignupPage from "../src/app/(auth)/signup/page";
 import { loginSchema, registerSchema } from "../src/lib/validations/auth";
@@ -59,48 +59,31 @@ describe("Auth Validation Schemas Test Suite", () => {
     });
   });
 
-  describe("Login Page Form Validation", () => {
-    it("displays validation error when submitting invalid email format", async () => {
+  describe("Login Page Rendering", () => {
+    it("renders Telegram login button and welcome title", () => {
       render(
         <AuthProvider>
           <LoginPage />
         </AuthProvider>,
       );
-      const emailInput = screen.getByPlaceholderText("you@example.com");
-      fireEvent.change(emailInput, { target: { value: "not-an-email" } });
-
-      const form = emailInput.closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(
-          screen.getByText("Please enter a valid email address"),
-        ).toBeInTheDocument();
-      });
+      expect(screen.getByText("Welcome back")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /login with telegram/i }),
+      ).toBeInTheDocument();
     });
   });
 
-  describe("Signup Page Form Validation", () => {
-    it("displays validation error when password is less than 8 characters", async () => {
+  describe("Signup Page Rendering", () => {
+    it("renders Telegram signup action and join title", () => {
       render(
         <AuthProvider>
           <SignupPage />
         </AuthProvider>,
       );
-      const emailInput = screen.getByPlaceholderText("you@example.com");
-      fireEvent.change(emailInput, { target: { value: "valid@example.com" } });
-
-      const passwordInput = screen.getByPlaceholderText("Min 8 characters");
-      fireEvent.change(passwordInput, { target: { value: "short" } });
-
-      const form = passwordInput.closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(
-          screen.getByText("Password must be at least 8 characters long"),
-        ).toBeInTheDocument();
-      });
+      expect(screen.getByText("Join ServiceHub")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /sign up with telegram/i }),
+      ).toBeInTheDocument();
     });
   });
 });

@@ -24,16 +24,10 @@ export const DEFAULT_ROLE_OPTIONS: RoleOption[] = [
     description: "Connect with local customers.",
     icon: "handyman",
   },
-  {
-    value: "BUSINESS",
-    title: "I run a business",
-    description: "Manage team & company services.",
-    icon: "storefront",
-  },
 ];
 
 export interface RoleSelectorProps {
-  value?: RoleType;
+  value?: RoleType | null;
   onChange?: (role: RoleType) => void;
   options?: RoleOption[];
   variant?: "cards" | "segmented";
@@ -96,9 +90,14 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
     );
   }
 
+  const gridColsClass =
+    options.length === 2
+      ? "grid-cols-1 sm:grid-cols-2"
+      : "grid-cols-1 sm:grid-cols-3";
+
   return (
     <div className={`flex flex-col gap-2 w-full ${className}`}>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
+      <div className={`grid ${gridColsClass} gap-3 w-full`}>
         {options.map((option) => {
           const isSelected = value === option.value;
           return (

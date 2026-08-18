@@ -75,11 +75,11 @@ describe("Stitch UI Components Test Suite", () => {
   });
 
   describe("RoleSelector Component", () => {
-    it("renders default options (CUSTOMER, WORKER, BUSINESS)", () => {
+    it("renders default options (CUSTOMER, WORKER)", () => {
       render(<RoleSelector value="CUSTOMER" />);
       expect(screen.getByText("I want to hire help")).toBeInTheDocument();
       expect(screen.getByText("I want to offer services")).toBeInTheDocument();
-      expect(screen.getByText("I run a business")).toBeInTheDocument();
+      expect(screen.queryByText("I run a business")).not.toBeInTheDocument();
     });
 
     it("triggers onChange when a role card is clicked", () => {
