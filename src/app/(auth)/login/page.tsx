@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthCard, Button, Input } from "@/components/ui";
 import { loginSchema, LoginInput } from "@/lib/validations/auth";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { ApiError } from "@/lib/api";
 
 export default function LoginPage() {

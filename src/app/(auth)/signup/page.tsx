@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthCard, Button, Input, RoleSelector } from "@/components/ui";
 import { registerSchema, RegisterInput } from "@/lib/validations/auth";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { ApiError } from "@/lib/api";
 
 export default function SignupPage() {

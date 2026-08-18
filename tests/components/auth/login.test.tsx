@@ -23,7 +23,7 @@ vi.mock("next/link", () => ({
   }) => <a href={href}>{children}</a>,
 }));
 
-vi.mock("@/context/AuthContext", () => ({
+vi.mock("@/hooks/useAuth", () => ({
   useAuth: () => ({
     login: mockLogin,
     user: null,
@@ -33,9 +33,6 @@ vi.mock("@/context/AuthContext", () => ({
     register: vi.fn(),
     logout: vi.fn(),
   }),
-  AuthProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
 }));
 
 describe("LoginPage Component", () => {
