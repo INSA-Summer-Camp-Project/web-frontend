@@ -73,27 +73,17 @@ describe("Auth Validation Schemas Test Suite", () => {
     });
   });
 
-  describe("Signup Page Form Validation", () => {
-    it("displays validation error when password is less than 8 characters", async () => {
+  describe("Signup Page Rendering", () => {
+    it("renders Telegram signup action and join title", () => {
       render(
         <AuthProvider>
           <SignupPage />
         </AuthProvider>,
       );
-      const emailInput = screen.getByPlaceholderText("you@example.com");
-      fireEvent.change(emailInput, { target: { value: "valid@example.com" } });
-
-      const passwordInput = screen.getByPlaceholderText("Min 8 characters");
-      fireEvent.change(passwordInput, { target: { value: "short" } });
-
-      const form = passwordInput.closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(
-          screen.getByText("Password must be at least 8 characters long"),
-        ).toBeInTheDocument();
-      });
+      expect(screen.getByText("Join ServiceHub")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /sign up with telegram/i }),
+      ).toBeInTheDocument();
     });
   });
 });

@@ -113,35 +113,18 @@ describe("Auth Integration & State Management Test Suite", () => {
     });
   });
 
-  describe("SignupPage API Integration & Error Alerts", () => {
-    it("displays error alert when API returns 400 Validation Error", async () => {
-      vi.mocked(authApi.register).mockRejectedValueOnce(
-        new ApiError(400, "Email is already registered."),
-      );
-
+  describe("SignupPage Telegram Integration", () => {
+    it("renders Telegram signup action inside AuthProvider", () => {
       render(
         <AuthProvider>
           <SignupPage />
         </AuthProvider>,
       );
 
-      fireEvent.change(screen.getByPlaceholderText("you@example.com"), {
-        target: { value: "existing@example.com" },
+      const telegramBtn = screen.getByRole("button", {
+        name: /sign up with telegram/i,
       });
-      fireEvent.change(screen.getByPlaceholderText("Min 8 characters"), {
-        target: { value: "password123" },
-      });
-
-      const form = screen
-        .getByPlaceholderText("you@example.com")
-        .closest("form")!;
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(screen.getByRole("alert")).toHaveTextContent(
-          "Email is already registered.",
-        );
-      });
+      expect(telegramBtn).toBeInTheDocument();
     });
   });
 });

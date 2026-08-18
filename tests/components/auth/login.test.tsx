@@ -57,9 +57,7 @@ describe("LoginPage Component (Telegram-Only)", () => {
       });
       fireEvent.click(telegramButton);
 
-      expect(
-        screen.getByText("Connecting to Telegram..."),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Connecting to Telegram...")).toBeInTheDocument();
       expect(telegramButton).toBeDisabled();
     });
   });
