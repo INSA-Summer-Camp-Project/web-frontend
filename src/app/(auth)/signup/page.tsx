@@ -89,23 +89,31 @@ export default function SignupPage() {
                 Log In
               </Link>
             </p>
-            <p className="text-xs text-ink-muted leading-relaxed">
-              By signing up, you agree to our{" "}
-              <Link
-                href="#"
-                className="text-primary underline hover:text-primary-dark"
-              >
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link
-                href="#"
-                className="text-primary underline hover:text-primary-dark"
-              >
-                Privacy Policy
-              </Link>
-              .
-            </p>
+            <div className="bg-surface-alt rounded-lg p-3 border border-outline-variant/50">
+              <p className="text-xs text-ink-muted text-left flex gap-2 items-start leading-relaxed">
+                <span className="material-symbols-outlined text-info shrink-0 text-[16px] mt-0.5">
+                  lock
+                </span>
+                <span>
+                  By continuing, you acknowledge that you have read and
+                  understood, and agree to ServiceHub&apos;s{" "}
+                  <Link
+                    href="#"
+                    className="underline hover:text-primary transition-colors"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="#"
+                    className="underline hover:text-primary transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </span>
+              </p>
+            </div>
           </div>
         }
       >

@@ -72,6 +72,12 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
         "href",
         "/login",
       );
+      expect(
+        screen.getByRole("link", { name: /terms of service/i }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: /privacy policy/i }),
+      ).toBeInTheDocument();
 
       // Verify old email/password fields are absent
       expect(screen.queryByLabelText("Email Address")).not.toBeInTheDocument();
