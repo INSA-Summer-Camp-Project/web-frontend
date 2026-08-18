@@ -12,7 +12,7 @@ export const onboardingRoleEnum = z.enum(["CUSTOMER", "WORKER"], {
 
 export type OnboardingRole = z.infer<typeof onboardingRoleEnum>;
 
-export const genderEnum = z.enum(["MALE", "FEMALE", "OTHER"], {
+export const genderEnum = z.enum(["MALE", "FEMALE"], {
   errorMap: () => ({ message: "Please select a gender" }),
 });
 
@@ -57,8 +57,22 @@ export const onboardingSchema = z.object({
     .string()
     .min(1, "Last name is required")
     .min(2, "Last name must be at least 2 characters long"),
-  gender: z.string().min(1, "Please select a gender"),
-  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  gender: genderEnum,
+  dateOfBirth: z
+    .string()
+    .min(1, "Date of birth is required")
+    .refine(
+      (val) => {
+        if (!val) return false;
+        const selectedDate = new Date(val);
+        const today = new Date();
+        today.setHours(23, 59, 59, 999);
+        return !isNaN(selectedDate.getTime()) && selectedDate <= today;
+      },
+      {
+        message: "Date of birth cannot be in the future",
+      },
+    ),
   role: onboardingRoleEnum,
 });
 

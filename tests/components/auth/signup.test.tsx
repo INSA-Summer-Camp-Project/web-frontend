@@ -90,20 +90,38 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
   });
 
   describe("Step 2: Onboarding Form Rendering", () => {
-    it("renders First Name, Last Name, Gender, DOB, and 2 simplified role choices", async () => {
+    it("renders First Name, Last Name, Gender, DOB, and 2 simplified role choices with required attributes and max date", async () => {
       await goToStep2();
 
-      expect(screen.getByLabelText("First Name")).toBeInTheDocument();
+      const firstNameInput = screen.getByLabelText("First Name");
+      expect(firstNameInput).toBeInTheDocument();
+      expect(firstNameInput).toBeRequired();
       expect(screen.getByPlaceholderText("John")).toBeInTheDocument();
 
-      expect(screen.getByLabelText("Last Name")).toBeInTheDocument();
+      const lastNameInput = screen.getByLabelText("Last Name");
+      expect(lastNameInput).toBeInTheDocument();
+      expect(lastNameInput).toBeRequired();
       expect(screen.getByPlaceholderText("Doe")).toBeInTheDocument();
 
-      expect(screen.getByLabelText("Gender")).toBeInTheDocument();
-      expect(screen.getByLabelText("Date of Birth")).toBeInTheDocument();
+      const genderSelect = screen.getByLabelText("Gender *");
+      expect(genderSelect).toBeInTheDocument();
+      expect(genderSelect).toBeRequired();
+
+      // Check restricted gender options (strictly Male and Female)
+      const options = Array.from(genderSelect.querySelectorAll("option")).map(
+        (opt) => opt.textContent,
+      );
+      expect(options).toEqual(["Select gender", "Male", "Female"]);
+      expect(screen.queryByText("Other")).not.toBeInTheDocument();
+
+      const dobInput = screen.getByLabelText("Date of Birth");
+      expect(dobInput).toBeInTheDocument();
+      expect(dobInput).toBeRequired();
+      const todayStr = new Date().toISOString().split("T")[0];
+      expect(dobInput).toHaveAttribute("max", todayStr);
 
       // Role Selection - 2 options
-      expect(screen.getByText("Choose your role")).toBeInTheDocument();
+      expect(screen.getByText(/choose your role/i)).toBeInTheDocument();
       expect(screen.getByText("I want to hire help")).toBeInTheDocument();
       expect(screen.getByText("I want to offer services")).toBeInTheDocument();
       expect(screen.queryByText("I run a business")).not.toBeInTheDocument();
@@ -129,8 +147,8 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
     });
   });
 
-  describe("Step 2: Role Selection State", () => {
-    it("defaults to CUSTOMER and allows selecting WORKER role", async () => {
+  describe("Step 2: No Pre-selected Role State", () => {
+    it("ensures no role is pre-selected on initial load and allows selecting a role", async () => {
       await goToStep2();
 
       const customerRadio = screen.getByDisplayValue(
@@ -140,10 +158,17 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
         "WORKER",
       ) as HTMLInputElement;
 
-      expect(customerRadio.checked).toBe(true);
+      // Assert neither role card is pre-selected
+      expect(customerRadio.checked).toBe(false);
       expect(workerRadio.checked).toBe(false);
       expect(screen.queryByDisplayValue("BUSINESS")).not.toBeInTheDocument();
 
+      // Select CUSTOMER
+      fireEvent.click(customerRadio);
+      expect(customerRadio.checked).toBe(true);
+      expect(workerRadio.checked).toBe(false);
+
+      // Switch to WORKER
       fireEvent.click(workerRadio);
       expect(customerRadio.checked).toBe(false);
       expect(workerRadio.checked).toBe(true);
@@ -166,6 +191,9 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
         expect(
           screen.getByText("Date of birth is required"),
         ).toBeInTheDocument();
+        expect(
+          screen.getByText("Please select a valid role"),
+        ).toBeInTheDocument();
       });
 
       expect(mockRegister).not.toHaveBeenCalled();
@@ -181,12 +209,13 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
       fireEvent.change(screen.getByLabelText("Last Name"), {
         target: { value: "B" },
       });
-      fireEvent.change(screen.getByLabelText("Gender"), {
+      fireEvent.change(screen.getByLabelText("Gender *"), {
         target: { value: "MALE" },
       });
       fireEvent.change(screen.getByLabelText("Date of Birth"), {
         target: { value: "1995-05-15" },
       });
+      fireEvent.click(screen.getByDisplayValue("CUSTOMER"));
 
       fireEvent.click(
         screen.getByRole("button", { name: /complete sign up/i }),
@@ -203,24 +232,54 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
 
       expect(mockRegister).not.toHaveBeenCalled();
     });
+
+    it("displays error when date of birth is in the future", async () => {
+      await goToStep2();
+
+      fireEvent.change(screen.getByLabelText("First Name"), {
+        target: { value: "John" },
+      });
+      fireEvent.change(screen.getByLabelText("Last Name"), {
+        target: { value: "Doe" },
+      });
+      fireEvent.change(screen.getByLabelText("Gender *"), {
+        target: { value: "MALE" },
+      });
+      fireEvent.change(screen.getByLabelText("Date of Birth"), {
+        target: { value: "2099-01-01" },
+      });
+      fireEvent.click(screen.getByDisplayValue("CUSTOMER"));
+
+      fireEvent.click(
+        screen.getByRole("button", { name: /complete sign up/i }),
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("Date of birth cannot be in the future"),
+        ).toBeInTheDocument();
+      });
+
+      expect(mockRegister).not.toHaveBeenCalled();
+    });
   });
 
   describe("Step 2: Form Submission & Error Handling", () => {
-    it("submits valid onboarding data and redirects to '/'", async () => {
+    it("submits valid onboarding data with selected role and redirects to '/'", async () => {
       mockRegister.mockResolvedValueOnce(undefined);
       await goToStep2();
 
       // Select WORKER role
       fireEvent.click(screen.getByDisplayValue("WORKER"));
 
-      // Fill in onboarding inputs
+      // Fill in onboarding inputs with restricted gender
       fireEvent.change(screen.getByLabelText("First Name"), {
         target: { value: "Alice" },
       });
       fireEvent.change(screen.getByLabelText("Last Name"), {
         target: { value: "Smith" },
       });
-      fireEvent.change(screen.getByLabelText("Gender"), {
+      fireEvent.change(screen.getByLabelText("Gender *"), {
         target: { value: "FEMALE" },
       });
       fireEvent.change(screen.getByLabelText("Date of Birth"), {
@@ -248,13 +307,14 @@ describe("SignupPage Component (2-Step Telegram Onboarding)", () => {
       );
       await goToStep2();
 
+      fireEvent.click(screen.getByDisplayValue("CUSTOMER"));
       fireEvent.change(screen.getByLabelText("First Name"), {
         target: { value: "Alice" },
       });
       fireEvent.change(screen.getByLabelText("Last Name"), {
         target: { value: "Smith" },
       });
-      fireEvent.change(screen.getByLabelText("Gender"), {
+      fireEvent.change(screen.getByLabelText("Gender *"), {
         target: { value: "FEMALE" },
       });
       fireEvent.change(screen.getByLabelText("Date of Birth"), {

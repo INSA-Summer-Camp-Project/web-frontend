@@ -6,7 +6,11 @@ import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthCard, Button, Input, RoleSelector } from "@/components/ui";
-import { onboardingSchema, OnboardingInput } from "@/lib/validations/auth";
+import {
+  onboardingSchema,
+  OnboardingInput,
+  OnboardingRole,
+} from "@/lib/validations/auth";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiError } from "@/lib/api";
 
@@ -16,6 +20,8 @@ export default function SignupPage() {
   const [step, setStep] = useState<1 | 2>(1);
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+
+  const todayStr = new Date().toISOString().split("T")[0];
 
   const {
     register,
@@ -27,9 +33,9 @@ export default function SignupPage() {
     defaultValues: {
       firstName: "",
       lastName: "",
-      gender: "",
+      gender: undefined,
       dateOfBirth: "",
-      role: "CUSTOMER",
+      role: null as unknown as OnboardingRole,
     },
   });
 
@@ -165,6 +171,7 @@ export default function SignupPage() {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-5 w-full text-left"
+        noValidate
       >
         {serverError && (
           <div
@@ -184,6 +191,7 @@ export default function SignupPage() {
             label="First Name"
             type="text"
             placeholder="John"
+            required
             error={errors.firstName?.message}
             leftIcon={
               <span className="material-symbols-outlined text-[20px]">
@@ -196,6 +204,7 @@ export default function SignupPage() {
             label="Last Name"
             type="text"
             placeholder="Doe"
+            required
             error={errors.lastName?.message}
             leftIcon={
               <span className="material-symbols-outlined text-[20px]">
@@ -213,7 +222,7 @@ export default function SignupPage() {
               htmlFor="gender"
               className="text-sm font-semibold text-ink select-none"
             >
-              Gender
+              Gender <span className="text-error">*</span>
             </label>
             <div className="relative flex items-center w-full">
               <div className="absolute left-3 flex items-center justify-center text-ink-muted pointer-events-none">
@@ -224,6 +233,7 @@ export default function SignupPage() {
               <select
                 id="gender"
                 aria-label="Gender"
+                required
                 {...register("gender")}
                 className={`w-full rounded-lg border bg-surface-alt py-2.5 text-sm text-ink pl-10 pr-10 focus:outline-none focus:ring-2 transition-colors duration-150 cursor-pointer ${
                   errors.gender
@@ -234,7 +244,6 @@ export default function SignupPage() {
                 <option value="">Select gender</option>
                 <option value="MALE">Male</option>
                 <option value="FEMALE">Female</option>
-                <option value="OTHER">Other</option>
               </select>
               <div className="absolute right-3 flex items-center justify-center text-ink-muted pointer-events-none">
                 <span className="material-symbols-outlined text-[20px]">
@@ -256,6 +265,8 @@ export default function SignupPage() {
             label="Date of Birth"
             type="date"
             placeholder="YYYY-MM-DD"
+            required
+            max={todayStr}
             error={errors.dateOfBirth?.message}
             leftIcon={
               <span className="material-symbols-outlined text-[20px]">
@@ -269,7 +280,7 @@ export default function SignupPage() {
         {/* Role Selection via Controller */}
         <div>
           <label className="block text-sm font-semibold text-ink mb-2 text-center sm:text-left">
-            Choose your role
+            Choose your role <span className="text-error">*</span>
           </label>
           <Controller
             name="role"

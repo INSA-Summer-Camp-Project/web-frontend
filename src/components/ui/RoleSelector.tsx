@@ -27,7 +27,7 @@ export const DEFAULT_ROLE_OPTIONS: RoleOption[] = [
 ];
 
 export interface RoleSelectorProps {
-  value?: RoleType;
+  value?: RoleType | null;
   onChange?: (role: RoleType) => void;
   options?: RoleOption[];
   variant?: "cards" | "segmented";

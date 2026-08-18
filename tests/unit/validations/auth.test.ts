@@ -4,6 +4,8 @@ import {
   loginSchema,
   registerSchema,
   Role,
+  genderEnum,
+  onboardingSchema,
 } from "@/lib/validations/auth";
 
 describe("Auth Validation Schemas Unit Tests", () => {
@@ -271,6 +273,59 @@ describe("Auth Validation Schemas Unit Tests", () => {
         });
         expect(result.success).toBe(true);
       });
+    });
+  });
+
+  describe("genderEnum", () => {
+    it("accepts valid genders: MALE, FEMALE", () => {
+      expect(genderEnum.safeParse("MALE").success).toBe(true);
+      expect(genderEnum.safeParse("FEMALE").success).toBe(true);
+    });
+
+    it("rejects invalid genders including OTHER", () => {
+      expect(genderEnum.safeParse("OTHER").success).toBe(false);
+      expect(genderEnum.safeParse("INVALID").success).toBe(false);
+      expect(genderEnum.safeParse("").success).toBe(false);
+    });
+  });
+
+  describe("onboardingSchema", () => {
+    it("passes with valid onboarding input", () => {
+      const result = onboardingSchema.safeParse({
+        firstName: "John",
+        lastName: "Doe",
+        gender: "MALE",
+        dateOfBirth: "1990-01-01",
+        role: "CUSTOMER",
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("fails when any required field is missing or invalid", () => {
+      const result = onboardingSchema.safeParse({
+        firstName: "J",
+        lastName: "",
+        gender: "OTHER",
+        dateOfBirth: "",
+        role: "INVALID_ROLE",
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it("fails when date of birth is in the future", () => {
+      const result = onboardingSchema.safeParse({
+        firstName: "John",
+        lastName: "Doe",
+        gender: "MALE",
+        dateOfBirth: "2099-01-01",
+        role: "CUSTOMER",
+      });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.format().dateOfBirth?._errors[0]).toBe(
+          "Date of birth cannot be in the future",
+        );
+      }
     });
   });
 });
