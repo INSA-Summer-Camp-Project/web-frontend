@@ -57,11 +57,11 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
   return (
     <section
       id="testimonials"
-      className={`py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60 ${className}`}
+      className={`py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60 ${className}`}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
             Testimonials
           </p>
@@ -74,7 +74,10 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((t) => (
-            <figure key={t.name} className="card flex flex-col gap-4">
+            <figure
+              key={t.name}
+              className="card flex flex-col gap-4 p-6 rounded-md"
+            >
               {/* Stars */}
               <Stars count={t.rating} />
 
@@ -85,7 +88,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
 
               {/* Author */}
               <figcaption className="flex items-center gap-3 mt-auto pt-4 border-t border-border">
-                <div className="w-9 h-9 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center flex-shrink-0 shadow-xs">
                   {t.initials}
                 </div>
                 <div>

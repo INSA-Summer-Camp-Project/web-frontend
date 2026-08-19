@@ -8,17 +8,17 @@ export interface CTAProps {
 
 export const CTA: React.FC<CTAProps> = ({ className = "" }) => {
   return (
-    <section className={`py-24 px-4 sm:px-6 lg:px-8 ${className}`}>
+    <section className={`py-16 md:py-24 px-4 sm:px-6 lg:px-8 ${className}`}>
       <div className="max-w-4xl mx-auto">
-        <div className="relative rounded-lg overflow-hidden p-10 md:p-16 text-center bg-surface border border-border shadow-md">
+        <div className="relative rounded-lg p-10 md:p-14 text-center bg-surface border border-border shadow-sm">
           <div className="relative">
             <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-4">
               Ready to start?
             </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-ink mb-5 leading-tight">
+            <h2 className="font-serif text-3xl md:text-5xl font-bold text-ink mb-5 leading-tight">
               Join ServiceHub today
             </h2>
-            <p className="text-ink-muted text-lg max-w-md mx-auto mb-10">
+            <p className="text-ink-muted text-base md:text-lg max-w-md mx-auto mb-10">
               No password. No lengthy forms. Just sign in with Telegram and
               you&apos;re ready to hire or offer services in minutes.
             </p>
@@ -26,21 +26,21 @@ export const CTA: React.FC<CTAProps> = ({ className = "" }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/signup?role=client"
-                className="btn-primary w-full sm:w-auto text-base px-8 py-3.5 rounded-sm shadow-sm"
+                className="btn-primary w-full sm:w-auto text-sm px-6 py-3 rounded-sm shadow-sm hover:shadow-md"
               >
-                <Send size={18} />
+                <Send size={16} />
                 <span>I want to hire help</span>
               </Link>
               <Link
                 href="/signup?role=professional"
-                className="btn-secondary w-full sm:w-auto text-base px-8 py-3.5 rounded-sm"
+                className="btn-secondary w-full sm:w-auto text-sm px-6 py-3 rounded-sm"
               >
-                <Wrench size={18} />
+                <Wrench size={16} />
                 <span>I want to offer services</span>
               </Link>
             </div>
 
-            <p className="text-xs text-ink-muted mt-6">
+            <p className="text-xs text-ink-muted mt-8">
               By signing up, you agree to our{" "}
               <Link
                 href="/terms"

@@ -38,11 +38,11 @@ export const Services: React.FC<ServicesProps> = ({ className = "" }) => {
   return (
     <section
       id="services"
-      className={`py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60 ${className}`}
+      className={`py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60 ${className}`}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
             Categories
           </p>
@@ -59,12 +59,14 @@ export const Services: React.FC<ServicesProps> = ({ className = "" }) => {
             <button
               key={svc.label}
               type="button"
-              className="card flex flex-col items-center gap-3 py-6 hover:-translate-y-0.5 cursor-pointer group text-center"
+              className="card flex flex-col items-center gap-3 py-6 px-3 hover:-translate-y-0.5 cursor-pointer group text-center bg-surface border border-border rounded-md shadow-sm hover:shadow-md transition-all duration-150"
             >
               <div className="w-12 h-12 rounded-sm bg-surface-alt flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-150">
                 {svc.icon}
               </div>
-              <span className="text-sm font-medium text-ink">{svc.label}</span>
+              <span className="text-sm font-semibold text-ink">
+                {svc.label}
+              </span>
             </button>
           ))}
         </div>
