@@ -14,7 +14,7 @@ export default function LandingPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,#e8ddd0_0%,#f5f0e8_40%,#dde8e0_100%)] text-[#2c1f14]">
+      <main className="min-h-screen bg-background text-ink">
         <Hero />
         <HowItWorks />
         <Services />

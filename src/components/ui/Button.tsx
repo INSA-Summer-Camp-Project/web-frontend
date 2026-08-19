@@ -3,7 +3,7 @@
 import React from "react";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "destructive" | "ghost";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   loadingText?: string;
@@ -32,27 +32,33 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const isPrimary = variant === "primary";
     const isSecondary = variant === "secondary";
+    const isDestructive = variant === "destructive";
+    const isGhost = variant === "ghost";
 
     const baseStyles =
-      "inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]";
+      "inline-flex items-center justify-center font-semibold rounded-sm transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]";
 
     const variantStyles = isPrimary
-      ? "bg-primary hover:bg-primary-dark text-on-primary shadow-sm"
+      ? "bg-primary hover:bg-primary-dark text-white shadow-sm"
       : isSecondary
-        ? "border border-outline-variant bg-surface-alt hover:bg-surface-dim text-ink hover:border-border-strong shadow-sm"
-        : "";
+        ? "border border-border-strong bg-white hover:bg-surface-alt text-ink-secondary active:bg-border shadow-sm"
+        : isDestructive
+          ? "bg-error hover:bg-error/90 text-white shadow-sm"
+          : isGhost
+            ? "bg-transparent text-primary hover:bg-primary-light"
+            : "";
 
     const sizeStyles =
       size === "sm"
-        ? "py-1.5 px-3 text-xs gap-1.5"
+        ? "py-1.5 px-3 text-xs gap-1.5 min-h-[32px]"
         : size === "lg"
-          ? "py-3.5 px-7 text-base gap-2.5"
-          : "py-3 px-6 text-sm gap-2";
+          ? "py-3 px-6 text-base gap-2.5 min-h-[48px]"
+          : "py-2.5 px-5 text-sm gap-2 min-h-[40px]";
 
     const widthStyles = fullWidth ? "w-full" : "";
     const isDisabled = disabled || isLoading;
     const disabledStyles = isDisabled
-      ? "opacity-60 cursor-not-allowed active:scale-100 shadow-none pointer-events-none"
+      ? "opacity-60 cursor-not-allowed active:scale-100 shadow-none pointer-events-none bg-surface-alt text-ink-muted border-transparent"
       : "cursor-pointer";
 
     return (

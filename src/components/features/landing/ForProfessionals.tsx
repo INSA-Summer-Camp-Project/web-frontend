@@ -11,25 +11,25 @@ import { PerkItem } from "@/types/landing";
 
 const perks: PerkItem[] = [
   {
-    icon: <Bell size={20} className="text-brand-brown" />,
+    icon: <Bell size={20} className="text-primary" />,
     title: "Instant job alerts",
     description:
       "Get notified on Telegram the moment a client in your area posts a matching job.",
   },
   {
-    icon: <TrendingUp size={20} className="text-brand-brown" />,
+    icon: <TrendingUp size={20} className="text-primary" />,
     title: "Grow your reputation",
     description:
       "Collect verified reviews and build a profile that wins you more business over time.",
   },
   {
-    icon: <ShieldCheck size={20} className="text-brand-brown" />,
+    icon: <ShieldCheck size={20} className="text-primary" />,
     title: "Secure communication",
     description:
       "All client-pro messaging is handled through Telegram — no personal number exposure.",
   },
   {
-    icon: <Wrench size={20} className="text-brand-brown" />,
+    icon: <Wrench size={20} className="text-primary" />,
     title: "Zero setup friction",
     description:
       "Sign up once with Telegram, set your skills and location, and start receiving requests immediately.",
@@ -51,7 +51,7 @@ export const ForProfessionals: React.FC<ForProfessionalsProps> = ({
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Left – text */}
         <div>
-          <p className="text-xs font-semibold tracking-widest uppercase text-brand-brown mb-3">
+          <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
             For Professionals
           </p>
           <h2 className="section-title mb-5">
@@ -66,14 +66,14 @@ export const ForProfessionals: React.FC<ForProfessionalsProps> = ({
           <ul className="space-y-5">
             {perks.map((perk) => (
               <li key={perk.title} className="flex gap-4">
-                <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-[#f0ebe0] flex items-center justify-center">
+                <div className="flex-shrink-0 w-9 h-9 rounded-sm bg-primary-light flex items-center justify-center">
                   {perk.icon}
                 </div>
                 <div>
-                  <h4 className="font-semibold text-[#2c1f14] text-sm mb-0.5">
+                  <h4 className="font-semibold text-ink text-sm mb-0.5">
                     {perk.title}
                   </h4>
-                  <p className="text-sm text-brand-muted leading-relaxed">
+                  <p className="text-sm text-ink-muted leading-relaxed">
                     {perk.description}
                   </p>
                 </div>
@@ -83,9 +83,9 @@ export const ForProfessionals: React.FC<ForProfessionalsProps> = ({
 
           <Link
             href="/signup"
-            className="inline-flex items-center gap-2 mt-10 text-sm font-semibold text-brand-brown hover:text-brand-brown-hover group transition-colors"
+            className="inline-flex items-center gap-2 mt-10 text-sm font-semibold text-primary hover:text-primary-dark group transition-colors"
           >
-            Start offering services
+            <span>Start offering services</span>
             <ArrowRight
               size={16}
               className="group-hover:translate-x-1 transition-transform"
@@ -95,48 +95,39 @@ export const ForProfessionals: React.FC<ForProfessionalsProps> = ({
 
         {/* Right – visual card */}
         <div className="relative">
-          {/* Background decoration */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 rounded-3xl pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse at bottom left, #dde8e0 0%, #f5f0e8 60%)",
-            }}
-          />
-
-          <div className="relative card p-8 rounded-3xl space-y-5">
+          <div className="relative card p-8 rounded-lg space-y-5 shadow-md">
             {/* Mock profile card */}
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-brand-brown flex items-center justify-center text-white font-serif text-xl font-bold">
+              <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white font-serif text-xl font-bold">
                 A
               </div>
               <div>
-                <p className="font-semibold text-[#2c1f14]">Ahmed K.</p>
-                <p className="text-sm text-brand-muted">
-                  Licensed Electrician · 4.9 ★
+                <p className="font-semibold text-ink">Ahmed K.</p>
+                <p className="text-sm text-ink-muted">
+                  Licensed Electrician ·{" "}
+                  <span className="text-accent font-medium">4.9 ★</span>
                 </p>
               </div>
-              <span className="ml-auto text-xs bg-green-100 text-green-700 font-medium px-2.5 py-1 rounded-full">
+              <span className="ml-auto text-xs bg-success-light text-success-text font-semibold px-2.5 py-1 rounded-full">
                 Available
               </span>
             </div>
 
-            <hr className="border-[#e8ddd0]" />
+            <hr className="border-border" />
 
             {/* Job notification mock */}
-            <div className="bg-[#f0ebe0] rounded-xl p-4 flex gap-3 items-start">
-              <div className="w-8 h-8 rounded-lg bg-brand-brown flex items-center justify-center flex-shrink-0">
-                <Bell size={15} className="text-white" />
+            <div className="bg-surface-alt rounded-sm p-4 border border-border flex gap-3 items-start">
+              <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center flex-shrink-0 text-white">
+                <Bell size={15} />
               </div>
               <div>
-                <p className="text-xs font-semibold text-brand-brown uppercase tracking-wide">
+                <p className="text-xs font-semibold text-primary uppercase tracking-wide">
                   New Job Request
                 </p>
-                <p className="text-sm text-[#3d2b1f] mt-0.5">
+                <p className="text-sm text-ink mt-0.5">
                   Panel replacement needed – 2km away
                 </p>
-                <p className="text-xs text-brand-muted mt-1">
+                <p className="text-xs text-ink-muted mt-1">
                   Just now · via Telegram
                 </p>
               </div>
@@ -151,12 +142,12 @@ export const ForProfessionals: React.FC<ForProfessionalsProps> = ({
               ].map((s) => (
                 <div
                   key={s.l}
-                  className="bg-[#fdfaf5] border border-[#e8ddd0] rounded-xl py-3"
+                  className="bg-surface border border-border rounded-sm py-3 shadow-xs"
                 >
-                  <p className="font-serif text-xl font-bold text-brand-brown">
+                  <p className="font-serif text-xl font-bold text-primary tabular-nums">
                     {s.v}
                   </p>
-                  <p className="text-xs text-brand-muted mt-0.5">{s.l}</p>
+                  <p className="text-xs text-ink-muted mt-0.5">{s.l}</p>
                 </div>
               ))}
             </div>

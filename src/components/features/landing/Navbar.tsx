@@ -21,13 +21,13 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-[#f5f0e8]/80 backdrop-blur-md border-b border-[#e8ddd0] ${className}`}
+      className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border ${className}`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-1.5 group">
-          <span className="text-xs text-brand-muted-light">·</span>
-          <span className="font-serif text-xl font-semibold text-brand-brown tracking-tight group-hover:opacity-80 transition-opacity">
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="w-2 h-2 rounded-full bg-primary inline-block" />
+          <span className="font-serif text-xl font-semibold text-primary tracking-tight group-hover:opacity-85 transition-opacity">
             ServiceHub
           </span>
         </Link>
@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm text-[#5a4a3a] hover:text-brand-brown transition-colors duration-150"
+              className="text-sm font-medium text-ink-secondary hover:text-primary transition-colors duration-150"
             >
               {link.label}
             </Link>
@@ -46,16 +46,16 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         </nav>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
           <Link
             href="/login"
-            className="text-sm font-medium text-[#5a4a3a] hover:text-brand-brown transition-colors"
+            className="text-sm font-medium text-ink-secondary hover:text-primary transition-colors"
           >
             Log In
           </Link>
           <Link
             href="/signup"
-            className="btn-primary text-sm px-5 py-2.5 rounded-lg"
+            className="btn-primary text-sm px-5 py-2 rounded-sm"
           >
             Get Started
           </Link>
@@ -64,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden p-2 text-[#5a4a3a] hover:text-brand-brown transition-colors"
+          className="md:hidden p-2 text-ink-secondary hover:text-primary transition-colors cursor-pointer"
           aria-label="Toggle menu"
           aria-expanded={open}
         >
@@ -74,28 +74,28 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-[#fdfaf5] border-t border-[#e8ddd0] px-4 py-4 space-y-3">
+        <div className="md:hidden bg-surface border-t border-border px-4 py-4 space-y-3 shadow-lg">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block text-sm text-[#5a4a3a] hover:text-brand-brown py-2 transition-colors"
+              className="block text-sm text-ink-secondary hover:text-primary py-2 transition-colors"
             >
               {link.label}
             </Link>
           ))}
-          <hr className="border-[#e8ddd0]" />
+          <hr className="border-border" />
           <div className="flex flex-col gap-2 pt-1">
             <Link
               href="/login"
-              className="text-sm font-medium text-center text-[#5a4a3a] py-2"
+              className="text-sm font-medium text-center text-ink-secondary py-2"
             >
               Log In
             </Link>
             <Link
               href="/signup"
-              className="btn-primary text-sm rounded-lg py-2.5"
+              className="btn-primary text-sm rounded-sm py-2.5"
             >
               Get Started
             </Link>

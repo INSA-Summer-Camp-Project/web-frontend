@@ -41,7 +41,7 @@ const Stars: React.FC<StarsProps> = ({ count }) => {
   return (
     <div className="flex gap-0.5" aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} size={13} className="fill-brand-brown text-brand-brown" />
+        <Star key={i} size={14} className="fill-accent text-accent" />
       ))}
     </div>
   );
@@ -57,12 +57,12 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
   return (
     <section
       id="testimonials"
-      className={`py-24 px-4 sm:px-6 lg:px-8 bg-[#fdfaf5]/60 ${className}`}
+      className={`py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60 ${className}`}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-xs font-semibold tracking-widest uppercase text-brand-brown mb-3">
+          <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
             Testimonials
           </p>
           <h2 className="section-title mb-4">Trusted by real people</h2>
@@ -79,20 +79,18 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
               <Stars count={t.rating} />
 
               {/* Quote */}
-              <blockquote className="text-sm text-[#4a3828] leading-relaxed flex-1">
+              <blockquote className="text-sm text-ink-secondary leading-relaxed flex-1">
                 &ldquo;{t.text}&rdquo;
               </blockquote>
 
               {/* Author */}
-              <figcaption className="flex items-center gap-3 mt-auto pt-4 border-t border-[#e8ddd0]">
-                <div className="w-9 h-9 rounded-full bg-brand-brown text-white text-xs font-semibold flex items-center justify-center flex-shrink-0">
+              <figcaption className="flex items-center gap-3 mt-auto pt-4 border-t border-border">
+                <div className="w-9 h-9 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center flex-shrink-0">
                   {t.initials}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#2c1f14]">
-                    {t.name}
-                  </p>
-                  <p className="text-xs text-brand-muted">{t.role}</p>
+                  <p className="text-sm font-semibold text-ink">{t.name}</p>
+                  <p className="text-xs text-ink-muted">{t.role}</p>
                 </div>
               </figcaption>
             </figure>

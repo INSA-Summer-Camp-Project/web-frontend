@@ -59,7 +59,7 @@ describe("Stitch UI Components Test Suite", () => {
       render(<Button variant="secondary">Cancel</Button>);
       const button = screen.getByRole("button", { name: "Cancel" });
       expect(button).toBeInTheDocument();
-      expect(button).toHaveClass("bg-surface-alt");
+      expect(button).toHaveClass("border-border-strong");
     });
 
     it("shows loading spinner and disables interaction when isLoading is true", () => {

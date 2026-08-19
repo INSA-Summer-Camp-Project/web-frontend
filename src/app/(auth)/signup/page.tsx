@@ -89,7 +89,7 @@ export default function SignupPage() {
                 Log In
               </Link>
             </p>
-            <div className="bg-surface-alt rounded-lg p-3 border border-outline-variant/50">
+            <div className="bg-surface-alt rounded-sm p-3 border border-border">
               <p className="text-xs text-ink-muted text-left flex gap-2 items-start leading-relaxed">
                 <span className="material-symbols-outlined text-info shrink-0 text-[16px] mt-0.5">
                   lock
@@ -123,7 +123,7 @@ export default function SignupPage() {
             type="button"
             onClick={handleTelegramSignup}
             disabled={isTelegramLoading}
-            className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
+            className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-sm py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-150 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
           >
             {isTelegramLoading ? (
               <span className="flex items-center gap-2">
@@ -186,7 +186,7 @@ export default function SignupPage() {
         {serverError && (
           <div
             role="alert"
-            className="p-3.5 rounded-lg bg-error-container text-on-error-container text-xs font-medium border border-error/20 flex items-center gap-2"
+            className="p-3.5 rounded-sm bg-error-light text-error-text text-xs font-medium border border-error/20 flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-error text-[18px] shrink-0">
               error
@@ -245,10 +245,10 @@ export default function SignupPage() {
                 aria-label="Gender"
                 required
                 {...register("gender")}
-                className={`w-full appearance-none rounded-lg border bg-surface-alt py-2.5 text-sm text-ink pl-10 pr-10 focus:outline-none focus:ring-2 transition-colors duration-150 cursor-pointer ${
+                className={`w-full appearance-none rounded-sm border bg-surface-alt py-2.5 text-sm text-ink pl-10 pr-10 focus:outline-none focus:ring-2 transition-colors duration-150 cursor-pointer ${
                   errors.gender
                     ? "border-error focus:border-error focus:ring-error/20"
-                    : "border-outline-variant focus:border-primary focus:ring-primary/20 hover:border-border-strong"
+                    : "border-border focus:border-primary focus:ring-primary/20 hover:border-border-strong"
                 }`}
               >
                 <option value="">Select gender</option>

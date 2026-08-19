@@ -32,12 +32,12 @@ export const AuthCard: React.FC<AuthCardProps> = ({
 
   return (
     <div
-      className={`w-full ${maxWidthClass} bg-surface shadow-sm rounded-xl border border-outline-variant p-6 md:p-8 flex flex-col items-center text-center gap-6 relative z-10 mx-auto ${className}`}
+      className={`w-full ${maxWidthClass} bg-surface shadow-sm rounded-lg border border-border p-6 md:p-8 flex flex-col items-center text-center gap-6 relative z-10 mx-auto ${className}`}
     >
       {(brandName || logoIcon) && (
         <div className="flex flex-col items-center gap-1 mb-1">
           {logoIcon && (
-            <div className="w-12 h-12 rounded-lg bg-surface-alt flex items-center justify-center mb-2 text-primary border border-outline-variant">
+            <div className="w-12 h-12 rounded-sm bg-surface-alt flex items-center justify-center mb-2 text-primary border border-border">
               <span className="material-symbols-outlined text-[24px]">
                 {logoIcon}
               </span>
@@ -54,7 +54,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({
       {(title || subtitle) && (
         <div className="flex flex-col gap-1 w-full px-2">
           {title && (
-            <h2 className="font-text-h2 text-2xl md:text-3xl font-medium text-ink">
+            <h2 className="font-serif text-2xl md:text-3xl font-medium text-ink">
               {title}
             </h2>
           )}
@@ -69,9 +69,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({
       {children && <div className="w-full">{children}</div>}
 
       {footer && (
-        <div className="w-full mt-2 pt-4 border-t border-outline-variant/60">
-          {footer}
-        </div>
+        <div className="w-full mt-2 pt-4 border-t border-border">{footer}</div>
       )}
     </div>
   );
