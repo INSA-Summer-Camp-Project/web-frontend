@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { Wrench } from "lucide-react";
 import { FooterLinkGroups } from "@/types/landing";
 
 const links: FooterLinkGroups = {
@@ -24,11 +25,16 @@ export const Footer: React.FC<FooterProps> = ({ className = "" }) => {
           <div className="col-span-2 md:col-span-1">
             <Link
               href="/"
-              className="font-serif text-xl font-semibold text-primary"
+              className="flex items-center gap-2.5 group inline-flex mb-3"
             >
-              ServiceHub
+              <div className="w-7 h-7 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
+                <Wrench size={16} className="stroke-[2.5]" />
+              </div>
+              <span className="font-serif text-xl font-semibold text-ink tracking-tight group-hover:text-primary transition-colors">
+                ServiceHub
+              </span>
             </Link>
-            <p className="text-sm text-ink-muted mt-3 leading-relaxed max-w-[180px]">
+            <p className="text-sm text-ink-muted leading-relaxed max-w-[180px]">
               Professional & Trustworthy Service Marketplace.
             </p>
           </div>

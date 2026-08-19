@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { Wrench } from "lucide-react";
 import { AuthProvider } from "@/context/AuthContext";
 
 export default function AuthLayout({
@@ -18,16 +19,18 @@ export default function AuthLayout({
           aria-hidden="true"
         />
 
-        {/* Top Header Navigation */}
-        <header className="w-full top-0 bg-background/80 backdrop-blur-sm flex justify-between items-center h-16 px-4 md:px-8 max-w-7xl mx-auto relative z-20 border-b border-border/60">
+        {/* Top Header Navigation per DESIGN.md W1 */}
+        <header className="w-full top-0 bg-white/90 backdrop-blur-md flex justify-between items-center h-16 px-4 md:px-8 max-w-7xl mx-auto relative z-20 border-b border-border">
           <Link
             href="/"
-            className="font-serif text-xl md:text-2xl font-semibold text-primary flex items-center gap-2 hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2.5 group hover:opacity-90 transition-opacity"
           >
-            <span className="material-symbols-outlined text-[28px]">
-              build_circle
+            <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
+              <Wrench size={18} className="stroke-[2.5]" />
+            </div>
+            <span className="font-serif text-xl font-semibold text-ink tracking-tight group-hover:text-primary transition-colors">
+              ServiceHub
             </span>
-            <span>ServiceHub</span>
           </Link>
         </header>
 
@@ -37,7 +40,7 @@ export default function AuthLayout({
         </main>
 
         {/* Minimal Footer */}
-        <footer className="py-4 text-center text-xs text-ink-muted relative z-20 border-t border-border/40">
+        <footer className="py-4 text-center text-xs text-ink-muted relative z-20 border-t border-border">
           &copy; {new Date().getFullYear()} ServiceHub. All rights reserved.
         </footer>
       </div>

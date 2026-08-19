@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Wrench } from "lucide-react";
 import { NavLink } from "@/types/landing";
 
 const navLinks: NavLink[] = [
@@ -25,9 +25,11 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="w-2 h-2 rounded-full bg-primary inline-block" />
-          <span className="font-serif text-xl font-semibold text-primary tracking-tight group-hover:opacity-85 transition-opacity">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
+            <Wrench size={18} className="stroke-[2.5]" />
+          </div>
+          <span className="font-serif text-xl font-semibold text-ink tracking-tight group-hover:text-primary transition-colors">
             ServiceHub
           </span>
         </Link>
