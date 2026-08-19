@@ -10,96 +10,128 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "surface-container": "#fdeae3",
-        background: "#FAF6EF",
-        secondary: "#286958",
-        "on-secondary-container": "#2f6f5e",
-        "surface-dim": "#e8d6cf",
-        "on-primary-fixed-variant": "#793000",
-        "primary-tint": "#F1DFCF",
-        "inverse-on-surface": "#ffede6",
-        "ink-muted": "#5B564C",
-        error: "#B3261E",
-        "surface-tint": "#9b4511",
-        "secondary-container": "#aef0da",
-        surface: "#fff8f6",
-        "primary-fixed": "#ffdbcb",
-        "outline-variant": "#dcc1b5",
-        "on-error": "#ffffff",
-        ink: "#211D18",
-        "accent-tint": "#DCEAE4",
-        "secondary-fixed": "#aef0da",
-        "on-secondary-fixed": "#002019",
-        "border-strong": "#CBBFA3",
-        "on-secondary": "#ffffff",
-        "surface-alt": "#F3EDE1",
-        "on-surface": "#231a15",
-        "error-container": "#ffdad6",
-        "on-tertiary-fixed-variant": "#004e60",
-        "surface-container-low": "#fff1eb",
-        "surface-container-highest": "#f1dfd7",
-        "secondary-fixed-dim": "#93d3bf",
-        "on-tertiary": "#ffffff",
-        "tertiary-container": "#007f9b",
-        "on-primary-fixed": "#341100",
-        "surface-container-high": "#f7e4dd",
-        "on-tertiary-container": "#fafdff",
-        primary: "#97430e",
-        "surface-container-lowest": "#ffffff",
-        outline: "#897268",
-        "info-tint": "#E4ECEF",
-        "inverse-surface": "#392e29",
-        "inverse-primary": "#ffb692",
-        "surface-variant": "#f1dfd7",
-        "primary-fixed-dim": "#ffb692",
-        "primary-container": "#b75a26",
-        "tertiary-fixed": "#b6ebff",
-        "on-primary": "#ffffff",
-        "tertiary-fixed-dim": "#71d3f4",
-        "on-surface-variant": "#55433a",
-        "on-error-container": "#93000a",
-        "on-secondary-fixed-variant": "#055141",
-        tertiary: "#00657b",
-        info: "#4F6D7A",
-        warning: "#B5790F",
-        "on-tertiary-fixed": "#001f28",
-        "primary-dark": "#9C4C21",
-        "on-primary-container": "#fffbff",
-        "surface-bright": "#fff8f6",
-        "on-background": "#231a15",
+        // DESIGN.md Section 3: Color System
+        primary: {
+          DEFAULT: "#1D4ED8", // Trust Blue - Primary actions, links, active states
+          dark: "#1E40AF", // Primary hover/pressed states
+          light: "#DBEAFE", // Primary-tinted backgrounds, selected chips
+        },
+        accent: {
+          DEFAULT: "#D97706", // Warm Amber - Ratings, highlights, featured content
+          light: "#FEF3C7", // Accent-tinted backgrounds
+          text: "#92400E", // WCAG AA Badge text
+        },
+        success: {
+          DEFAULT: "#16A34A", // Completed jobs, verified badges, success states
+          light: "#DCFCE7", // Success backgrounds
+          text: "#15803D", // WCAG AA Badge text
+        },
+        warning: {
+          DEFAULT: "#EA580C", // Pending states, attention required
+          light: "#FFF7ED", // Warning backgrounds
+          text: "#C2410C", // WCAG AA Badge text
+        },
+        info: {
+          DEFAULT: "#4F6D7A", // Neutral informational states
+          light: "#E4ECEF", // Info-tinted backgrounds
+        },
+        error: {
+          DEFAULT: "#DC2626", // Errors, destructive actions
+          light: "#FEF2F2", // Error backgrounds
+          text: "#B91C1C", // WCAG AA Badge text
+        },
+        ink: {
+          DEFAULT: "#1C1917", // Primary text — warm near-black
+          secondary: "#44403C", // Secondary text, labels
+          muted: "#78716C", // Captions, metadata, placeholder
+        },
+        background: "#FAFAF9", // App background — warm off-white
+        surface: {
+          DEFAULT: "#FFFFFF", // Cards, sheets, modals
+          alt: "#F5F5F4", // Alternate surface, input backgrounds
+        },
+        border: {
+          DEFAULT: "#E7E5E4", // Default borders/dividers
+          strong: "#A8A29E", // Emphasized borders, focus states (WCAG AA compliant)
+        },
       },
-      borderRadius: {
-        DEFAULT: "0.125rem",
-        lg: "0.25rem",
-        xl: "0.5rem",
-        full: "0.75rem",
-        sm: "6px",
+      fontFamily: {
+        // DESIGN.md Section 4: Typography
+        display: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
+        serif: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
+        body: [
+          "var(--font-public-sans)",
+          "Public Sans",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "sans-serif",
+        ],
+        sans: [
+          "var(--font-public-sans)",
+          "Public Sans",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "sans-serif",
+        ],
+        mono: ["var(--font-ibm-plex-mono)", "IBM Plex Mono", "monospace"],
+      },
+      fontSize: {
+        // DESIGN.md Section 4: Type Scale
+        hero: ["3rem", { lineHeight: "3.5rem", fontWeight: "600" }], // 48px / 56px
+        "hero-mobile": [
+          "2.25rem",
+          { lineHeight: "2.75rem", fontWeight: "600" },
+        ], // 36px / 44px
+        h1: ["2.25rem", { lineHeight: "2.75rem", fontWeight: "600" }], // 36px / 44px
+        "h1-mobile": ["1.75rem", { lineHeight: "2.25rem", fontWeight: "600" }], // 28px / 36px
+        h2: ["1.75rem", { lineHeight: "2.25rem", fontWeight: "500" }], // 28px / 36px
+        "h2-mobile": ["1.5rem", { lineHeight: "2rem", fontWeight: "500" }], // 24px / 32px
+        h3: ["1.375rem", { lineHeight: "1.875rem", fontWeight: "500" }], // 22px / 30px
+        "h3-mobile": ["1.25rem", { lineHeight: "1.75rem", fontWeight: "500" }], // 20px / 28px
+        h4: ["1.125rem", { lineHeight: "1.625rem", fontWeight: "700" }], // 18px / 26px
+        "h4-mobile": ["1rem", { lineHeight: "1.5rem", fontWeight: "700" }], // 16px / 24px
+        "body-lg": ["1rem", { lineHeight: "1.5rem", fontWeight: "400" }], // 16px / 24px
+        body: ["0.875rem", { lineHeight: "1.25rem", fontWeight: "400" }], // 14px / 20px
+        caption: ["0.75rem", { lineHeight: "1rem", fontWeight: "500" }], // 12px / 16px
+        button: ["0.875rem", { lineHeight: "1.25rem", fontWeight: "600" }], // 14px / 20px
       },
       spacing: {
-        base: "4px",
-        "space-lg": "24px",
+        // DESIGN.md Section 5: Spacing Scale (Base: 4px)
+        "space-xs": "4px",
         "space-sm": "8px",
+        "space-md": "16px",
+        "space-lg": "24px",
         "space-xl": "32px",
         "space-2xl": "48px",
         "space-3xl": "64px",
-        gutter: "24px",
-        "space-md": "16px",
-        "space-xs": "4px",
-        "max-width": "1120px",
       },
-      fontFamily: {
-        "text-caption": ["Public Sans", "sans-serif"],
-        "text-button": ["Public Sans", "sans-serif"],
-        "text-h3": ["Fraunces", "serif"],
-        "text-h2": ["Fraunces", "serif"],
-        "text-h4": ["Public Sans", "sans-serif"],
-        "text-hero-mobile": ["Fraunces", "serif"],
-        "text-body-lg": ["Public Sans", "sans-serif"],
-        "text-h1-mobile": ["Fraunces", "serif"],
-        "text-body": ["Public Sans", "sans-serif"],
-        "text-mono": ["IBM Plex Mono", "monospace"],
-        "text-h1": ["Fraunces", "serif"],
-        "text-hero": ["Fraunces", "serif"],
+      borderRadius: {
+        // DESIGN.md Section 6: Radius
+        sm: "6px",
+        md: "10px",
+        lg: "16px",
+        full: "9999px",
+      },
+      boxShadow: {
+        // DESIGN.md Section 6: Elevation
+        sm: "0 1px 2px rgba(28, 25, 23, 0.06)",
+        md: "0 4px 12px rgba(28, 25, 23, 0.10)",
+        lg: "0 12px 32px rgba(28, 25, 23, 0.16)",
+      },
+      zIndex: {
+        // DESIGN.md Section 7: Z-Index
+        "layer-base": "0",
+        "layer-sticky": "10",
+        "layer-dropdown": "20",
+        "layer-modal": "30",
+        "layer-toast": "40",
+        "layer-critical": "50",
+      },
+      transitionDuration: {
+        // DESIGN.md Section 8: Motion
+        "motion-fast": "120ms",
+        "motion-normal": "200ms",
+        "motion-slow": "300ms",
       },
     },
   },

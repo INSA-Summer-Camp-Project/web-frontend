@@ -1,73 +1,60 @@
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Public+Sans:wght@400..700&family=IBM+Plex+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --color-surface-container: #fdeae3;
-  --color-background: #faf6ef;
-  --color-secondary: #286958;
-  --color-on-secondary-container: #2f6f5e;
-  --color-surface-dim: #e8d6cf;
-  --color-on-primary-fixed-variant: #793000;
-  --color-primary-tint: #f1dfcf;
-  --color-inverse-on-surface: #ffede6;
-  --color-ink-muted: #5b564c;
-  --color-error: #b3261e;
-  --color-surface-tint: #9b4511;
-  --color-secondary-container: #aef0da;
-  --color-surface: #fff8f6;
-  --color-primary-fixed: #ffdbcb;
-  --color-outline-variant: #dcc1b5;
-  --color-on-error: #ffffff;
-  --color-ink: #211d18;
-  --color-accent-tint: #dceae4;
-  --color-secondary-fixed: #aef0da;
-  --color-on-secondary-fixed: #002019;
-  --color-border-strong: #cbbfa3;
-  --color-on-secondary: #ffffff;
-  --color-surface-alt: #f3ede1;
-  --color-on-surface: #231a15;
-  --color-error-container: #ffdad6;
-  --color-on-tertiary-fixed-variant: #004e60;
-  --color-surface-container-low: #fff1eb;
-  --color-surface-container-highest: #f1dfd7;
-  --color-secondary-fixed-dim: #93d3bf;
-  --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #007f9b;
-  --color-on-primary-fixed: #341100;
-  --color-surface-container-high: #f7e4dd;
-  --color-on-tertiary-container: #fafdff;
-  --color-primary: #97430e;
-  --color-surface-container-lowest: #ffffff;
-  --color-outline: #897268;
-  --color-info-tint: #e4ecef;
-  --color-inverse-surface: #392e29;
-  --color-inverse-primary: #ffb692;
-  --color-surface-variant: #f1dfd7;
-  --color-primary-fixed-dim: #ffb692;
-  --color-primary-container: #b75a26;
-  --color-tertiary-fixed: #b6ebff;
-  --color-on-primary: #ffffff;
-  --color-tertiary-fixed-dim: #71d3f4;
-  --color-on-surface-variant: #55433a;
-  --color-on-error-container: #93000a;
-  --color-on-secondary-fixed-variant: #055141;
-  --color-tertiary: #00657b;
+  --color-primary: #1d4ed8;
+  --color-primary-dark: #1e40af;
+  --color-primary-light: #dbeafe;
+
+  --color-accent: #d97706;
+  --color-accent-light: #fef3c7;
+  --color-accent-text: #92400e;
+
+  --color-success: #16a34a;
+  --color-success-light: #dcfce7;
+  --color-success-text: #15803d;
+
+  --color-warning: #ea580c;
+  --color-warning-light: #fff7ed;
+  --color-warning-text: #c2410c;
+
   --color-info: #4f6d7a;
-  --color-warning: #b5790f;
-  --color-on-tertiary-fixed: #001f28;
-  --color-primary-dark: #9c4c21;
-  --color-on-primary-container: #fffbff;
-  --color-surface-bright: #fff8f6;
-  --color-on-background: #231a15;
+  --color-info-light: #e4ecef;
+
+  --color-error: #dc2626;
+  --color-error-light: #fef2f2;
+  --color-error-text: #b91c1c;
+
+  --color-ink: #1c1917;
+  --color-ink-secondary: #44403c;
+  --color-ink-muted: #78716c;
+
+  --color-background: #fafaf9;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f5f5f4;
+
+  --color-border: #e7e5e4;
+  --color-border-strong: #a8a29e;
+
+  --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-serif: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-body:
+    var(--font-public-sans), "Public Sans", -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  --font-sans:
+    var(--font-public-sans), "Public Sans", -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), "IBM Plex Mono", monospace;
 
   --radius-sm: 6px;
-  --radius-DEFAULT: 0.125rem;
-  --radius-lg: 0.25rem;
-  --radius-xl: 0.5rem;
-  --radius-full: 0.75rem;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 
-  --spacing-base: 4px;
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.06);
+  --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.1);
+  --shadow-lg: 0 12px 32px rgba(28, 25, 23, 0.16);
+
   --spacing-space-xs: 4px;
   --spacing-space-sm: 8px;
   --spacing-space-md: 16px;
@@ -75,34 +62,245 @@
   --spacing-space-xl: 32px;
   --spacing-space-2xl: 48px;
   --spacing-space-3xl: 64px;
-  --spacing-gutter: 24px;
-  --spacing-max-width: 1120px;
 
-  --font-text-caption: "Public Sans", sans-serif;
-  --font-text-button: "Public Sans", sans-serif;
-  --font-text-h3: "Fraunces", serif;
-  --font-text-h2: "Fraunces", serif;
-  --font-text-h4: "Public Sans", sans-serif;
-  --font-text-hero-mobile: "Fraunces", serif;
-  --font-text-body-lg: "Public Sans", sans-serif;
-  --font-text-h1-mobile: "Fraunces", serif;
-  --font-text-body: "Public Sans", sans-serif;
-  --font-text-mono: "IBM Plex Mono", monospace;
-  --font-text-h1: "Fraunces", serif;
-  --font-text-hero: "Fraunces", serif;
+  --z-index-layer-base: 0;
+  --z-index-layer-sticky: 10;
+  --z-index-layer-dropdown: 20;
+  --z-index-layer-modal: 30;
+  --z-index-layer-toast: 40;
+  --z-index-layer-critical: 50;
+
+  --transition-duration-motion-fast: 120ms;
+  --transition-duration-motion-normal: 200ms;
+  --transition-duration-motion-slow: 300ms;
 }
 
 :root {
-  --background: #faf6ef;
-  --foreground: #231a15;
+  --background: #fafaf9;
+  --foreground: #1c1917;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: "Public Sans", sans-serif;
+  background-color: var(--color-background, #fafaf9);
+  color: var(--color-ink, #1c1917);
+  font-family:
+    var(--font-public-sans),
+    "Public Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* Tabular figures for numbers, amounts, ratings, time per DESIGN.md Section 19 */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #a8a29e;
+  border-radius: 3px;
+}
+
+/* Primary Button per Section C1 */
+.btn-primary {
+  background-color: var(--color-primary, #1d4ed8);
+  color: #ffffff;
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition:
+    background-color 0.15s ease-in-out,
+    transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark, #1e40af);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Secondary Button per Section C1 */
+.btn-secondary {
+  background-color: #ffffff;
+  color: var(--color-ink-secondary, #44403c);
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-strong, #a8a29e);
+  transition: all 0.15s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface-alt, #f5f5f4);
+}
+
+.btn-secondary:active {
+  background-color: var(--color-border, #e7e5e4);
+}
+
+/* Section Headings */
+.section-title {
+  font-family: var(--font-fraunces), "Fraunces", Georgia, serif;
+  font-size: 1.875rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--color-ink, #1c1917);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+  }
+}
+
+.section-subtitle {
+  color: var(--color-ink-muted, #78716c);
+  font-size: 1.125rem;
+  line-height: 1.625;
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-surface, #ffffff);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.06);
+  border: 1px solid var(--color-border, #e7e5e4);
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(28, 25, 23, 0.1);
+}
+
+/* Typography Token Utility Classes */
+.text-hero {
+  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .text-hero {
+    font-size: 3rem;
+    line-height: 3.5rem;
+  }
+}
+
+.text-h1 {
+  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .text-h1 {
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+  }
+}
+
+.text-h2 {
+  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 500;
+}
+@media (min-width: 768px) {
+  .text-h2 {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+}
+
+.text-h3 {
+  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
+@media (min-width: 768px) {
+  .text-h3 {
+    font-size: 1.375rem;
+    line-height: 1.875rem;
+  }
+}
+
+.text-h4 {
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+@media (min-width: 768px) {
+  .text-h4 {
+    font-size: 1.125rem;
+    line-height: 1.625rem;
+  }
+}
+
+.text-body-lg {
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+}
+
+.text-body {
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+.text-caption {
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+
+.text-button {
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+/* Material Symbols */
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined";
   font-weight: normal;

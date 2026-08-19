@@ -27,13 +27,13 @@ export default function LoginPage() {
             New to ServiceHub?{" "}
             <Link
               href="/signup"
-              className="text-primary font-bold hover:underline hover:text-primary-dark transition-colors"
+              className="text-primary font-semibold hover:underline hover:text-primary-dark transition-colors"
             >
               Create an account
             </Link>
           </p>
-          <div className="bg-surface-alt rounded-lg p-3 border border-outline-variant/50">
-            <p className="text-xs text-ink-muted text-left flex gap-2 items-start leading-relaxed">
+          <div className="bg-surface-alt rounded-sm p-3 border border-border text-left">
+            <p className="text-xs text-ink-muted flex gap-2 items-start leading-relaxed">
               <span className="material-symbols-outlined text-info shrink-0 text-[16px] mt-0.5">
                 lock
               </span>
@@ -66,14 +66,14 @@ export default function LoginPage() {
           type="button"
           onClick={handleTelegramLogin}
           disabled={isTelegramLoading}
-          className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-lg py-3 px-6 flex items-center justify-center gap-3 transition-colors duration-200 shadow-sm active:scale-[0.98] font-semibold text-sm disabled:opacity-60 cursor-pointer"
+          className="w-full bg-[#229ED9] hover:bg-[#1E8CC0] active:bg-[#1975A0] text-white rounded-sm py-3 px-6 flex items-center justify-center gap-3 transition-all duration-150 shadow-sm hover:shadow-md active:scale-[0.98] font-semibold text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#229ED9] focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none cursor-pointer"
         >
           {isTelegramLoading ? (
             <span className="flex items-center gap-2">
               <span className="material-symbols-outlined animate-spin text-[20px]">
                 progress_activity
               </span>
-              Connecting to Telegram...
+              <span>Connecting to Telegram...</span>
             </span>
           ) : (
             <>

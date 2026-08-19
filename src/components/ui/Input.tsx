@@ -62,13 +62,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={activeType}
             placeholder={placeholder}
             disabled={disabled}
-            className={`w-full rounded-lg border bg-surface-alt py-2.5 text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:ring-2 transition-colors duration-150 ${
+            className={`w-full rounded-sm border bg-surface-alt py-2.5 text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:ring-2 transition-colors duration-150 ${
               leftIcon ? "pl-10" : "pl-3.5"
             } ${rightIcon || isPasswordType ? "pr-10" : "pr-3.5"} ${
               error
                 ? "border-error focus:border-error focus:ring-error/20"
-                : "border-outline-variant focus:border-primary focus:ring-primary/20"
-            } ${disabled ? "opacity-60 cursor-not-allowed bg-surface-dim" : "hover:border-border-strong"} ${className}`}
+                : "border-border focus:border-primary focus:ring-primary/20 hover:border-border-strong"
+            } ${disabled ? "opacity-60 cursor-not-allowed bg-surface-alt text-ink-muted" : ""} ${className}`}
             {...props}
           />
           {isPasswordType ? (
@@ -77,7 +77,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               onClick={() => setShowPassword((prev) => !prev)}
               tabIndex={-1}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute right-3 flex items-center justify-center text-ink-muted hover:text-ink transition-colors focus:outline-none"
+              className="absolute right-3 flex items-center justify-center text-ink-muted hover:text-ink transition-colors focus:outline-none cursor-pointer"
             >
               <span className="material-symbols-outlined text-[20px]">
                 {showPassword ? "visibility_off" : "visibility"}

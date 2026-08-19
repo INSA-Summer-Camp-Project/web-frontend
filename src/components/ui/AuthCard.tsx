@@ -1,8 +1,9 @@
 import React from "react";
+import { Wrench, Award, LucideIcon } from "lucide-react";
 
 export interface AuthCardProps {
   children?: React.ReactNode;
-  logoIcon?: string;
+  logoIcon?: string | LucideIcon;
   brandName?: string;
   title?: string;
   subtitle?: string;
@@ -13,7 +14,7 @@ export interface AuthCardProps {
 
 const maxWidthMap = {
   sm: "max-w-sm",
-  md: "max-w-[420px]",
+  md: "max-w-[440px]",
   lg: "max-w-lg",
   xl: "max-w-xl",
 };
@@ -30,21 +31,31 @@ export const AuthCard: React.FC<AuthCardProps> = ({
 }) => {
   const maxWidthClass = maxWidthMap[maxWidth] || maxWidthMap.lg;
 
+  const renderIcon = () => {
+    if (typeof logoIcon === "function") {
+      const IconComponent = logoIcon;
+      return <IconComponent size={22} className="stroke-[2.5]" />;
+    }
+    if (logoIcon === "badge") {
+      return <Award size={22} className="stroke-[2.5]" />;
+    }
+    // Default to Wrench brand icon
+    return <Wrench size={22} className="stroke-[2.5]" />;
+  };
+
   return (
     <div
-      className={`w-full ${maxWidthClass} bg-surface shadow-sm rounded-xl border border-outline-variant p-6 md:p-8 flex flex-col items-center text-center gap-6 relative z-10 mx-auto ${className}`}
+      className={`w-full ${maxWidthClass} bg-surface shadow-sm rounded-lg border border-border p-6 md:p-8 flex flex-col items-center text-center gap-6 relative z-10 mx-auto ${className}`}
     >
       {(brandName || logoIcon) && (
-        <div className="flex flex-col items-center gap-1 mb-1">
+        <div className="flex flex-col items-center gap-2 mb-1">
           {logoIcon && (
-            <div className="w-12 h-12 rounded-lg bg-surface-alt flex items-center justify-center mb-2 text-primary border border-outline-variant">
-              <span className="material-symbols-outlined text-[24px]">
-                {logoIcon}
-              </span>
+            <div className="w-12 h-12 rounded-sm bg-primary-light flex items-center justify-center text-primary border border-primary/20 shadow-xs">
+              {renderIcon()}
             </div>
           )}
           {brandName && (
-            <h1 className="text-lg font-bold tracking-tight text-ink">
+            <h1 className="font-serif text-xl font-bold tracking-tight text-ink">
               {brandName}
             </h1>
           )}
@@ -52,16 +63,14 @@ export const AuthCard: React.FC<AuthCardProps> = ({
       )}
 
       {(title || subtitle) && (
-        <div className="flex flex-col gap-1 w-full px-2">
+        <div className="flex flex-col gap-1.5 w-full px-2">
           {title && (
-            <h2 className="font-text-h2 text-2xl md:text-3xl font-medium text-ink">
+            <h2 className="font-serif text-2xl md:text-3xl font-medium text-ink tracking-tight">
               {title}
             </h2>
           )}
           {subtitle && (
-            <p className="text-sm text-ink-muted mt-1 leading-relaxed">
-              {subtitle}
-            </p>
+            <p className="text-sm text-ink-muted leading-relaxed">{subtitle}</p>
           )}
         </div>
       )}
@@ -69,9 +78,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({
       {children && <div className="w-full">{children}</div>}
 
       {footer && (
-        <div className="w-full mt-2 pt-4 border-t border-outline-variant/60">
-          {footer}
-        </div>
+        <div className="w-full mt-2 pt-4 border-t border-border">{footer}</div>
       )}
     </div>
   );
