@@ -52,7 +52,7 @@ export const Hero: React.FC<HeroProps> = ({ className = "" }) => {
             className="btn-primary w-full sm:w-auto text-sm px-6 py-3 rounded-sm shadow-sm hover:shadow-md"
           >
             <Send size={16} />
-            <span>Sign up with Telegram</span>
+            <span>Sign up</span>
           </Link>
           <Link
             href="#how-it-works"

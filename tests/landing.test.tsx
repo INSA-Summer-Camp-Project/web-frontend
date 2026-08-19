@@ -52,7 +52,9 @@ describe("Landing Page Components Test Suite", () => {
         screen.getByText(/Professional & Trustworthy Service Marketplace/i),
       ).toBeInTheDocument();
       expect(screen.getByText(/Find help or/i)).toBeInTheDocument();
-      expect(screen.getByText(/Sign up with Telegram/i)).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: /sign up/i }),
+      ).toBeInTheDocument();
       expect(screen.getByText(/10,000\+/i)).toBeInTheDocument();
     });
   });
