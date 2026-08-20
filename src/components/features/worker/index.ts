@@ -11,3 +11,7 @@ export * from "./ApplicationStatusBanner";
 export * from "./DirectRespondPanel";
 export * from "./PortfolioUploadModal";
 export * from "./CertificateUploadModal";
+export * from "./BasicInfoSection";
+export * from "./ServiceCategoryPicker";
+export * from "./ServiceCategoriesSection";
+export * from "./VerificationSection";
