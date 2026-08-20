@@ -37,6 +37,7 @@ export interface Job {
   customer?: Pick<UserProfile, "id" | "name" | "email" | "phone">;
   assignedWorker?: WorkerProfile | null;
   targetWorker?: WorkerProfile | null;
+  location?: string;
   _count?: {
     applications?: number;
   };
