@@ -9,3 +9,5 @@ export * from "./JobDetailCard";
 export * from "./ApplyForm";
 export * from "./ApplicationStatusBanner";
 export * from "./DirectRespondPanel";
+export * from "./PortfolioUploadModal";
+export * from "./CertificateUploadModal";
