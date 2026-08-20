@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import React, { useState } from "react";
 import { Filter, Search, RotateCcw } from "lucide-react";
 import { useJobs, useCategories } from "@/hooks/useJobs";
