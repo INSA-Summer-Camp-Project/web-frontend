@@ -21,6 +21,10 @@ export interface AuthTokens {
   refreshToken: string;
 }
 
+export interface RoleUpdatePayload {
+  activeRole: UserRole;
+}
+
 export interface UserProfile {
   id: string;
   email: string;
@@ -30,8 +34,8 @@ export interface UserProfile {
   fullName?: string;
   name?: string;
   phone?: string;
-  customerProfile?: { id: string };
-  workerProfile?: { id: string };
+  customerProfile?: { id: string } | null;
+  workerProfile?: { id: string } | null;
   createdAt?: string;
   updatedAt?: string;
 }
