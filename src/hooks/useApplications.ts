@@ -1,0 +1,129 @@
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { applicationsApi } from "@/lib/api/applications";
+import { jobKeys } from "./useJobs";
+import type { ApplyPayload, DirectRespondPayload } from "@/types";
+import { jobsApi } from "@/lib/api/jobs";
+
+export const applicationKeys = {
+  all: ["applications"] as const,
+  mine: () => [...applicationKeys.all, "me"] as const,
+  forJob: (jobId: string) => [...applicationKeys.all, jobId] as const,
+};
+
+/**
+ * Hook to fetch applications submitted by current worker.
+ */
+export function useMyApplications(enabled = true) {
+  return useQuery({
+    queryKey: applicationKeys.mine(),
+    queryFn: () => applicationsApi.getMyApplications(),
+    enabled,
+  });
+}
+
+/**
+ * Hook to fetch applications for a job (Customer / Job Owner).
+ */
+export function useJobApplications(jobId: string, enabled = true) {
+  return useQuery({
+    queryKey: applicationKeys.forJob(jobId),
+    queryFn: () => applicationsApi.getJobApplications(jobId),
+    enabled: !!jobId && enabled,
+  });
+}
+
+/**
+ * Hook to submit an application / bid for a job (Worker).
+ */
+export function useApplyJob(jobId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: ApplyPayload) =>
+      applicationsApi.applyJob(jobId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: applicationKeys.mine(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: applicationKeys.forJob(jobId),
+      });
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+    },
+  });
+}
+
+/**
+ * Hook to withdraw an application (Worker).
+ */
+export function useWithdrawApplication(jobId?: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (applicationId: string) =>
+      applicationsApi.withdrawApplication(applicationId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: applicationKeys.mine() });
+      if (jobId) {
+        queryClient.invalidateQueries({
+          queryKey: applicationKeys.forJob(jobId),
+        });
+        queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+      }
+    },
+  });
+}
+
+/**
+ * Hook to respond to direct booking (Accept / Decline) (Worker).
+ */
+export function useDirectRespond(jobId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: DirectRespondPayload) =>
+      jobsApi.directRespond(jobId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+      queryClient.invalidateQueries({ queryKey: jobKeys.workerJobs() });
+    },
+  });
+}
+
+/**
+ * Hook to accept an application and hire the worker (Customer).
+ */
+export function useAcceptApplication(jobId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (applicationId: string) =>
+      applicationsApi.acceptApplication(applicationId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+      queryClient.invalidateQueries({
+        queryKey: applicationKeys.forJob(jobId),
+      });
+      queryClient.invalidateQueries({ queryKey: jobKeys.customerJobs() });
+      queryClient.invalidateQueries({ queryKey: jobKeys.workerJobs() });
+    },
+  });
+}
+
+/**
+ * Hook to reject an application (Customer).
+ */
+export function useRejectApplication(jobId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (applicationId: string) =>
+      applicationsApi.rejectApplication(applicationId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: applicationKeys.forJob(jobId),
+      });
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+    },
+  });
+}
