@@ -17,3 +17,7 @@ export * from "./ServiceCategoriesSection";
 export * from "./VerificationSection";
 export * from "./PortfolioSection";
 export * from "./CertificatesSection";
+export * from "./WorkerProfileHeader";
+export * from "./TrustSignalRow";
+export * from "./ReviewCard";
+export * from "./ReputationSummary";

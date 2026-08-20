@@ -86,6 +86,29 @@ export interface WorkerReputationMetrics {
   repeatCustomers: number;
 }
 
+export interface Review {
+  id: string;
+  workerId?: string;
+  customerId?: string;
+  jobId?: string;
+  rating: number;
+  comment?: string;
+  customer?: {
+    id: string;
+    name?: string;
+    avatarUrl?: string;
+  };
+  job?: {
+    id: string;
+    title?: string;
+    category?: {
+      id: string;
+      name: string;
+    };
+  };
+  createdAt?: string;
+}
+
 export interface WorkerReputation {
   workerId: string;
   rating_avg: number;
@@ -93,4 +116,5 @@ export interface WorkerReputation {
   distribution: Record<string, number>;
   metrics: WorkerReputationMetrics;
   badges: string[];
+  reviews?: Review[];
 }
