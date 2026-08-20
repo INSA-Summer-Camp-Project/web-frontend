@@ -10,6 +10,7 @@ import type {
   AddCertificatePayload,
   WorkerReputation,
   JobCategory,
+  Review,
 } from "@/types";
 
 export const workersApi = {
@@ -37,6 +38,14 @@ export const workersApi = {
    */
   getById: async (workerId: string): Promise<WorkerProfile> => {
     return apiClient.get<WorkerProfile>(`/api/v1/workers/${workerId}`);
+  },
+
+  /**
+   * GET /api/v1/workers/:id/reviews
+   * Fetches customer reviews for a worker.
+   */
+  getReviews: async (workerId: string): Promise<Review[]> => {
+    return apiClient.get<Review[]>(`/api/v1/workers/${workerId}/reviews`);
   },
 
   /**

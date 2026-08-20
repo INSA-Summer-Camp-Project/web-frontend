@@ -13,6 +13,7 @@ export const workerKeys = {
   myServices: () => [...workerKeys.me(), "services"] as const,
   detail: (id: string) => [...workerKeys.all, id] as const,
   reputation: (id: string) => [...workerKeys.detail(id), "reputation"] as const,
+  reviews: (id: string) => [...workerKeys.detail(id), "reviews"] as const,
   categories: () => ["categories"] as const,
 };
 
@@ -161,6 +162,17 @@ export function useWorkerReputation(workerId: string, enabled = true) {
   return useQuery({
     queryKey: workerKeys.reputation(workerId),
     queryFn: () => workersApi.getReputation(workerId),
+    enabled: !!workerId && enabled,
+  });
+}
+
+/**
+ * Hook to fetch customer reviews for a worker.
+ */
+export function useWorkerReviews(workerId: string, enabled = true) {
+  return useQuery({
+    queryKey: workerKeys.reviews(workerId),
+    queryFn: () => workersApi.getReviews(workerId),
     enabled: !!workerId && enabled,
   });
 }
