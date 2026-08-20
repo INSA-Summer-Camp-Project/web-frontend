@@ -6,12 +6,13 @@ import {
   useJobs,
   useJobDetail,
   useWorkerJobs,
+  useCategories,
   useCreateJob,
   useCreateDirectJob,
   useUpdateJobStatus,
 } from "@/hooks/useJobs";
 import { jobsApi } from "@/lib/api/jobs";
-import type { Job, PaginatedJobsResponse } from "@/types";
+import type { Job, PaginatedJobsResponse, JobCategory } from "@/types";
 
 function createWrapper() {
   const queryClient = new QueryClient({
@@ -181,5 +182,17 @@ describe("useJobs hooks", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(updatedJob);
+  });
+
+  it("useCategories fetches category list", async () => {
+    const mockCats: JobCategory[] = [{ id: "cat-1", name: "Plumbing" }];
+    vi.spyOn(jobsApi, "getCategories").mockResolvedValueOnce(mockCats);
+
+    const { result } = renderHook(() => useCategories(), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toEqual(mockCats);
   });
 });

@@ -13,7 +13,20 @@ export const jobKeys = {
   detail: (id: string) => [...jobKeys.all, id] as const,
   workerJobs: () => ["worker", "jobs"] as const,
   customerJobs: () => ["customer", "jobs"] as const,
+  categories: () => ["categories"] as const,
 };
+
+/**
+ * Hook to fetch job categories.
+ */
+export function useCategories(enabled = true) {
+  return useQuery({
+    queryKey: jobKeys.categories(),
+    queryFn: () => jobsApi.getCategories(),
+    enabled,
+    staleTime: 1000 * 60 * 10,
+  });
+}
 
 /**
  * Hook to fetch public browseable jobs feed with filters.

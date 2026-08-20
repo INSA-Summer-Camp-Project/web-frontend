@@ -1,6 +1,7 @@
 import { apiClient } from "@/lib/api";
 import type {
   Job,
+  JobCategory,
   JobFilterParams,
   PaginatedJobsResponse,
   CreateJobPayload,
@@ -75,5 +76,13 @@ export const jobsApi = {
     payload: UpdateJobStatusPayload,
   ): Promise<Job> => {
     return apiClient.patch<Job>(`/api/v1/jobs/${jobId}/status`, payload);
+  },
+
+  /**
+   * GET /api/v1/categories
+   * Fetches job service categories.
+   */
+  getCategories: async (): Promise<JobCategory[]> => {
+    return apiClient.get<JobCategory[]>("/api/v1/categories");
   },
 };

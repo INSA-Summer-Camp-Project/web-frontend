@@ -104,4 +104,13 @@ describe("jobsApi", () => {
     );
     expect(result).toEqual(mockJob);
   });
+
+  it("getCategories fetches all service categories", async () => {
+    const mockCategories = [{ id: "cat-1", name: "Plumbing" }];
+    vi.spyOn(apiClient, "get").mockResolvedValueOnce(mockCategories);
+
+    const result = await jobsApi.getCategories();
+    expect(apiClient.get).toHaveBeenCalledWith("/api/v1/categories");
+    expect(result).toEqual(mockCategories);
+  });
 });
