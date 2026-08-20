@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Public_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { Toaster } from "react-hot-toast";
+import { QueryProvider } from "@/providers/QueryProvider";
 import "./globals.css";
 
 const publicSans = Public_Sans({
@@ -53,7 +55,23 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-background text-ink font-sans">
-        {children}
+        <QueryProvider>
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: "#FFFFFF",
+                color: "#1C1917",
+                border: "1px solid #E7E5E4",
+                borderRadius: "6px",
+                boxShadow: "0 4px 12px rgba(28, 25, 23, 0.10)",
+                fontSize: "14px",
+              },
+            }}
+          />
+        </QueryProvider>
       </body>
     </html>
   );

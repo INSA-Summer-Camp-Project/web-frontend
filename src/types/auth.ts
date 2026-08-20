@@ -1,4 +1,4 @@
-export type UserRole = "CUSTOMER" | "WORKER" | "BUSINESS";
+export type UserRole = "CUSTOMER" | "WORKER" | "BUSINESS" | "ADMIN";
 
 export interface RegisterPayload {
   email: string;
@@ -21,11 +21,21 @@ export interface AuthTokens {
   refreshToken: string;
 }
 
+export interface RoleUpdatePayload {
+  activeRole: UserRole;
+}
+
 export interface UserProfile {
   id: string;
   email: string;
-  role: UserRole;
+  role?: UserRole;
+  systemRole?: string;
+  lastActiveRole?: UserRole;
   fullName?: string;
+  name?: string;
+  phone?: string;
+  customerProfile?: { id: string } | null;
+  workerProfile?: { id: string } | null;
   createdAt?: string;
   updatedAt?: string;
 }

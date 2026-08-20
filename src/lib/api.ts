@@ -91,6 +91,25 @@ export const apiClient = {
     return (response.data as ApiSuccessResponse<T>).data;
   },
 
+  patch: async <T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig,
+  ): Promise<T> => {
+    const response = await axiosInstance.patch<ApiResponse<T>>(
+      url,
+      data,
+      config,
+    );
+    if (!response.data.success) {
+      throw new ApiError(
+        response.status,
+        (response.data as ApiErrorResponse).error,
+      );
+    }
+    return (response.data as ApiSuccessResponse<T>).data;
+  },
+
   delete: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
     const response = await axiosInstance.delete<ApiResponse<T>>(url, config);
     if (!response.data.success) {
