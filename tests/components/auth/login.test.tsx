@@ -32,7 +32,7 @@ describe("LoginPage Component (Telegram-Only)", () => {
         screen.getByRole("button", { name: /login with telegram/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("link", { name: /create an account/i }),
+        screen.getByRole("link", { name: /get started/i }),
       ).toHaveAttribute("href", "/signup");
     });
 

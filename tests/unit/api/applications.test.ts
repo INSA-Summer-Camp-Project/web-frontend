@@ -29,11 +29,11 @@ describe("applicationsApi", () => {
 
     const result = await applicationsApi.applyJob("job-100", {
       proposedPrice: 80,
-      estimatedTime: "1 hour",
+      estimatedTime: 60,
     });
     expect(apiClient.post).toHaveBeenCalledWith("/api/v1/jobs/job-100/apply", {
       proposedPrice: 80,
-      estimatedTime: "1 hour",
+      estimatedTime: 60,
     });
     expect(result).toEqual(mockApp);
   });

@@ -103,13 +103,9 @@ describe("PublicWorkerProfilePage", () => {
     mockPush.mockReset();
     vi.spyOn(useAuthHook, "useAuth").mockReturnValue({
       user: null,
-      tokens: null,
+      activeRole: null,
       isAuthenticated: false,
-      isLoading: false,
-      login: vi.fn(),
-      register: vi.fn(),
       logout: vi.fn(),
-      refreshSession: vi.fn(),
     });
   });
 
@@ -156,13 +152,9 @@ describe("PublicWorkerProfilePage", () => {
         email: "client@example.com",
         role: "CUSTOMER",
       },
-      tokens: { accessToken: "access-123", refreshToken: "refresh-123" },
+      activeRole: "CUSTOMER",
       isAuthenticated: true,
-      isLoading: false,
-      login: vi.fn(),
-      register: vi.fn(),
       logout: vi.fn(),
-      refreshSession: vi.fn(),
     });
 
     vi.spyOn(workersApi, "getById").mockResolvedValueOnce(mockProfile);

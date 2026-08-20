@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
+import { cn } from "@/lib/utils";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "destructive" | "ghost";
+  variant?: "primary" | "secondary" | "outline" | "destructive" | "ghost";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   loadingText?: string;
@@ -24,7 +25,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       disabled,
-      className = "",
+      className,
       type = "button",
       ...props
     },
@@ -41,12 +42,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variantStyles = isPrimary
       ? "bg-primary hover:bg-primary-dark text-white shadow-sm"
       : isSecondary
-        ? "border border-border-strong bg-white hover:bg-surface-alt text-ink-secondary active:bg-border shadow-sm"
-        : isDestructive
-          ? "bg-error hover:bg-error/90 text-white shadow-sm"
-          : isGhost
-            ? "bg-transparent text-primary hover:bg-primary-light"
-            : "";
+        ? "bg-surface-alt hover:bg-border text-ink shadow-sm"
+        : variant === "outline"
+          ? "border border-border-strong bg-transparent hover:bg-surface-alt text-ink-secondary active:bg-border shadow-sm"
+          : isDestructive
+            ? "bg-error hover:bg-error/90 text-white shadow-sm"
+            : isGhost
+              ? "bg-transparent text-ink-secondary hover:text-primary hover:bg-primary-light"
+              : "";
 
     const sizeStyles =
       size === "sm"
@@ -66,7 +69,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type={type}
         disabled={isDisabled}
-        className={`${baseStyles} ${variantStyles} ${sizeStyles} ${widthStyles} ${disabledStyles} ${className}`}
+        className={cn(
+          baseStyles,
+          variantStyles,
+          sizeStyles,
+          widthStyles,
+          disabledStyles,
+          className,
+        )}
         {...props}
       >
         {isLoading ? (

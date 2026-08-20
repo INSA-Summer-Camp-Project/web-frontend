@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useId } from "react";
+import { cn } from "@/lib/utils";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -21,8 +22,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       type = "text",
       leftIcon,
       rightIcon,
-      className = "",
-      containerClassName = "",
+      className,
+      containerClassName,
       disabled,
       id,
       ...props
@@ -41,7 +42,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       : type;
 
     return (
-      <div className={`flex flex-col gap-1.5 w-full ${containerClassName}`}>
+      <div className={cn("flex flex-col gap-1.5 w-full", containerClassName)}>
         {label && (
           <label
             htmlFor={inputId}
@@ -62,13 +63,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={activeType}
             placeholder={placeholder}
             disabled={disabled}
-            className={`w-full rounded-sm border bg-surface-alt py-2.5 text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:ring-2 transition-colors duration-150 ${
-              leftIcon ? "pl-10" : "pl-3.5"
-            } ${rightIcon || isPasswordType ? "pr-10" : "pr-3.5"} ${
+            className={cn(
+              "w-full rounded-sm border bg-surface-alt py-2.5 text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:ring-2 transition-colors duration-150",
+              leftIcon ? "pl-10" : "pl-3.5",
+              rightIcon || isPasswordType ? "pr-10" : "pr-3.5",
               error
                 ? "border-error focus:border-error focus:ring-error/20"
-                : "border-border focus:border-primary focus:ring-primary/20 hover:border-border-strong"
-            } ${disabled ? "opacity-60 cursor-not-allowed bg-surface-alt text-ink-muted" : ""} ${className}`}
+                : "border-border focus:border-primary focus:ring-primary/20 hover:border-border-strong",
+              disabled
+                ? "opacity-60 cursor-not-allowed bg-surface-alt text-ink-muted"
+                : "",
+              className,
+            )}
             {...props}
           />
           {isPasswordType ? (

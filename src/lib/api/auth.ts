@@ -1,70 +1,30 @@
 import { apiClient, ApiError } from "@/lib/api";
-import type {
-  RegisterPayload,
-  LoginPayload,
-  AuthTokens,
-  UserProfile,
-  AuthResponse,
-} from "@/types";
+import type { UserProfile } from "@/types";
+
+export interface GetMeResponse {
+  user: UserProfile;
+}
 
 export const authApi = {
-  /**
-   * POST /api/v1/auth/register
-   * Registers a new user with email, password, and role (CUSTOMER | WORKER | BUSINESS).
-   */
-  register: async (payload: RegisterPayload): Promise<AuthResponse> => {
+  getMe: async (): Promise<GetMeResponse> => {
     try {
-      return await apiClient.post<AuthResponse>(
-        "/api/v1/auth/register",
-        payload,
-      );
+      return await apiClient.get<GetMeResponse>("/api/v1/auth/me");
     } catch (error) {
       if (error instanceof ApiError) throw error;
-      throw new ApiError(500, "Registration failed due to a network error.");
+      throw new ApiError(401, "Not authenticated.");
     }
   },
 
-  /**
-   * POST /api/v1/auth/login
-   * Authenticates user and returns JWT access & refresh tokens.
-   */
-  login: async (payload: LoginPayload): Promise<AuthResponse> => {
+  logout: async (): Promise<{ message: string }> => {
     try {
-      return await apiClient.post<AuthResponse>("/api/v1/auth/login", payload);
+      return await apiClient.post<{ message: string }>("/api/v1/auth/logout");
     } catch (error) {
       if (error instanceof ApiError) throw error;
-      throw new ApiError(401, "Invalid email or password.");
+      throw new ApiError(500, "Logout failed.");
     }
   },
 
-  /**
-   * POST /api/v1/auth/refresh-token
-   * Refreshes JWT access token using token rotation.
-   */
-  refreshToken: async (refreshToken: string): Promise<AuthTokens> => {
-    try {
-      return await apiClient.post<AuthTokens>("/api/v1/auth/refresh-token", {
-        refreshToken,
-      });
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError(401, "Session expired. Please log in again.");
-    }
-  },
-
-  /**
-   * GET /api/v1/auth/me
-   * Fetches current user profile using Bearer token authorization.
-   */
-  getMe: async (accessToken?: string): Promise<UserProfile> => {
-    try {
-      const config = accessToken
-        ? { headers: { Authorization: `Bearer ${accessToken}` } }
-        : undefined;
-      return await apiClient.get<UserProfile>("/api/v1/auth/me", config);
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError(401, "Unauthorized user profile access.");
-    }
+  getTelegramLoginUrl: (): string => {
+    return `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/api/v1/auth/telegram`;
   },
 };

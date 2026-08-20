@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import type { UserProfile, UserRole } from "@/types";
+import type { UserProfile, SystemRole } from "@/types";
 
 export interface AuthState {
   user: UserProfile | null;
-  activeRole: UserRole | null;
+  activeRole: SystemRole | null;
   setUser: (user: UserProfile | null) => void;
-  setActiveRole: (role: UserRole | null) => void;
+  setActiveRole: (role: SystemRole | null) => void;
   clearAuth: () => void;
 }
 

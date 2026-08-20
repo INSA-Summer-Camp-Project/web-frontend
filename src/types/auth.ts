@@ -1,9 +1,24 @@
-export type UserRole = "CUSTOMER" | "WORKER" | "BUSINESS" | "ADMIN";
+export type SystemRole = "CUSTOMER" | "WORKER" | "ADMIN";
+
+export interface ProfileSnippet {
+  id: string;
+}
+
+export interface User {
+  id: string;
+  name?: string;
+  email?: string;
+  photoUrl?: string;
+  lastActiveRole?: SystemRole;
+  customerProfile?: ProfileSnippet | null;
+  workerProfile?: ProfileSnippet | null;
+  adminProfile?: ProfileSnippet | null;
+}
 
 export interface RegisterPayload {
   email: string;
   password: string;
-  role: UserRole;
+  role: SystemRole;
   fullName?: string;
 }
 
@@ -22,15 +37,14 @@ export interface AuthTokens {
 }
 
 export interface RoleUpdatePayload {
-  activeRole: UserRole;
+  activeRole: SystemRole;
 }
 
 export interface UserProfile {
   id: string;
   email: string;
-  role?: UserRole;
-  systemRole?: string;
-  lastActiveRole?: UserRole;
+  role: SystemRole;
+  lastActiveRole?: SystemRole;
   fullName?: string;
   name?: string;
   phone?: string;

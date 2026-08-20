@@ -96,7 +96,7 @@ describe("useApplications hooks", () => {
       wrapper: createWrapper(),
     });
 
-    result.current.mutate({ proposedPrice: 80, estimatedTime: "1 hour" });
+    result.current.mutate({ proposedPrice: 80, estimatedTime: 60 });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(createdApp);

@@ -8,7 +8,7 @@ export interface Application {
   jobId: string;
   workerId: string;
   proposedPrice: string | number;
-  estimatedTime: string;
+  estimatedTime: string | number;
   status: ApplicationStatus;
   job?: Job;
   worker?: WorkerProfile;
@@ -18,7 +18,7 @@ export interface Application {
 
 export interface ApplyPayload {
   proposedPrice: number;
-  estimatedTime: string;
+  estimatedTime: number;
 }
 
 export interface AcceptApplicationResponse {

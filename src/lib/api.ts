@@ -24,6 +24,7 @@ export class ApiError extends Error {
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

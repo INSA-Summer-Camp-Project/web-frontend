@@ -17,6 +17,7 @@ describe("authStore", () => {
     const mockUser: UserProfile = {
       id: "usr-123",
       email: "test@example.com",
+      role: "WORKER",
       lastActiveRole: "WORKER",
     };
 

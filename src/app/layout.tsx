@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Public_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 import { QueryProvider } from "@/providers/QueryProvider";
 import "./globals.css";
+import { Toaster } from "@/components/ui/Toast";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
@@ -56,7 +57,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-ink font-sans">
         <QueryProvider>
-          {children}
+          <AuthProvider>{children}</AuthProvider>
           <Toaster
             position="top-right"
             toastOptions={{

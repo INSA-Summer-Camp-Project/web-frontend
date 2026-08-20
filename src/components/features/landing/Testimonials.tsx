@@ -1,6 +1,7 @@
 import React from "react";
 import { Star } from "lucide-react";
 import { TestimonialItem } from "@/types/landing";
+import { cn } from "@/lib/utils";
 
 const testimonials: TestimonialItem[] = [
   {
@@ -51,13 +52,14 @@ export interface TestimonialsProps {
   className?: string;
 }
 
-export const Testimonials: React.FC<TestimonialsProps> = ({
-  className = "",
-}) => {
+export const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
   return (
     <section
       id="testimonials"
-      className={`py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60 ${className}`}
+      className={cn(
+        "py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60",
+        className,
+      )}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}

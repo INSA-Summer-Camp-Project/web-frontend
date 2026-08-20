@@ -11,12 +11,12 @@ import type { ApplyPayload } from "@/types";
 
 const applySchema = z.object({
   proposedPrice: z
-    .number({ invalid_type_error: "Please enter a valid amount" })
+    .number({ message: "Please enter a valid amount" })
     .positive("Proposed price must be greater than 0"),
   estimatedTime: z
-    .string()
-    .min(2, "Please enter an estimated completion time (e.g. '2 hours')")
-    .max(100, "Estimated time is too long"),
+    .number({ message: "Please enter time in minutes" })
+    .int("Estimated time must be a whole number")
+    .positive("Time must be greater than 0"),
 });
 
 type ApplyFormValues = z.infer<typeof applySchema>;
@@ -53,7 +53,7 @@ export const ApplyForm: React.FC<ApplyFormProps> = ({
     defaultValues: {
       proposedPrice:
         initialBudget && !isNaN(initialBudget) ? initialBudget : undefined,
-      estimatedTime: "",
+      estimatedTime: undefined,
     },
   });
 
@@ -97,11 +97,12 @@ export const ApplyForm: React.FC<ApplyFormProps> = ({
         <div>
           <Input
             id="estimatedTime"
-            label="Estimated Completion Time"
-            placeholder="e.g. 3 hours, 2 days, 1 week..."
+            type="number"
+            label="Estimated Time (minutes)"
+            placeholder="e.g. 120 for 2 hours"
             error={errors.estimatedTime?.message}
             leftIcon={<Clock size={16} />}
-            {...register("estimatedTime")}
+            {...register("estimatedTime", { valueAsNumber: true })}
           />
         </div>
       </div>

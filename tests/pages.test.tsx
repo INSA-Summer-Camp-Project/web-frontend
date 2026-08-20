@@ -4,7 +4,6 @@ import { render, screen } from "@testing-library/react";
 import LoginPage from "../src/app/(auth)/login/page";
 import SignupPage from "../src/app/(auth)/signup/page";
 import { loginSchema, registerSchema } from "../src/lib/validations/auth";
-import { AuthProvider } from "../src/context/AuthContext";
 
 // Mock next/navigation
 vi.mock("next/navigation", () => ({
@@ -61,11 +60,7 @@ describe("Auth Validation Schemas Test Suite", () => {
 
   describe("Login Page Rendering", () => {
     it("renders Telegram login button and welcome title", () => {
-      render(
-        <AuthProvider>
-          <LoginPage />
-        </AuthProvider>,
-      );
+      render(<LoginPage />);
       expect(screen.getByText("Welcome back")).toBeInTheDocument();
       expect(
         screen.getByRole("button", { name: /login with telegram/i }),
@@ -74,15 +69,11 @@ describe("Auth Validation Schemas Test Suite", () => {
   });
 
   describe("Signup Page Rendering", () => {
-    it("renders Telegram signup action and join title", () => {
-      render(
-        <AuthProvider>
-          <SignupPage />
-        </AuthProvider>,
-      );
-      expect(screen.getByText("Join ServiceHub")).toBeInTheDocument();
+    it("renders Telegram signup action and create account title", () => {
+      render(<SignupPage />);
+      expect(screen.getByText("Create an account")).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /sign up with telegram/i }),
+        screen.getByRole("button", { name: /continue with telegram/i }),
       ).toBeInTheDocument();
     });
   });
