@@ -15,3 +15,5 @@ export * from "./BasicInfoSection";
 export * from "./ServiceCategoryPicker";
 export * from "./ServiceCategoriesSection";
 export * from "./VerificationSection";
+export * from "./PortfolioSection";
+export * from "./CertificatesSection";
