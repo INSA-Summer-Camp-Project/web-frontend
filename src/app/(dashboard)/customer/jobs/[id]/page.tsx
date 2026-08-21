@@ -26,10 +26,14 @@ import {
   X,
   UserCheck,
   Star,
+  MessageSquare,
+  ShieldCheck,
 } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { RatingStars } from "@/components/ui/RatingStars";
 import { ReviewModal } from "@/components/features/reviews";
+import { useMyReviews } from "@/hooks/useReviews";
 import type { Application } from "@/types";
 
 export default function CustomerJobDetailsPage() {
@@ -42,6 +46,7 @@ export default function CustomerJobDetailsPage() {
     isLoading: proposalsLoading,
     refetch: refetchProposals,
   } = useJobApplications(id);
+  const { data: myReviews, refetch: refetchMyReviews } = useMyReviews();
 
   const { mutate: acceptApplication, isPending: isAccepting } =
     useAcceptApplication(id);
@@ -86,6 +91,14 @@ export default function CustomerJobDetailsPage() {
   const isInProgress = job.status === "IN_PROGRESS";
   const isCompleted = job.status === "COMPLETED";
   const isCancelled = job.status === "CANCELLED";
+
+  // Check if current user already submitted a review for this completed job
+  const existingReview = myReviews?.find(
+    (r) =>
+      r.jobId === id ||
+      (r.job && (r.job as { id?: string }).id === id) ||
+      (r.job && r.job.title === job.title),
+  );
 
   // Handlers
   const handleOpenAccept = (proposal: Application) => {
@@ -262,19 +275,34 @@ export default function CustomerJobDetailsPage() {
                   <Badge variant="success" size="lg" dot>
                     Job Completed
                   </Badge>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    leftIcon={
-                      <Star
-                        size={14}
-                        className="fill-amber-500 text-amber-500"
-                      />
-                    }
-                    onClick={() => setReviewModalOpen(true)}
-                  >
-                    Leave Review
-                  </Button>
+                  {existingReview ? (
+                    <Badge
+                      variant="accent"
+                      size="lg"
+                      leftIcon={
+                        <Star
+                          size={14}
+                          className="fill-amber-500 text-amber-500"
+                        />
+                      }
+                    >
+                      Reviewed ({existingReview.rating}★)
+                    </Badge>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      leftIcon={
+                        <Star
+                          size={14}
+                          className="fill-amber-500 text-amber-500"
+                        />
+                      }
+                      onClick={() => setReviewModalOpen(true)}
+                    >
+                      Leave Review
+                    </Button>
+                  )}
                 </div>
               )}
 
@@ -305,7 +333,7 @@ export default function CustomerJobDetailsPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {isCompleted && (
+            {isCompleted && !existingReview && (
               <Button
                 variant="primary"
                 size="sm"
@@ -324,6 +352,95 @@ export default function CustomerJobDetailsPage() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Review Prompt Banner (if completed and not yet reviewed) */}
+      {isCompleted && !existingReview && (
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-sm p-5 flex items-center justify-between flex-wrap gap-4 shadow-xs">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center shrink-0">
+              <Star size={20} className="fill-amber-500" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-ink">
+                How was your experience with{" "}
+                {job.assignedWorker?.user?.name || "your specialist"}?
+              </h3>
+              <p className="text-xs text-ink-muted mt-0.5">
+                Rate and review the completed service to finalize the contract
+                and help the community.
+              </p>
+            </div>
+          </div>
+          <Button
+            variant="primary"
+            size="sm"
+            leftIcon={<Star size={14} />}
+            onClick={() => setReviewModalOpen(true)}
+          >
+            Write a Review
+          </Button>
+        </div>
+      )}
+
+      {/* Submitted Review Section (if already reviewed) */}
+      {isCompleted && existingReview && (
+        <section className="bg-surface rounded-sm border border-border p-6 shadow-xs space-y-3">
+          <div className="flex items-center justify-between border-b border-border pb-3 flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <Star size={18} className="fill-amber-500 text-amber-500" />
+              <h2 className="text-lg font-bold text-ink font-serif">
+                Your Submitted Review
+              </h2>
+            </div>
+            {existingReview.createdAt && (
+              <span className="text-xs text-ink-muted flex items-center gap-1">
+                <Clock size={12} />
+                Reviewed on{" "}
+                {new Date(existingReview.createdAt).toLocaleDateString()}
+              </span>
+            )}
+          </div>
+
+          <div className="space-y-3 pt-1">
+            <div className="flex items-center gap-2">
+              <RatingStars
+                rating={existingReview.rating}
+                size="standard"
+                showValue
+              />
+              <span className="text-xs font-semibold text-ink-muted">
+                (
+                {existingReview.rating === 5
+                  ? "Exceptional Service"
+                  : existingReview.rating === 4
+                    ? "Very Good"
+                    : existingReview.rating === 3
+                      ? "Average"
+                      : "Needs Improvement"}
+                )
+              </span>
+            </div>
+
+            {existingReview.comment ? (
+              <p className="text-sm text-ink-secondary leading-relaxed bg-surface-alt p-4 rounded-sm border border-border italic">
+                &ldquo;{existingReview.comment}&rdquo;
+              </p>
+            ) : (
+              <p className="text-xs text-ink-muted italic">
+                No written comments were included with this rating.
+              </p>
+            )}
+
+            <div className="flex items-center gap-1.5 text-xs text-success-text pt-2">
+              <CheckCircle2 size={14} />
+              <span>
+                Contract finalized, funds disbursed from escrow, and feedback
+                logged on specialist profile.
+              </span>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Description Section */}
@@ -597,6 +714,7 @@ export default function CustomerJobDetailsPage() {
         onClose={() => setReviewModalOpen(false)}
         jobId={job.id}
         workerName={job.assignedWorker?.user?.name || "the specialist"}
+        onSuccess={refetchMyReviews}
       />
     </div>
   );
