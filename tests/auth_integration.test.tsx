@@ -18,9 +18,12 @@ vi.mock("../src/lib/api/auth", () => ({
   authApi: {
     getMe: vi.fn(),
     logout: vi.fn(),
-    getTelegramLoginUrl: vi
-      .fn()
-      .mockReturnValue("http://localhost:3000/api/v1/auth/telegram"),
+    getTelegramAuthUrl: vi.fn().mockResolvedValue({
+      url: "https://oauth.telegram.org/auth",
+      state: "mock-state",
+      codeVerifier: "mock-verifier",
+    }),
+    verifyTelegramLogin: vi.fn(),
   },
 }));
 
@@ -109,9 +112,12 @@ describe("Auth Integration & State Management Test Suite", () => {
     expect(result).toEqual(mockUser);
   });
 
-  it("getTelegramLoginUrl returns expected URL", () => {
-    expect(authApi.getTelegramLoginUrl()).toBe(
-      "http://localhost:3000/api/v1/auth/telegram",
-    );
+  it("getTelegramAuthUrl returns expected auth data", async () => {
+    const result = await authApi.getTelegramAuthUrl();
+    expect(result).toEqual({
+      url: "https://oauth.telegram.org/auth",
+      state: "mock-state",
+      codeVerifier: "mock-verifier",
+    });
   });
 });
