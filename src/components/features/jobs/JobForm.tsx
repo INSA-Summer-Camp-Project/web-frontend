@@ -9,16 +9,16 @@ import { Input } from "@/components/ui/Input";
 import { useCreateJob, useCategories } from "@/hooks/useJobs";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
+import { toast } from "@/components/ui/Toast";
 
 const jobSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
   description: z.string().min(20, "Description must be at least 20 characters"),
   categoryId: z.string().min(1, "Please select a category"),
-  budget: z
-    .string()
-    .regex(/^\d+(\.\d{1,2})?$/, "Must be a valid amount (e.g. 500.00)"),
+  budget: z.coerce.number().positive("Budget must be a positive number"),
 });
 
+type JobFormInput = z.input<typeof jobSchema>;
 type JobFormValues = z.infer<typeof jobSchema>;
 
 export const JobForm = () => {
@@ -32,7 +32,7 @@ export const JobForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<JobFormValues>({
+  } = useForm<JobFormInput, unknown, JobFormValues>({
     resolver: zodResolver(jobSchema),
   });
 
@@ -43,9 +43,10 @@ export const JobForm = () => {
         title: data.title,
         description: data.description,
         categoryId: data.categoryId,
-        budget: parseFloat(data.budget),
+        budget: data.budget,
       });
-      router.push("/customer/dashboard");
+      toast.success("Job posted successfully!");
+      router.push("/customer/jobs");
     } catch (err) {
       setSubmitError(
         err instanceof Error
@@ -142,7 +143,7 @@ export const JobForm = () => {
         <Button
           type="button"
           variant="secondary"
-          onClick={() => router.push("/customer/dashboard")}
+          onClick={() => router.push("/customer/jobs")}
         >
           Cancel
         </Button>
