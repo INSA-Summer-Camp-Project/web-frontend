@@ -25,9 +25,11 @@ import {
   Check,
   X,
   UserCheck,
+  Star,
 } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ReviewModal } from "@/components/features/reviews";
 import type { Application } from "@/types";
 
 export default function CustomerJobDetailsPage() {
@@ -56,6 +58,7 @@ export default function CustomerJobDetailsPage() {
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
   const [completeModalOpen, setCompleteModalOpen] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
 
   if (jobLoading) {
     return (
@@ -153,6 +156,7 @@ export default function CustomerJobDetailsPage() {
         onSuccess: () => {
           toast.success("Job marked as completed!");
           setCompleteModalOpen(false);
+          setReviewModalOpen(true);
         },
         onError: (err) => {
           toast.error(
@@ -221,7 +225,7 @@ export default function CustomerJobDetailsPage() {
             </div>
 
             {/* Lifecycle Action Buttons */}
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap">
               {isOpen && (
                 <Button
                   variant="destructive"
@@ -254,9 +258,24 @@ export default function CustomerJobDetailsPage() {
               )}
 
               {isCompleted && (
-                <Badge variant="success" size="lg" dot>
-                  Job Completed
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant="success" size="lg" dot>
+                    Job Completed
+                  </Badge>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    leftIcon={
+                      <Star
+                        size={14}
+                        className="fill-amber-500 text-amber-500"
+                      />
+                    }
+                    onClick={() => setReviewModalOpen(true)}
+                  >
+                    Leave Review
+                  </Button>
+                </div>
               )}
 
               {isCancelled && (
@@ -285,13 +304,25 @@ export default function CustomerJobDetailsPage() {
               </span>
             </div>
           </div>
-          {job.assignedWorker.id && (
-            <Link href={`/worker/${job.assignedWorker.id}`}>
-              <Button variant="outline" size="sm">
-                View Worker Profile
+          <div className="flex items-center gap-2">
+            {isCompleted && (
+              <Button
+                variant="primary"
+                size="sm"
+                leftIcon={<Star size={14} />}
+                onClick={() => setReviewModalOpen(true)}
+              >
+                Review Specialist
               </Button>
-            </Link>
-          )}
+            )}
+            {job.assignedWorker.id && (
+              <Link href={`/worker/${job.assignedWorker.id}`}>
+                <Button variant="outline" size="sm">
+                  View Worker Profile
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
       )}
 
@@ -559,6 +590,14 @@ export default function CustomerJobDetailsPage() {
           </Button>
         </div>
       </Modal>
+
+      {/* Review Specialist Modal */}
+      <ReviewModal
+        isOpen={reviewModalOpen}
+        onClose={() => setReviewModalOpen(false)}
+        jobId={job.id}
+        workerName={job.assignedWorker?.user?.name || "the specialist"}
+      />
     </div>
   );
 }
