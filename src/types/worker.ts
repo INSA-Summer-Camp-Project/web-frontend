@@ -125,3 +125,14 @@ export interface WorkerReputation {
   badges: string[];
   reviews?: Review[];
 }
+
+export interface WorkerSearchParams {
+  categoryId?: string;
+  search?: string;
+  minRating?: number;
+  minRate?: number;
+  maxRate?: number;
+  sortBy?: "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+  page?: number;
+  limit?: number;
+}

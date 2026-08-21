@@ -15,6 +15,7 @@ import {
   usePublicWorkerProfile,
   useWorkerReputation,
   useCategories,
+  useSearchWorkers,
 } from "@/hooks/useWorker";
 import { workersApi } from "@/lib/api/workers";
 import type {
@@ -253,5 +254,18 @@ describe("useWorker hooks", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(mockCats);
+  });
+
+  it("useSearchWorkers searches workers with query params", async () => {
+    const mockWorkers: WorkerProfile[] = [{ id: "wrk-1", bio: "Plumber" }];
+    vi.spyOn(workersApi, "searchWorkers").mockResolvedValueOnce(mockWorkers);
+
+    const { result } = renderHook(
+      () => useSearchWorkers({ search: "Plumber" }),
+      { wrapper: createWrapper() },
+    );
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toEqual(mockWorkers);
   });
 });

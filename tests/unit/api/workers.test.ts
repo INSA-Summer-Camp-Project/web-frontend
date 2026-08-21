@@ -172,4 +172,18 @@ describe("workersApi", () => {
     expect(apiClient.get).toHaveBeenCalledWith("/api/v1/categories");
     expect(result).toEqual(mockCategories);
   });
+
+  it("searchWorkers fetches workers with query parameters", async () => {
+    const mockWorkers = [{ id: "wrk-1", bio: "Expert Electrician" }];
+    vi.spyOn(apiClient, "get").mockResolvedValueOnce(mockWorkers);
+
+    const result = await workersApi.searchWorkers({
+      search: "Electrician",
+      minRating: 4,
+    });
+    expect(apiClient.get).toHaveBeenCalledWith("/api/v1/search/providers", {
+      params: { search: "Electrician", minRating: 4 },
+    });
+    expect(result).toEqual(mockWorkers);
+  });
 });
