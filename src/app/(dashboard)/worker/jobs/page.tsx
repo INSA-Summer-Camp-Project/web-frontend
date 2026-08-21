@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { useAvailableJobs } from "@/features/jobs/hooks";
+import { useAvailableJobs } from "@/hooks/useJobs";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ErrorState } from "@/components/ui/ErrorState";

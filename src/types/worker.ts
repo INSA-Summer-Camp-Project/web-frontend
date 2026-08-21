@@ -40,11 +40,18 @@ export interface WorkerProfile {
   id: string;
   userId?: string;
   bio?: string;
+  experienceYears?: number;
   experience_years?: number;
+  paymentRate?: string | number;
   payment_rate?: string | number;
+  ratingAvg?: string | number;
   rating_avg?: string | number;
+  profilePhoto?: string;
   profile_photo?: string;
-  user?: Pick<UserProfile, "id" | "name" | "email" | "phone">;
+  user?: Pick<
+    UserProfile,
+    "id" | "name" | "email" | "phone" | "avatarUrl" | "photoUrl"
+  >;
   services?: WorkerService[];
   portfolios?: PortfolioItem[];
   certificates?: Certificate[];

@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PlusCircle, Briefcase } from "lucide-react";
-import { useCustomerJobs } from "@/features/jobs/hooks";
+import { useCustomerJobs } from "@/hooks/useJobs";
 import { JobCard } from "@/components/features/jobs/JobCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";

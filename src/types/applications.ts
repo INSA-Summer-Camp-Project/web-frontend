@@ -1,14 +1,15 @@
 import type { Job } from "./jobs";
 import type { WorkerProfile } from "./worker";
 
-export type ApplicationStatus = "PENDING" | "ACCEPTED" | "REJECTED";
+export type ApplicationStatus =
+  "PENDING" | "ACCEPTED" | "REJECTED" | "WITHDRAWN";
 
 export interface Application {
   id: string;
   jobId: string;
   workerId: string;
-  proposedPrice: string | number;
-  estimatedTime: string | number;
+  proposedPrice: number | string;
+  estimatedTime: string;
   status: ApplicationStatus;
   job?: Job;
   worker?: WorkerProfile;
@@ -18,13 +19,15 @@ export interface Application {
 
 export interface ApplyPayload {
   proposedPrice: number;
-  estimatedTime: number;
+  estimatedTime: string | number;
 }
 
 export interface AcceptApplicationResponse {
-  message: string;
-  jobId: string;
-  assignedWorkerId: string;
-  agreedBudget: string | number;
-  status: string;
+  application?: Application;
+  job?: Job;
+  message?: string;
+  jobId?: string;
+  assignedWorkerId?: string;
+  agreedBudget?: string | number;
+  status?: string;
 }

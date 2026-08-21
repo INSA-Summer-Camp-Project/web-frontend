@@ -17,7 +17,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const response = await authApi.getMe();
         if (mounted) {
-          setUser(response.user);
+          setUser(response);
         }
       } catch {
         if (mounted) {

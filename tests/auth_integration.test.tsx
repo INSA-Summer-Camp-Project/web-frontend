@@ -95,7 +95,7 @@ describe("Auth Integration & State Management Test Suite", () => {
     expect(screen.getByTestId("auth-status")).toHaveTextContent("Guest");
   });
 
-  it("authApi.getMe returns user wrapped in GetMeResponse", async () => {
+  it("authApi.getMe returns user directly", async () => {
     const mockUser: UserProfile = {
       id: "1",
       name: "Abebe",
@@ -103,10 +103,10 @@ describe("Auth Integration & State Management Test Suite", () => {
       role: "WORKER",
     };
 
-    vi.mocked(authApi.getMe).mockResolvedValueOnce({ user: mockUser });
+    vi.mocked(authApi.getMe).mockResolvedValueOnce(mockUser);
 
     const result = await authApi.getMe();
-    expect(result.user).toEqual(mockUser);
+    expect(result).toEqual(mockUser);
   });
 
   it("getTelegramLoginUrl returns expected URL", () => {

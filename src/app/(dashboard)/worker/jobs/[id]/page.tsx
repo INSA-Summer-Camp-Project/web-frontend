@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useJob } from "@/features/jobs/hooks";
-import { useCreateProposal } from "@/features/proposals/hooks";
+import { useJob } from "@/hooks/useJobs";
+import { useCreateProposal } from "@/hooks/useApplications";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Modal } from "@/components/ui/Modal";

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import type { Job } from "@/features/jobs/types";
+import type { Job } from "@/types";
 import { Badge } from "@/components/ui";
 
 export const JobCard = ({ job }: { job: Job }) => {

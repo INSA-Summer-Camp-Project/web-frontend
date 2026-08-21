@@ -1,14 +1,10 @@
 import { apiClient, ApiError } from "@/lib/api";
 import type { UserProfile } from "@/types";
 
-export interface GetMeResponse {
-  user: UserProfile;
-}
-
 export const authApi = {
-  getMe: async (): Promise<GetMeResponse> => {
+  getMe: async (): Promise<UserProfile> => {
     try {
-      return await apiClient.get<GetMeResponse>("/api/v1/auth/me");
+      return await apiClient.get<UserProfile>("/api/v1/auth/me");
     } catch (error) {
       if (error instanceof ApiError) throw error;
       throw new ApiError(401, "Not authenticated.");

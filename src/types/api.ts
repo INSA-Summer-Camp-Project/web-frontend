@@ -2,17 +2,32 @@
  * Standard API Response Structures for Web Frontend
  */
 
-export interface ApiSuccessResponse<T> {
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface ApiSuccessResponse<T, M = undefined> {
   success: true;
   data: T;
+  meta?: M;
+}
+
+export interface ApiErrorDetails {
+  code: string;
+  message: string;
+  fields?: Record<string, string>;
 }
 
 export interface ApiErrorResponse {
   success: false;
-  error: string;
+  error: ApiErrorDetails | string;
 }
 
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type ApiResponse<T, M = undefined> =
+  ApiSuccessResponse<T, M> | ApiErrorResponse;
 
 export interface HealthCheckData {
   status: string;

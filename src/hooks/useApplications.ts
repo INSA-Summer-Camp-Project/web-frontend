@@ -127,3 +127,50 @@ export function useRejectApplication(jobId: string) {
     },
   });
 }
+
+/**
+ * Aliases for compatibility
+ */
+export const useJobProposals = useJobApplications;
+export const useAcceptProposal = (jobId?: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (applicationId: string) =>
+      applicationsApi.acceptApplication(applicationId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: applicationKeys.all });
+      queryClient.invalidateQueries({ queryKey: jobKeys.all });
+      if (jobId) {
+        queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+        queryClient.invalidateQueries({
+          queryKey: applicationKeys.forJob(jobId),
+        });
+      }
+    },
+  });
+};
+export const useCreateProposal = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: {
+      jobId: string;
+      proposedPrice: number;
+      estimatedTime: string | number;
+    }) =>
+      applicationsApi.applyJob(payload.jobId, {
+        proposedPrice: payload.proposedPrice,
+        estimatedTime: String(payload.estimatedTime),
+      }),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: applicationKeys.forJob(variables.jobId),
+      });
+      queryClient.invalidateQueries({ queryKey: applicationKeys.mine() });
+      queryClient.invalidateQueries({
+        queryKey: jobKeys.detail(variables.jobId),
+      });
+    },
+  });
+};

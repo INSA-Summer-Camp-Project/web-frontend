@@ -6,8 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { useCreateJob } from "@/features/jobs/hooks";
-import { useCategories } from "@/features/categories/hooks";
+import { useCreateJob, useCategories } from "@/hooks/useJobs";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 
@@ -40,7 +39,12 @@ export const JobForm = () => {
   const onSubmit = async (data: JobFormValues) => {
     setSubmitError(null);
     try {
-      await createJob.mutateAsync(data);
+      await createJob.mutateAsync({
+        title: data.title,
+        description: data.description,
+        categoryId: data.categoryId,
+        budget: parseFloat(data.budget),
+      });
       router.push("/customer/dashboard");
     } catch (err) {
       setSubmitError(

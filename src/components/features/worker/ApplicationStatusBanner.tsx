@@ -63,6 +63,12 @@ export const ApplicationStatusBanner: React.FC<
       icon: <XCircle size={20} className="text-error-text" />,
       bgColor: "bg-error-light/30 border-error/30",
     },
+    WITHDRAWN: {
+      title: "Proposal Withdrawn",
+      description: "You withdrew your proposal for this job.",
+      icon: <XCircle size={20} className="text-ink-muted" />,
+      bgColor: "bg-surface-alt border-border",
+    },
   }[application.status] || {
     title: "Application Status",
     description: "Your application is on file.",

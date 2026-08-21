@@ -34,7 +34,8 @@ export interface Job {
   targetWorkerId?: string | null;
   assignedWorkerId?: string | null;
   category?: JobCategory;
-  customer?: Pick<UserProfile, "id" | "name" | "email" | "phone">;
+  customer?: Pick<UserProfile, "id" | "name" | "email" | "phone" | "avatarUrl">;
+  user?: Pick<UserProfile, "id" | "name" | "email" | "phone" | "avatarUrl">;
   assignedWorker?: WorkerProfile | null;
   targetWorker?: WorkerProfile | null;
   location?: string;
