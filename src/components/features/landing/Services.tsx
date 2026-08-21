@@ -14,6 +14,7 @@ import {
   Car,
 } from "lucide-react";
 import { ServiceItem } from "@/types/landing";
+import { cn } from "@/lib/utils";
 
 const services: ServiceItem[] = [
   { icon: <Wrench size={22} />, label: "Plumbing" },
@@ -34,11 +35,14 @@ export interface ServicesProps {
   className?: string;
 }
 
-export const Services: React.FC<ServicesProps> = ({ className = "" }) => {
+export const Services: React.FC<ServicesProps> = ({ className }) => {
   return (
     <section
       id="services"
-      className={`py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60 ${className}`}
+      className={cn(
+        "py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt/40 border-y border-border/60",
+        className,
+      )}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}

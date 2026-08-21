@@ -40,11 +40,18 @@ export interface WorkerProfile {
   id: string;
   userId?: string;
   bio?: string;
+  experienceYears?: number;
   experience_years?: number;
+  paymentRate?: string | number;
   payment_rate?: string | number;
+  ratingAvg?: string | number;
   rating_avg?: string | number;
+  profilePhoto?: string;
   profile_photo?: string;
-  user?: Pick<UserProfile, "id" | "name" | "email" | "phone">;
+  user?: Pick<
+    UserProfile,
+    "id" | "name" | "email" | "phone" | "avatarUrl" | "photoUrl"
+  >;
   services?: WorkerService[];
   portfolios?: PortfolioItem[];
   certificates?: Certificate[];
@@ -93,10 +100,24 @@ export interface Review {
   jobId?: string;
   rating: number;
   comment?: string;
+  reviewerRole?: "CUSTOMER_TO_WORKER" | "WORKER_TO_CUSTOMER" | string;
   customer?: {
-    id: string;
+    id?: string;
     name?: string;
     avatarUrl?: string;
+    user?: {
+      name?: string;
+      photoUrl?: string;
+    };
+  };
+  worker?: {
+    id?: string;
+    name?: string;
+    avatarUrl?: string;
+    user?: {
+      name?: string;
+      photoUrl?: string;
+    };
   };
   job?: {
     id: string;
@@ -117,4 +138,15 @@ export interface WorkerReputation {
   metrics: WorkerReputationMetrics;
   badges: string[];
   reviews?: Review[];
+}
+
+export interface WorkerSearchParams {
+  categoryId?: string;
+  search?: string;
+  minRating?: number;
+  minRate?: number;
+  maxRate?: number;
+  sortBy?: "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+  page?: number;
+  limit?: number;
 }

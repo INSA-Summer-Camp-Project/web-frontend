@@ -1,14 +1,18 @@
 "use client";
 
-import { useContext } from "react";
-import { AuthContext, type AuthContextType } from "@/context/AuthContext";
+import { useAuthStore } from "@/stores/authStore";
 
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+export const useAuth = () => {
+  const user = useAuthStore((state) => state.user);
+  const activeRole = useAuthStore((state) => state.activeRole);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  return {
+    user,
+    activeRole,
+    isAuthenticated: !!user,
+    logout: clearAuth,
+  };
 };
 
 export default useAuth;

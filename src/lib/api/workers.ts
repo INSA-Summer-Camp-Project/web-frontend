@@ -11,6 +11,7 @@ import type {
   WorkerReputation,
   JobCategory,
   Review,
+  WorkerSearchParams,
 } from "@/types";
 
 export const workersApi = {
@@ -137,6 +138,18 @@ export const workersApi = {
     return apiClient.get<WorkerReputation>(
       `/api/v1/workers/${workerId}/reputation`,
     );
+  },
+
+  /**
+   * GET /api/v1/search/providers
+   * Searches and filters workers with category, rating, rate, and keyword filters.
+   */
+  searchWorkers: async (
+    params?: WorkerSearchParams,
+  ): Promise<WorkerProfile[]> => {
+    return apiClient.get<WorkerProfile[]>("/api/v1/search/providers", {
+      params,
+    });
   },
 
   /**

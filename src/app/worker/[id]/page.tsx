@@ -30,6 +30,7 @@ import {
   TrustSignalRow,
   ReviewCard,
   ReputationSummary,
+  DirectBookingModal,
 } from "@/components/features/worker";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -437,47 +438,13 @@ export default function PublicWorkerProfilePage() {
       )}
 
       {/* Direct Booking Modal */}
-      <Modal
-        isOpen={isHireModalOpen}
-        onClose={() => setIsHireModalOpen(false)}
-        title={`Book ${workerName}`}
-        maxWidth="md"
-      >
-        <div className="space-y-4">
-          <p className="text-sm text-ink-secondary leading-relaxed">
-            You are initiating a direct service request with{" "}
-            <strong>{workerName}</strong>. You can describe your project
-            requirements and schedule a convenient service window.
-          </p>
-
-          <div className="p-3.5 bg-surface-alt rounded-sm border border-border flex items-center justify-between">
-            <span className="text-xs font-semibold text-ink">Hourly Rate</span>
-            <PriceDisplay amount={profile.payment_rate || 350} size="sm" />
-          </div>
-
-          <div className="flex justify-end gap-3 pt-3 border-t border-border">
-            <Button
-              type="button"
-              variant="secondary"
-              size="md"
-              onClick={() => setIsHireModalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              variant="primary"
-              size="md"
-              onClick={() => {
-                setIsHireModalOpen(false);
-                router.push(`/dashboard`);
-              }}
-            >
-              Proceed to Booking
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      {profile && (
+        <DirectBookingModal
+          isOpen={isHireModalOpen}
+          onClose={() => setIsHireModalOpen(false)}
+          worker={profile}
+        />
+      )}
 
       <Footer />
     </div>

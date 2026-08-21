@@ -5,17 +5,31 @@ import type {
   AddPortfolioPayload,
   AddCertificatePayload,
   AddServicePayload,
+  WorkerSearchParams,
 } from "@/types";
 
 export const workerKeys = {
   all: ["workers"] as const,
   me: () => [...workerKeys.all, "me"] as const,
   myServices: () => [...workerKeys.me(), "services"] as const,
+  search: (params?: WorkerSearchParams) =>
+    [...workerKeys.all, "search", { params }] as const,
   detail: (id: string) => [...workerKeys.all, id] as const,
   reputation: (id: string) => [...workerKeys.detail(id), "reputation"] as const,
   reviews: (id: string) => [...workerKeys.detail(id), "reviews"] as const,
   categories: () => ["categories"] as const,
 };
+
+/**
+ * Hook to search and filter worker providers (Customer Portal Worker Discovery).
+ */
+export function useSearchWorkers(params?: WorkerSearchParams, enabled = true) {
+  return useQuery({
+    queryKey: workerKeys.search(params),
+    queryFn: () => workersApi.searchWorkers(params),
+    enabled,
+  });
+}
 
 /**
  * Hook to fetch current authenticated worker profile.

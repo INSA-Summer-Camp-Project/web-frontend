@@ -62,6 +62,42 @@ export function useWorkerJobs(enabled = true) {
 }
 
 /**
+ * Hook to fetch customer's posted jobs.
+ */
+export function useCustomerJobs(enabled = true) {
+  return useQuery({
+    queryKey: jobKeys.customerJobs(),
+    queryFn: () => jobsApi.getMyJobs(),
+    enabled,
+  });
+}
+
+/**
+ * Hook to fetch public browseable jobs feed (alias for worker board / marketplace).
+ */
+export function useAvailableJobs(params?: JobFilterParams, enabled = true) {
+  return useQuery({
+    queryKey: jobKeys.list(params),
+    queryFn: async () => {
+      const res = (await jobsApi.getJobs(params)) as unknown;
+      if (Array.isArray(res)) return res;
+      if (res && typeof res === "object") {
+        const rec = res as Record<string, unknown>;
+        if (Array.isArray(rec.data)) return rec.data;
+        if (Array.isArray(rec.jobs)) return rec.jobs;
+      }
+      return [];
+    },
+    enabled,
+  });
+}
+
+/**
+ * Alias for useJobDetail.
+ */
+export const useJob = useJobDetail;
+
+/**
  * Hook to post a new job (Customer).
  */
 export function useCreateJob() {

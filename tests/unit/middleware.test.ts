@@ -41,7 +41,7 @@ describe("middleware", () => {
       expect(activeRole).toBe("WORKER");
     });
 
-    it("extracts token from cookies", () => {
+    it("extracts token from servicehub_access_token cookies", () => {
       const token = createJwt({ lastActiveRole: "WORKER" });
       const request = new NextRequest(
         "http://localhost:3000/worker/dashboard",
@@ -55,6 +55,22 @@ describe("middleware", () => {
       const { token: extractedToken, activeRole } = extractAuth(request);
       expect(extractedToken).toBe(token);
       expect(activeRole).toBe("WORKER");
+    });
+
+    it("extracts token from access_token cookie", () => {
+      const token = createJwt({ lastActiveRole: "CUSTOMER" });
+      const request = new NextRequest(
+        "http://localhost:3000/customer/dashboard",
+        {
+          headers: {
+            cookie: `access_token=${token}`,
+          },
+        },
+      );
+
+      const { token: extractedToken, activeRole } = extractAuth(request);
+      expect(extractedToken).toBe(token);
+      expect(activeRole).toBe("CUSTOMER");
     });
 
     it("handles expired token", () => {
@@ -77,7 +93,46 @@ describe("middleware", () => {
     });
   });
 
-  describe("route protection", () => {
+  describe("customer route protection", () => {
+    it("redirects unauthenticated users accessing /customer/dashboard to /login", () => {
+      const request = new NextRequest(
+        "http://localhost:3000/customer/dashboard",
+      );
+      const response = middleware(request);
+
+      expect(response.status).toBe(307);
+      expect(response.headers.get("location")).toContain("/login?returnUrl=");
+      expect(response.headers.get("location")).toContain(
+        encodeURIComponent("/customer/dashboard"),
+      );
+    });
+
+    it("redirects unauthenticated users accessing /customer/jobs to /login", () => {
+      const request = new NextRequest("http://localhost:3000/customer/jobs");
+      const response = middleware(request);
+
+      expect(response.status).toBe(307);
+      expect(response.headers.get("location")).toContain("/login?returnUrl=");
+    });
+
+    it("allows authenticated customer to access /customer/dashboard", () => {
+      const token = createJwt({ lastActiveRole: "CUSTOMER" });
+      const request = new NextRequest(
+        "http://localhost:3000/customer/dashboard",
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const response = middleware(request);
+
+      expect(response.status).toBe(200);
+      expect(response.headers.get("location")).toBeNull();
+    });
+  });
+
+  describe("worker route protection", () => {
     it("redirects unauthenticated users accessing /worker/dashboard to /login", () => {
       const request = new NextRequest("http://localhost:3000/worker/dashboard");
       const response = middleware(request);

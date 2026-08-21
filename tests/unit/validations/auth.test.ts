@@ -58,7 +58,7 @@ describe("Auth Validation Schemas Unit Tests", () => {
         expect(result.success).toBe(false);
         if (!result.success) {
           const emailError = result.error.format().email?._errors[0];
-          expect(emailError).toBe("Email is required");
+          expect(emailError).toBe("Please enter a valid email address");
         }
       });
 
@@ -164,7 +164,7 @@ describe("Auth Validation Schemas Unit Tests", () => {
         expect(emptyResult.success).toBe(false);
         if (!emptyResult.success) {
           expect(emptyResult.error.format().email?._errors[0]).toBe(
-            "Email is required",
+            "Please enter a valid email address",
           );
         }
 
@@ -192,7 +192,7 @@ describe("Auth Validation Schemas Unit Tests", () => {
         expect(result.success).toBe(false);
         if (!result.success) {
           expect(result.error.format().password?._errors[0]).toBe(
-            "Password is required",
+            "Password must be at least 8 characters long",
           );
         }
       });

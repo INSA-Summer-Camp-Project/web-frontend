@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WorkerDashboardPage from "@/app/(worker)/dashboard/page";
-import { authApi } from "@/lib/api/auth";
 import { jobsApi } from "@/lib/api/jobs";
 import { applicationsApi } from "@/lib/api/applications";
 import { useAuthStore } from "@/stores/authStore";
@@ -47,6 +46,7 @@ describe("WorkerDashboardPage", () => {
       id: "usr-1",
       email: "abebe@example.com",
       name: "Abebe Mekonnen",
+      role: "WORKER",
       lastActiveRole: "WORKER",
     };
 
@@ -113,7 +113,7 @@ describe("WorkerDashboardPage", () => {
       },
     ];
 
-    vi.spyOn(authApi, "getMe").mockResolvedValueOnce(mockUser);
+    useAuthStore.getState().setUser(mockUser);
     vi.spyOn(jobsApi, "getJobs").mockResolvedValueOnce(mockAvailableJobs);
     vi.spyOn(jobsApi, "getMyJobs").mockResolvedValueOnce(mockWorkerJobs);
     vi.spyOn(applicationsApi, "getMyApplications").mockResolvedValueOnce(
@@ -128,7 +128,9 @@ describe("WorkerDashboardPage", () => {
     });
 
     // Verify stat cards
-    expect(screen.getByText("Active Jobs")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Active Jobs")).toBeInTheDocument();
+    });
     expect(screen.getByText("1 in progress")).toBeInTheDocument();
     expect(screen.getByText("Total Earnings")).toBeInTheDocument();
     expect(screen.getByText("450")).toBeInTheDocument(); // completed job budget
@@ -136,11 +138,15 @@ describe("WorkerDashboardPage", () => {
     expect(screen.getByText("1 jobs completed")).toBeInTheDocument();
 
     // Verify Available Jobs section
+    await waitFor(() => {
+      expect(screen.getByText("Fix Kitchen Pipe Leak")).toBeInTheDocument();
+    });
     expect(screen.getByText("Available Jobs")).toBeInTheDocument();
-    expect(screen.getByText("Fix Kitchen Pipe Leak")).toBeInTheDocument();
 
     // Verify My Applications section
+    await waitFor(() => {
+      expect(screen.getByText("Pending")).toBeInTheDocument();
+    });
     expect(screen.getByText("My Applications")).toBeInTheDocument();
-    expect(screen.getByText("Pending")).toBeInTheDocument();
   });
 });

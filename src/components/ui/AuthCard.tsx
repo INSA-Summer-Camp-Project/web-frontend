@@ -1,5 +1,6 @@
 import React from "react";
 import { Wrench, Award, LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface AuthCardProps {
   children?: React.ReactNode;
@@ -21,12 +22,12 @@ const maxWidthMap = {
 
 export const AuthCard: React.FC<AuthCardProps> = ({
   children,
-  logoIcon = "handyman",
+  logoIcon,
   brandName,
   title,
   subtitle,
   footer,
-  className = "",
+  className,
   maxWidth = "lg",
 }) => {
   const maxWidthClass = maxWidthMap[maxWidth] || maxWidthMap.lg;
@@ -45,7 +46,11 @@ export const AuthCard: React.FC<AuthCardProps> = ({
 
   return (
     <div
-      className={`w-full ${maxWidthClass} bg-surface shadow-sm rounded-lg border border-border p-6 md:p-8 flex flex-col items-center text-center gap-6 relative z-10 mx-auto ${className}`}
+      className={cn(
+        "w-full bg-surface shadow-sm rounded-lg border border-border p-5 md:p-6 flex flex-col items-center text-center gap-5 relative z-10 mx-auto",
+        maxWidthClass,
+        className,
+      )}
     >
       {(brandName || logoIcon) && (
         <div className="flex flex-col items-center gap-2 mb-1">
@@ -78,7 +83,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({
       {children && <div className="w-full">{children}</div>}
 
       {footer && (
-        <div className="w-full mt-2 pt-4 border-t border-border">{footer}</div>
+        <div className="w-full mt-1 pt-3 border-t border-border">{footer}</div>
       )}
     </div>
   );

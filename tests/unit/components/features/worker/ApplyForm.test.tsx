@@ -18,9 +18,7 @@ describe("ApplyForm", () => {
     // Shows validation error for estimatedTime
     await waitFor(() => {
       expect(
-        screen.getByText(
-          "Please enter an estimated completion time (e.g. '2 hours')",
-        ),
+        screen.getByText("Please enter time in minutes"),
       ).toBeInTheDocument();
     });
 
@@ -32,10 +30,10 @@ describe("ApplyForm", () => {
     render(<ApplyForm jobId="job-1" onSubmit={handleSubmit} />);
 
     const priceInput = screen.getByLabelText("Your Proposed Bid (ETB)");
-    const timeInput = screen.getByLabelText("Estimated Completion Time");
+    const timeInput = screen.getByLabelText("Estimated Time (minutes)");
 
     fireEvent.change(priceInput, { target: { value: "850" } });
-    fireEvent.change(timeInput, { target: { value: "4 hours" } });
+    fireEvent.change(timeInput, { target: { value: "240" } });
 
     const submitBtn = screen.getByRole("button", { name: "Submit Proposal" });
     fireEvent.click(submitBtn);
@@ -43,7 +41,7 @@ describe("ApplyForm", () => {
     await waitFor(() => {
       expect(handleSubmit).toHaveBeenCalledWith({
         proposedPrice: 850,
-        estimatedTime: "4 hours",
+        estimatedTime: 240,
       });
     });
   });

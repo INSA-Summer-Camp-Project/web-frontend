@@ -41,10 +41,11 @@ export function extractAuth(request: NextRequest): {
     token = authHeader.substring(7);
   }
 
-  // Check token cookies
+  // Check token cookies (including access_token)
   if (!token) {
     token =
       request.cookies.get("servicehub_access_token")?.value ||
+      request.cookies.get("access_token")?.value ||
       request.cookies.get("accessToken")?.value ||
       request.cookies.get("token")?.value ||
       null;
@@ -73,6 +74,18 @@ export function extractAuth(request: NextRequest): {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Protect customer portal routes (/customer/dashboard, /customer/jobs, /customer/workers, /customer/profile, etc.)
+  if (pathname.startsWith("/customer")) {
+    const { token } = extractAuth(request);
+
+    // If not authenticated, redirect to /login
+    if (!token) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("returnUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
 
   // Protect worker portal routes (/worker/dashboard, /worker/jobs, /worker/profile, etc.)
   if (pathname.startsWith("/worker")) {
@@ -106,5 +119,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/worker/:path*"],
+  matcher: ["/worker/:path*", "/customer/:path*"],
 };

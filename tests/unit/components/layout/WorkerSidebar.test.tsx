@@ -19,6 +19,7 @@ describe("WorkerSidebar", () => {
       id: "wrk-1",
       email: "worker@example.com",
       name: "Abebe Mekonnen",
+      role: "WORKER",
       lastActiveRole: "WORKER",
     });
   });

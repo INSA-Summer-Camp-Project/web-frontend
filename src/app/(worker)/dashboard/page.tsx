@@ -2,9 +2,8 @@
 
 export const dynamic = "force-dynamic";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
 import {
   Briefcase,
   CheckCircle2,
@@ -13,7 +12,6 @@ import {
   AlertCircle,
   RotateCcw,
 } from "lucide-react";
-import { authApi } from "@/lib/api/auth";
 import { useJobs, useWorkerJobs } from "@/hooks/useJobs";
 import { useMyApplications } from "@/hooks/useApplications";
 import { useAuthStore } from "@/stores/authStore";
@@ -27,23 +25,10 @@ import {
 } from "@/components/features/worker";
 
 export default function WorkerDashboardPage() {
-  const setUser = useAuthStore((state) => state.setUser);
   const storeUser = useAuthStore((state) => state.user);
 
-  // 1. Fetch user profile
-  const { data: userProfile, isLoading: isUserLoading } = useQuery({
-    queryKey: ["auth", "me"],
-    queryFn: () => authApi.getMe(),
-    staleTime: 1000 * 60 * 5,
-    retry: 1,
-  });
-
-  // Sync to auth store
-  useEffect(() => {
-    if (userProfile) {
-      setUser(userProfile);
-    }
-  }, [userProfile, setUser]);
+  // 1. User is loaded by the global AuthProvider into the store
+  const isUserLoading = !storeUser;
 
   // 2. Fetch available jobs preview
   const {
@@ -88,12 +73,7 @@ export default function WorkerDashboardPage() {
       return sum + (isNaN(budgetNum) ? 0 : budgetNum);
     }, 0);
 
-  const displayName =
-    userProfile?.name ||
-    userProfile?.fullName ||
-    storeUser?.name ||
-    storeUser?.fullName ||
-    "Professional";
+  const displayName = storeUser?.name || storeUser?.fullName || "Professional";
 
   const hasAnyError = isJobsError || isWorkerJobsError || isAppsError;
 
