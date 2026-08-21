@@ -3,6 +3,7 @@
 import React from "react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function AppDashboardLayout({
   children,
@@ -10,16 +11,15 @@ export default function AppDashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  // Simple role extraction from pathname for MVP purposes.
-  // In a real app, you'd get this from your Auth context or session.
-  const isWorker = pathname.startsWith("/worker");
-  const userRole = isWorker ? "WORKER" : "CUSTOMER";
+  const user = useAuthStore((state) => state.user);
+  const activeRole = useAuthStore((state) => state.activeRole);
 
-  // Mock user data for UI purposes.
-  const user = {
-    name: isWorker ? "Alex Worker" : "Sarah Customer",
-    role: userRole,
-  };
+  const isWorkerRoute = pathname.startsWith("/worker");
+  const userRole = isWorkerRoute
+    ? "WORKER"
+    : activeRole === "WORKER"
+      ? "WORKER"
+      : "CUSTOMER";
 
   return (
     <DashboardLayout userRole={userRole} user={user}>

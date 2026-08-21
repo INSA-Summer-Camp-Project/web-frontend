@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Briefcase,
   LayoutDashboard,
@@ -13,22 +13,38 @@ import {
   Search,
   X,
 } from "lucide-react";
+import { Avatar } from "@/components/ui/Avatar";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/authStore";
+import { authApi } from "@/lib/api/auth";
 
-interface MobileNavProps {
-  role: string;
+export interface MobileNavProps {
+  role?: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export const MobileNav: React.FC<MobileNavProps> = ({
-  role,
+  role: propRole,
   isOpen,
   onClose,
 }) => {
   const pathname = usePathname();
-  const isCustomer = role.toUpperCase() === "CUSTOMER";
-  const isWorker = role.toUpperCase() === "WORKER";
+  const router = useRouter();
+  const user = useAuthStore((state) => state.user);
+  const activeRole = useAuthStore((state) => state.activeRole);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const currentRole = (
+    propRole ||
+    activeRole ||
+    (pathname.startsWith("/worker") ? "WORKER" : "CUSTOMER")
+  ).toUpperCase();
+
+  const isCustomer = currentRole === "CUSTOMER";
+  const isWorker = currentRole === "WORKER";
 
   const basePath = isCustomer ? "/customer" : "/worker";
 
@@ -50,12 +66,30 @@ export const MobileNav: React.FC<MobileNavProps> = ({
 
   const links = isCustomer ? customerLinks : isWorker ? workerLinks : [];
 
+  const displayName =
+    user?.name || user?.fullName || (isWorker ? "Worker" : "Customer");
+  const displayEmail = user?.email || "";
+  const avatarSrc = user?.photoUrl || user?.avatarUrl || undefined;
+
   // Close on route change
   useEffect(() => {
     if (!isOpen) return;
     onClose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await authApi.logout();
+    } catch {
+      // Ignore network errors on logout
+    } finally {
+      clearAuth();
+      onClose();
+      router.push("/login");
+    }
+  };
 
   return (
     <>
@@ -86,6 +120,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
           <button
             onClick={onClose}
             className="p-1 -mr-2 text-ink-muted hover:text-ink transition-colors"
+            aria-label="Close menu"
           >
             <X size={24} />
           </button>
@@ -118,10 +153,34 @@ export const MobileNav: React.FC<MobileNavProps> = ({
           })}
         </nav>
 
-        <div className="p-4 border-t border-border">
-          <button className="flex w-full items-center gap-3 px-3 py-3 rounded-sm text-sm font-semibold text-error hover:bg-error-light transition-colors duration-150">
+        {/* User Info & Logout */}
+        <div className="p-4 border-t border-border bg-surface-alt/30 space-y-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Avatar
+              src={avatarSrc}
+              name={displayName}
+              size="sm"
+              className="shrink-0 ring-1 ring-border"
+            />
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-bold text-ink truncate leading-tight">
+                {displayName}
+              </span>
+              <span className="text-[11px] text-ink-muted truncate">
+                {displayEmail ||
+                  (isWorker ? "Worker Account" : "Customer Account")}
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="flex w-full items-center gap-3 px-3 py-2.5 rounded-sm text-sm font-semibold text-error hover:bg-error-light transition-colors duration-150 disabled:opacity-50 cursor-pointer"
+          >
             <LogOut size={18} />
-            Log Out
+            {isLoggingOut ? "Logging out..." : "Log Out"}
           </button>
         </div>
       </aside>

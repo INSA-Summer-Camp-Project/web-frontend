@@ -4,20 +4,27 @@ import React, { useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { MobileNav } from "./MobileNav";
+import type { UserProfile } from "@/types";
 
-interface DashboardLayoutProps {
+export interface DashboardLayoutProps {
   children: React.ReactNode;
-  userRole: "CUSTOMER" | "WORKER";
-  user: {
-    name: string;
-    role: string;
-    avatarUrl?: string | null;
-  } | null;
+  userRole?: "CUSTOMER" | "WORKER";
+  user?:
+    | UserProfile
+    | {
+        name?: string;
+        fullName?: string;
+        role?: string;
+        avatarUrl?: string | null;
+        photoUrl?: string | null;
+        email?: string | null;
+      }
+    | null;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
-  userRole,
+  userRole = "CUSTOMER",
   user,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,7 +43,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
       {/* Main Content */}
       <div className="flex flex-col flex-1 w-full lg:ml-64">
-        <Header onMenuClick={() => setMobileMenuOpen(true)} user={user} />
+        <Header
+          onMenuClick={() => setMobileMenuOpen(true)}
+          user={user}
+          userRole={userRole}
+        />
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           <div className="max-w-6xl mx-auto">{children}</div>
         </main>
