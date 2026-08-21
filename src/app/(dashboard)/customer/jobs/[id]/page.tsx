@@ -26,8 +26,6 @@ import {
   X,
   UserCheck,
   Star,
-  MessageSquare,
-  ShieldCheck,
 } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { EmptyState } from "@/components/ui/EmptyState";

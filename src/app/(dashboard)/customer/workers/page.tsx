@@ -7,10 +7,7 @@ import {
   Star,
   SlidersHorizontal,
   X,
-  Briefcase,
-  UserCheck,
   Tag,
-  ArrowUpDown,
   Sparkles,
 } from "lucide-react";
 import { useSearchWorkers, useCategories } from "@/hooks/useWorker";
