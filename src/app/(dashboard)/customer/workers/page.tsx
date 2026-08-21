@@ -22,6 +22,7 @@ import { Select } from "@/components/ui/Select";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { DirectBookingModal } from "@/components/features/worker";
 import type { WorkerProfile, WorkerSearchParams } from "@/types";
 
 export default function CustomerWorkersDiscoveryPage() {
@@ -34,6 +35,10 @@ export default function CustomerWorkersDiscoveryPage() {
   const [sortBy, setSortBy] = useState<
     "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc"
   >("rating");
+
+  // Booking Modal State
+  const [selectedWorkerForBooking, setSelectedWorkerForBooking] =
+    useState<WorkerProfile | null>(null);
 
   // Query categories
   const { data: categories, isLoading: categoriesLoading } = useCategories();
@@ -287,7 +292,6 @@ export default function CustomerWorkersDiscoveryPage() {
               const rate = worker.payment_rate || worker.paymentRate;
               const expYears =
                 worker.experience_years || worker.experienceYears;
-              const completedJobsCount = worker._count?.completedJobs ?? 0;
 
               return (
                 <div
@@ -386,9 +390,16 @@ export default function CustomerWorkersDiscoveryPage() {
                     <div className="flex items-center gap-2">
                       <Link href={`/worker/${worker.id}`}>
                         <Button variant="outline" size="sm">
-                          View Profile
+                          Profile
                         </Button>
                       </Link>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => setSelectedWorkerForBooking(worker)}
+                      >
+                        Hire
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -397,6 +408,16 @@ export default function CustomerWorkersDiscoveryPage() {
           </div>
         )}
       </section>
+
+      {/* Direct Booking Modal */}
+      {selectedWorkerForBooking && (
+        <DirectBookingModal
+          isOpen={!!selectedWorkerForBooking}
+          onClose={() => setSelectedWorkerForBooking(null)}
+          worker={selectedWorkerForBooking}
+          defaultCategoryId={selectedCategory}
+        />
+      )}
     </div>
   );
 }

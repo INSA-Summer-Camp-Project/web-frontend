@@ -21,3 +21,4 @@ export * from "./WorkerProfileHeader";
 export * from "./TrustSignalRow";
 export * from "./ReviewCard";
 export * from "./ReputationSummary";
+export * from "./DirectBookingModal";

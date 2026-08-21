@@ -170,9 +170,9 @@ describe("PublicWorkerProfilePage", () => {
     const hireBtn = screen.getByRole("button", { name: "Hire Alemayehu" });
     fireEvent.click(hireBtn);
 
-    expect(screen.getByText("Book Alemayehu Tadesse")).toBeInTheDocument();
+    expect(screen.getByText("Hire Alemayehu Tadesse")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Proceed to Booking" }),
+      screen.getByRole("button", { name: "Send Direct Request" }),
     ).toBeInTheDocument();
   });
 
