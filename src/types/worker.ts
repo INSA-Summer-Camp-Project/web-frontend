@@ -100,10 +100,24 @@ export interface Review {
   jobId?: string;
   rating: number;
   comment?: string;
+  reviewerRole?: "CUSTOMER_TO_WORKER" | "WORKER_TO_CUSTOMER" | string;
   customer?: {
-    id: string;
+    id?: string;
     name?: string;
     avatarUrl?: string;
+    user?: {
+      name?: string;
+      photoUrl?: string;
+    };
+  };
+  worker?: {
+    id?: string;
+    name?: string;
+    avatarUrl?: string;
+    user?: {
+      name?: string;
+      photoUrl?: string;
+    };
   };
   job?: {
     id: string;
