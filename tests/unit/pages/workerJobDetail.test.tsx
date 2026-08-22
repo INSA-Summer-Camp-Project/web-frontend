@@ -96,10 +96,10 @@ describe("WorkerJobDetailPage", () => {
     expect(screen.getByText("Submit a Proposal")).toBeInTheDocument();
 
     const priceInput = screen.getByLabelText("Your Bid Amount (ETB)");
-    const timeInput = screen.getByLabelText("Estimated Time (minutes)");
+    const timeInput = screen.getByLabelText("Estimated Time");
 
     fireEvent.change(priceInput, { target: { value: "1100" } });
-    fireEvent.change(timeInput, { target: { value: "60" } });
+    fireEvent.change(timeInput, { target: { value: "60 minutes" } });
 
     const submitBtns = screen.getAllByRole("button", {
       name: "Submit Proposal",
@@ -109,7 +109,7 @@ describe("WorkerJobDetailPage", () => {
     await waitFor(() => {
       expect(applySpy).toHaveBeenCalledWith("job-100", {
         proposedPrice: 1100,
-        estimatedTime: "60",
+        estimatedTime: "60 minutes",
       });
     });
   });

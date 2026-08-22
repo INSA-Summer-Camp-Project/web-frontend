@@ -107,7 +107,7 @@ export default function CustomerWorkersDiscoveryPage() {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by specialist name, skill, or keyword..."
+              placeholder="Search by specialist name, bio, or keyword..."
               leftIcon={<Search size={16} />}
               rightIcon={
                 search ? (
@@ -315,12 +315,16 @@ export default function CustomerWorkersDiscoveryPage() {
                           <h3 className="font-bold text-ink text-base truncate">
                             {worker.user?.name || "Professional Specialist"}
                           </h3>
-                          <span
-                            title="Verified Professional"
-                            className="text-primary shrink-0"
-                          >
-                            <ShieldCheck size={14} />
-                          </span>
+                          {Boolean(
+                            (worker as { isVerified?: boolean }).isVerified,
+                          ) && (
+                            <span
+                              title="Verified Professional"
+                              className="text-primary shrink-0"
+                            >
+                              <ShieldCheck size={14} />
+                            </span>
+                          )}
                         </div>
 
                         {/* Rating & Jobs */}

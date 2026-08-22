@@ -66,11 +66,16 @@ export default function WorkerDashboardPage() {
   const totalEarnings = (workerJobs || [])
     .filter((job) => job.status === "COMPLETED")
     .reduce((sum, job) => {
-      const paidSum = job.payments?.reduce((pSum, p) => {
-        const amt =
-          typeof p.amount === "number" ? p.amount : parseFloat(p.amount || "0");
-        return pSum + (isNaN(amt) ? 0 : amt);
-      }, 0);
+      const paidSum = job.payments?.reduce(
+        (pSum: number, p: { amount?: number | string }) => {
+          const amt =
+            typeof p.amount === "number"
+              ? p.amount
+              : parseFloat(String(p.amount || "0"));
+          return pSum + (isNaN(amt) ? 0 : amt);
+        },
+        0,
+      );
 
       if (paidSum !== undefined && paidSum > 0) {
         return sum + paidSum;

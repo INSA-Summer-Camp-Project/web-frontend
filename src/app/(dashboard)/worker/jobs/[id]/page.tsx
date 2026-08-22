@@ -44,11 +44,11 @@ export default function WorkerJobDetailsPage() {
   const handleSubmitProposal = (e: React.FormEvent) => {
     e.preventDefault();
     const parsedPrice = parseFloat(price);
-    const parsedTime = parseInt(estimatedTime, 10);
-    if (!parsedPrice || !parsedTime) return;
+    const trimmedTime = estimatedTime.trim();
+    if (!parsedPrice || !trimmedTime) return;
 
     createProposal(
-      { jobId: job.id, proposedPrice: parsedPrice, estimatedTime: parsedTime },
+      { jobId: job.id, proposedPrice: parsedPrice, estimatedTime: trimmedTime },
       {
         onSuccess: () => {
           setBidModalOpen(false);
@@ -165,13 +165,12 @@ export default function WorkerJobDetailsPage() {
           />
 
           <Input
-            label="Estimated Time (minutes)"
-            type="number"
-            placeholder="e.g. 120 for 2 hours"
+            label="Estimated Time"
+            type="text"
+            placeholder="e.g. 2 hours, 3 days"
             value={estimatedTime}
             onChange={(e) => setEstimatedTime(e.target.value)}
             required
-            min="1"
           />
 
           <div className="flex justify-end gap-3 pt-4 border-t border-border">
