@@ -10,6 +10,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { ArrowLeft, Clock } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
+import { toast } from "@/components/ui/Toast";
 import { DirectRespondPanel } from "@/components/features/worker/DirectRespondPanel";
 
 export default function WorkerJobDetailsPage() {
@@ -52,6 +53,31 @@ export default function WorkerJobDetailsPage() {
         onSuccess: () => {
           setBidModalOpen(false);
           router.push("/worker/jobs");
+        },
+      },
+    );
+  };
+
+  const handleDirectRespond = (action: "ACCEPT" | "DECLINE") => {
+    directRespond(
+      { action },
+      {
+        onSuccess: () => {
+          if (action === "ACCEPT") {
+            toast.success(
+              "Direct booking accepted! You are now assigned to this job.",
+            );
+          } else {
+            toast.info("Direct booking declined.");
+            router.push("/worker/jobs");
+          }
+        },
+        onError: (err) => {
+          toast.error(
+            err instanceof Error
+              ? err.message
+              : `Failed to ${action.toLowerCase()} direct booking.`,
+          );
         },
       },
     );
@@ -103,7 +129,7 @@ export default function WorkerJobDetailsPage() {
       {job.source === "DIRECT" && job.status === "PENDING" && (
         <DirectRespondPanel
           jobId={job.id}
-          onRespond={(action) => directRespond({ action })}
+          onRespond={handleDirectRespond}
           isLoading={isResponding}
         />
       )}

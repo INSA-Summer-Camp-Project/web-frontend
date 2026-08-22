@@ -70,4 +70,20 @@ describe("WorkerProfileHeader", () => {
 
     expect(handleDirectRequest).toHaveBeenCalled();
   });
+
+  it("calls onReport when Report button is clicked", () => {
+    const handleReport = vi.fn();
+    render(
+      <WorkerProfileHeader
+        profile={mockProfile}
+        reputation={mockReputation}
+        onReport={handleReport}
+      />,
+    );
+
+    const reportBtn = screen.getByRole("button", { name: "Report" });
+    fireEvent.click(reportBtn);
+
+    expect(handleReport).toHaveBeenCalledTimes(1);
+  });
 });

@@ -113,4 +113,41 @@ describe("WorkerJobDetailPage", () => {
       });
     });
   });
+
+  it("renders DirectRespondPanel for DIRECT PENDING job and accepts offer", async () => {
+    const directJob: Job = {
+      ...mockJob,
+      id: "job-100",
+      source: "DIRECT",
+      status: "PENDING",
+    };
+
+    vi.spyOn(jobsApi, "getJobById").mockResolvedValueOnce(directJob);
+    const respondSpy = vi
+      .spyOn(jobsApi, "directRespond")
+      .mockResolvedValueOnce({
+        ...directJob,
+        status: "IN_PROGRESS",
+      });
+
+    render(<WorkerJobDetailPage />, { wrapper: createWrapper() });
+
+    await waitFor(() => {
+      expect(screen.getByText("Direct Service Request")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Accept Request" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Decline Request" }),
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Accept Request" }));
+
+    await waitFor(() => {
+      expect(respondSpy).toHaveBeenCalledWith("job-100", {
+        action: "ACCEPT",
+      });
+    });
+  });
 });
