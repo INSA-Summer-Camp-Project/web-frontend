@@ -9,8 +9,11 @@ const getRolePath = () => {
 
 export const notificationsApi = {
   getNotifications: async (): Promise<Notification[]> => {
-    const res = await apiClient.get<any>(`/api/v1/notifications/${getRolePath()}`);
-    return res.data ? res.data : res;
+    const res = await apiClient.get<Notification[] | { data: Notification[] }>(
+      `/api/v1/notifications/${getRolePath()}`,
+    );
+    if (Array.isArray(res)) return res;
+    return res?.data ?? [];
   },
 
   getUnreadCount: (): Promise<UnreadCountResponse> => {

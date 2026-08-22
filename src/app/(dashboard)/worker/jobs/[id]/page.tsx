@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useJob } from "@/hooks/useJobs";
+import { useJob, useDirectRespond } from "@/hooks/useJobs";
 import { useCreateProposal } from "@/hooks/useApplications";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
@@ -10,6 +10,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { ArrowLeft, Clock } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
+import { DirectRespondPanel } from "@/components/features/worker/DirectRespondPanel";
 
 export default function WorkerJobDetailsPage() {
   const { id } = useParams() as { id: string };
@@ -17,6 +18,7 @@ export default function WorkerJobDetailsPage() {
 
   const { data: job, isLoading: jobLoading, error: jobError } = useJob(id);
   const { mutate: createProposal, isPending: submitting } = useCreateProposal();
+  const { mutate: directRespond, isPending: isResponding } = useDirectRespond(id);
 
   const [bidModalOpen, setBidModalOpen] = useState(false);
   const [price, setPrice] = useState("");
