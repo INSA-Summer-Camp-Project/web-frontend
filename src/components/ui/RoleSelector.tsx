@@ -13,6 +13,7 @@ export interface RoleOption {
   icon: React.ReactNode;
 }
 
+export const DEFAULT_ROLE_OPTIONS: RoleOption[] = [
   {
     value: "CUSTOMER",
     title: "I want to hire help",

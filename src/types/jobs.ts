@@ -81,6 +81,19 @@ export interface UpdateJobStatusPayload {
   status: JobStatus;
 }
 
+export interface UpdateJobPayload {
+  title?: string;
+  description?: string;
+  budget?: number;
+  categoryId?: string;
+}
+
+export interface JobContact {
+  phone?: string | null;
+  telegramId?: string | null;
+  email?: string | null;
+}
+
 export interface PaginatedJobsMeta {
   page: number;
   limit: number;
