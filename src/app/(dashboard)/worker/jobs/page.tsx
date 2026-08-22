@@ -37,7 +37,8 @@ const PAGE_SIZE = 8;
 function WorkerJobsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const activeTab = searchParams.get("tab") === "my_work" ? "my_work" : "browse";
+  const activeTab =
+    searchParams.get("tab") === "my_work" ? "my_work" : "browse";
   const isMyWork = activeTab === "my_work";
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -319,7 +320,8 @@ function WorkerJobsContent() {
                           href={`/worker/jobs/${app.jobId}`}
                           className="font-serif text-sm md:text-base font-bold text-ink hover:text-primary transition-colors truncate"
                         >
-                          {app.job?.title || `Job Application #${app.id.substring(0, 8)}`}
+                          {app.job?.title ||
+                            `Job Application #${app.id.substring(0, 8)}`}
                         </Link>
                         <Badge status={app.status} size="sm" dot />
                       </div>
@@ -505,7 +507,9 @@ function WorkerJobsContent() {
                       ? "We couldn't find any job postings matching your current filter criteria."
                       : "There are currently no open job requests available. Please check back soon."
                   }
-                  actionLabel={hasActiveFilters ? "Clear All Filters" : undefined}
+                  actionLabel={
+                    hasActiveFilters ? "Clear All Filters" : undefined
+                  }
                   onAction={hasActiveFilters ? handleResetFilters : undefined}
                 />
               )}

@@ -19,7 +19,8 @@ export default function WorkerJobDetailsPage() {
 
   const { data: job, isLoading: jobLoading, error: jobError } = useJob(id);
   const { mutate: createProposal, isPending: submitting } = useCreateProposal();
-  const { mutate: directRespond, isPending: isResponding } = useDirectRespond(id);
+  const { mutate: directRespond, isPending: isResponding } =
+    useDirectRespond(id);
 
   const [bidModalOpen, setBidModalOpen] = useState(false);
   const [price, setPrice] = useState("");

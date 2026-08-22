@@ -1,5 +1,9 @@
 import { apiClient } from "@/lib/api";
-import type { OnboardingStatus, CompleteOnboardingPayload } from "@/types";
+import type {
+  OnboardingStatus,
+  CompleteOnboardingPayload,
+  UserProfile,
+} from "@/types";
 
 export const onboardingApi = {
   getStatus: (): Promise<OnboardingStatus> => {
@@ -8,7 +12,7 @@ export const onboardingApi = {
 
   completeOnboarding: (
     data: CompleteOnboardingPayload,
-  ): Promise<{ user: any }> => {
+  ): Promise<{ user: UserProfile }> => {
     // Map to backend OnboardUserDto
     const backendPayload = {
       name: `${data.firstName} ${data.lastName}`.trim(),
@@ -16,6 +20,9 @@ export const onboardingApi = {
       gender: data.gender,
       activeRole: data.role,
     };
-    return apiClient.post<{ user: any }>("/api/v1/onboarding", backendPayload);
+    return apiClient.post<{ user: UserProfile }>(
+      "/api/v1/onboarding",
+      backendPayload,
+    );
   },
 };

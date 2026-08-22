@@ -5,7 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WorkerJobsPage from "@/app/(dashboard)/worker/jobs/page";
 import { jobsApi } from "@/lib/api/jobs";
 import { applicationsApi } from "@/lib/api/applications";
-import type { PaginatedJobsResponse, JobCategory, Job, Application } from "@/types";
+import type {
+  PaginatedJobsResponse,
+  JobCategory,
+  Job,
+  Application,
+} from "@/types";
 
 let mockSearchParams = new URLSearchParams("");
 

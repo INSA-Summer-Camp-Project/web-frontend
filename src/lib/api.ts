@@ -4,12 +4,7 @@ import axios, {
   AxiosError,
 } from "axios";
 import { env } from "@/config/env";
-import type {
-  ApiResponse,
-  ApiSuccessResponse,
-  ApiErrorResponse,
-  ApiErrorDetails,
-} from "@/types";
+import type { ApiErrorResponse, ApiErrorDetails } from "@/types";
 
 export class ApiError extends Error {
   public code?: string;

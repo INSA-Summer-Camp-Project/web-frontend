@@ -27,8 +27,12 @@ export const useMarkNotificationAsRead = () => {
   return useMutation({
     mutationFn: (id: string) => notificationsApi.markAsRead(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notifications", activeRole] });
-      queryClient.invalidateQueries({ queryKey: ["notifications", "unread-count", activeRole] });
+      queryClient.invalidateQueries({
+        queryKey: ["notifications", activeRole],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["notifications", "unread-count", activeRole],
+      });
     },
   });
 };
@@ -40,8 +44,12 @@ export const useMarkAllNotificationsAsRead = () => {
   return useMutation({
     mutationFn: () => notificationsApi.markAllAsRead(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notifications", activeRole] });
-      queryClient.invalidateQueries({ queryKey: ["notifications", "unread-count", activeRole] });
+      queryClient.invalidateQueries({
+        queryKey: ["notifications", activeRole],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["notifications", "unread-count", activeRole],
+      });
     },
   });
 };

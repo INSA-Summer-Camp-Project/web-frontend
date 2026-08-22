@@ -12,17 +12,7 @@ import type { UserProfile } from "@/types";
 
 export interface HeaderProps {
   onMenuClick: () => void;
-  user?:
-    | UserProfile
-    | {
-        name?: string;
-        fullName?: string;
-        role?: string;
-        avatarUrl?: string | null;
-        photoUrl?: string | null;
-        email?: string | null;
-      }
-    | null;
+  user?: UserProfile | null;
   userRole?: "CUSTOMER" | "WORKER";
 }
 
@@ -44,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
   const activeRole =
     propUserRole ||
     (storeActiveRole as "CUSTOMER" | "WORKER") ||
-    (user as any)?.lastActiveRole ||
+    user?.lastActiveRole ||
     user?.role ||
     "CUSTOMER";
 

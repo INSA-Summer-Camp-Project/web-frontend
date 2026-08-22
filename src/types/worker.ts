@@ -41,6 +41,7 @@ export interface WorkerProfile {
   paymentRate?: string | number;
   ratingAvg?: string | number;
   profilePhoto?: string;
+  isVerified?: boolean;
   user?: Pick<
     UserProfile,
     "id" | "name" | "email" | "phone" | "avatarUrl" | "photoUrl"
@@ -133,13 +134,16 @@ export interface WorkerReputation {
   reviews?: Review[];
 }
 
+export type WorkerSortBy =
+  "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+
 export interface WorkerSearchParams {
   categoryId?: string;
   search?: string;
   minRating?: number;
   minRate?: number;
   maxRate?: number;
-  sortBy?: "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+  sortBy?: WorkerSortBy;
   page?: number;
   limit?: number;
 }

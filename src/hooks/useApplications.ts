@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { applicationsApi } from "@/lib/api/applications";
 import { jobKeys } from "./useJobs";
-import type { ApplyPayload, DirectRespondPayload } from "@/types";
+import type { DirectRespondPayload } from "@/types";
 import { jobsApi } from "@/lib/api/jobs";
 
 export const applicationKeys = {
@@ -62,7 +62,9 @@ export function useApplyJob(jobId?: string) {
         queryClient.invalidateQueries({
           queryKey: applicationKeys.forJob(targetJobId),
         });
-        queryClient.invalidateQueries({ queryKey: jobKeys.detail(targetJobId) });
+        queryClient.invalidateQueries({
+          queryKey: jobKeys.detail(targetJobId),
+        });
       }
       queryClient.invalidateQueries({ queryKey: jobKeys.all });
     },

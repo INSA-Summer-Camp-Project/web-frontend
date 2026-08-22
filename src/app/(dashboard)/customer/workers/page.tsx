@@ -7,10 +7,7 @@ import {
   Star,
   SlidersHorizontal,
   X,
-  Briefcase,
-  UserCheck,
   Tag,
-  ArrowUpDown,
   ShieldCheck,
 } from "lucide-react";
 import { useSearchWorkers, useCategories } from "@/hooks/useWorker";
@@ -315,9 +312,7 @@ export default function CustomerWorkersDiscoveryPage() {
                           <h3 className="font-bold text-ink text-base truncate">
                             {worker.user?.name || "Professional Specialist"}
                           </h3>
-                          {Boolean(
-                            (worker as { isVerified?: boolean }).isVerified,
-                          ) && (
+                          {worker.isVerified && (
                             <span
                               title="Verified Professional"
                               className="text-primary shrink-0"

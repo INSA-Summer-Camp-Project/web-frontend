@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Send, ArrowRight, ShieldCheck } from "lucide-react";
-import { StatItem } from "@/types/landing";
 
 export interface HeroProps {
   className?: string;

@@ -18,7 +18,9 @@ describe("ApplyForm", () => {
     // Shows validation error for estimatedTime
     await waitFor(() => {
       expect(
-        screen.getByText("Please enter an estimated timeline (e.g. 2 hours, 3 days)"),
+        screen.getByText(
+          "Please enter an estimated timeline (e.g. 2 hours, 3 days)",
+        ),
       ).toBeInTheDocument();
     });
 

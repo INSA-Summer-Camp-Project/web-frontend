@@ -73,15 +73,17 @@ describe("ReportModal", () => {
 
   it("submits valid report and calls onClose", async () => {
     const toastSuccessSpy = vi.spyOn(toast, "success");
-    const createSpy = vi.spyOn(reportsApi, "createReport").mockResolvedValueOnce({
-      id: "report-1",
-      reporterId: "user-123",
-      reportedId: "user-456",
-      reason: "SCAM",
-      description: "This worker asked for payment outside the platform.",
-      status: "PENDING",
-      createdAt: new Date().toISOString(),
-    });
+    const createSpy = vi
+      .spyOn(reportsApi, "createReport")
+      .mockResolvedValueOnce({
+        id: "report-1",
+        reporterId: "user-123",
+        reportedId: "user-456",
+        reason: "SCAM",
+        description: "This worker asked for payment outside the platform.",
+        status: "PENDING",
+        createdAt: new Date().toISOString(),
+      });
 
     const { Wrapper } = createWrapper();
     render(

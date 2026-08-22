@@ -27,7 +27,9 @@ describe("notificationsApi", () => {
       vi.spyOn(apiClient, "get").mockResolvedValueOnce(mockNotifications);
 
       const result = await notificationsApi.getNotifications();
-      expect(apiClient.get).toHaveBeenCalledWith("/api/v1/notifications/customer");
+      expect(apiClient.get).toHaveBeenCalledWith(
+        "/api/v1/notifications/customer",
+      );
       expect(result).toEqual(mockNotifications);
     });
 
@@ -44,10 +46,14 @@ describe("notificationsApi", () => {
           createdAt: new Date().toISOString(),
         },
       ];
-      vi.spyOn(apiClient, "get").mockResolvedValueOnce({ data: mockNotifications });
+      vi.spyOn(apiClient, "get").mockResolvedValueOnce({
+        data: mockNotifications,
+      });
 
       const result = await notificationsApi.getNotifications();
-      expect(apiClient.get).toHaveBeenCalledWith("/api/v1/notifications/worker");
+      expect(apiClient.get).toHaveBeenCalledWith(
+        "/api/v1/notifications/worker",
+      );
       expect(result).toEqual(mockNotifications);
     });
 
@@ -56,7 +62,9 @@ describe("notificationsApi", () => {
       vi.spyOn(apiClient, "get").mockResolvedValueOnce([]);
 
       const result = await notificationsApi.getNotifications();
-      expect(apiClient.get).toHaveBeenCalledWith("/api/v1/notifications/customer");
+      expect(apiClient.get).toHaveBeenCalledWith(
+        "/api/v1/notifications/customer",
+      );
       expect(result).toEqual([]);
     });
   });
