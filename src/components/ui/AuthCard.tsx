@@ -1,5 +1,6 @@
 import React from "react";
-import { Wrench, Award, LucideIcon } from "lucide-react";
+import Image from "next/image";
+import { Award, LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface AuthCardProps {
@@ -40,8 +41,16 @@ export const AuthCard: React.FC<AuthCardProps> = ({
     if (logoIcon === "badge") {
       return <Award size={22} className="stroke-[2.5]" />;
     }
-    // Default to Wrench brand icon
-    return <Wrench size={22} className="stroke-[2.5]" />;
+    // Default to logo-blue brand icon
+    return (
+      <Image
+        src="/logo-package/logo-blue.svg"
+        alt="ServiceHub Logo"
+        width={24}
+        height={24}
+        className="w-6 h-6 object-contain"
+      />
+    );
   };
 
   return (
