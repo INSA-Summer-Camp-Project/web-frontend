@@ -9,10 +9,10 @@ import {
   CheckSquare,
   Bell,
   User,
-  Wrench,
   LogOut,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
+import { Logo } from "@/components/ui/Logo";
 
 export interface NavItem {
   label: string;
@@ -78,22 +78,12 @@ export const WorkerSidebar: React.FC<WorkerSidebarProps> = ({
     >
       {/* Brand Logo Header */}
       <div className="h-16 px-6 flex items-center border-b border-border">
-        <Link
+        <Logo
+          variant="blue"
+          size={36}
           href="/worker/dashboard"
-          className="flex items-center gap-2.5 group"
-        >
-          <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
-            <Wrench size={18} className="stroke-[2.5]" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif text-lg font-bold text-ink tracking-tight group-hover:text-primary transition-colors">
-              ServiceHub
-            </span>
-            <span className="text-[10px] font-semibold text-primary uppercase tracking-wider -mt-1">
-              Worker Portal
-            </span>
-          </div>
-        </Link>
+          subtitle="Worker Portal"
+        />
       </div>
 
       {/* Navigation List */}

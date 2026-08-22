@@ -9,11 +9,11 @@ import {
   User,
   Settings,
   LogOut,
-  Wrench,
   Search,
   X,
 } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
+import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/authStore";
 import { authApi } from "@/lib/api/auth";
@@ -109,14 +109,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         )}
       >
         <div className="h-16 flex items-center justify-between px-6 border-b border-border">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
-              <Wrench size={18} className="stroke-[2.5]" />
-            </div>
-            <span className="font-serif text-xl font-semibold text-ink tracking-tight">
-              ServiceHub
-            </span>
-          </Link>
+          <Logo variant="blue" size={32} href="/" />
           <button
             onClick={onClose}
             className="p-1 -mr-2 text-ink-muted hover:text-ink transition-colors"
