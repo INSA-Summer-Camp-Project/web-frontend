@@ -61,7 +61,7 @@ export default function PublicWorkerProfilePage() {
 
   const handleHireClick = () => {
     if (!isAuthenticated) {
-      router.push(`/login?redirect=/worker/${workerId}`);
+      router.push(`/login?redirect=/worker/view/${workerId}`);
       return;
     }
     setIsHireModalOpen(true);

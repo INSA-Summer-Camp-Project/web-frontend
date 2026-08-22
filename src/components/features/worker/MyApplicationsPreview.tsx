@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Clock, FileText } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -62,6 +63,13 @@ export const MyApplicationsPreview: React.FC<MyApplicationsPreviewProps> = ({
           <EmptyState
             title="No applications submitted yet"
             description="Browse open job postings and submit your bids to get hired."
+            actionButton={
+              <Link href="/worker/jobs">
+                <Button variant="primary" size="md">
+                  Find Jobs
+                </Button>
+              </Link>
+            }
           />
         </div>
       ) : (

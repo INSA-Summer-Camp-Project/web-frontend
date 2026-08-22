@@ -2,8 +2,9 @@ import { apiClient } from "@/lib/api";
 import type { Notification, UnreadCountResponse } from "@/types";
 
 export const notificationsApi = {
-  getNotifications: (): Promise<Notification[]> => {
-    return apiClient.get<Notification[]>("/api/v1/notifications");
+  getNotifications: async (): Promise<Notification[]> => {
+    const res = await apiClient.get<any>("/api/v1/notifications");
+    return res.data ? res.data : res;
   },
 
   getUnreadCount: (): Promise<UnreadCountResponse> => {

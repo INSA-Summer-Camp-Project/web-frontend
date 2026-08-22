@@ -96,7 +96,7 @@ export const WorkerBanner: React.FC<WorkerBannerProps> = ({
           </Button>
         )}
         {job.assignedWorker.id && (
-          <Link href={`/worker/${job.assignedWorker.id}`}>
+          <Link href={`/worker/view/${job.assignedWorker.id}`}>
             <Button variant="outline" size="sm">
               View Profile
             </Button>

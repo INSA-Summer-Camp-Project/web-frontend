@@ -54,4 +54,13 @@ export const authApi = {
       throw new ApiError(500, "Failed to verify Telegram login.");
     }
   },
+
+  updateRole: async (activeRole: "CUSTOMER" | "WORKER"): Promise<UserProfile> => {
+    try {
+      return await apiClient.put<UserProfile>("/api/v1/auth/role", { activeRole });
+    } catch (error) {
+      if (error instanceof ApiError) throw error;
+      throw new ApiError(500, "Failed to update role.");
+    }
+  },
 };

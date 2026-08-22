@@ -21,18 +21,17 @@ function AuthCallbackContent() {
 
         let user;
         if (state && codeVerifier) {
+          // Clean up immediately to prevent double-execution in React 18 Strict Mode
+          sessionStorage.removeItem("tg_state");
+          sessionStorage.removeItem("tg_codeVerifier");
+
           // Verify OAuth redirect
           user = await authApi.verifyTelegramLogin(
             window.location.href,
             state,
             codeVerifier,
           );
-
-          // Clean up
-          sessionStorage.removeItem("tg_state");
-          sessionStorage.removeItem("tg_codeVerifier");
         } else {
-          // Fallback if we just need to get the user
           user = await authApi.getMe();
         }
 

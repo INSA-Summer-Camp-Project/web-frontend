@@ -386,7 +386,7 @@ export default function CustomerWorkersDiscoveryPage() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <Link href={`/worker/${worker.id}`}>
+                      <Link href={`/worker/view/${worker.id}`}>
                         <Button variant="outline" size="sm">
                           Profile
                         </Button>

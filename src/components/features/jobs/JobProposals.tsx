@@ -177,7 +177,7 @@ export const JobProposals: React.FC<JobProposalsProps> = ({
                         </span>
                         {proposal.worker?.id && (
                           <Link
-                            href={`/worker/${proposal.worker.id}`}
+                            href={`/worker/view/${proposal.worker.id}`}
                             className="text-primary hover:underline text-xs font-semibold"
                           >
                             View Profile

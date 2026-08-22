@@ -76,7 +76,7 @@ export function extractAuth(request: NextRequest): {
           isOnboarded: false,
         };
       }
-      activeRole = payload.activeRole || payload.role || activeRole;
+      activeRole = activeRole || payload.activeRole || payload.role || null;
       systemRole = payload.systemRole || null;
       isOnboarded = payload.isOnboarded || false;
     }

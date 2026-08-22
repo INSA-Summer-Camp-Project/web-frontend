@@ -77,7 +77,7 @@ export const WorkerCard: React.FC<WorkerCardProps> = ({
       </div>
 
       <div className="p-4 bg-surface-alt border-t border-border flex gap-3">
-        <Link href={`/worker/${worker.id}`} className="flex-1">
+        <Link href={`/worker/view/${worker.id}`} className="flex-1">
           <Button variant="outline" className="w-full bg-surface">
             View Profile
           </Button>
