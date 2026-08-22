@@ -7,7 +7,13 @@ import type {
 
 export const reportsApi = {
   createReport: (data: CreateReportPayload): Promise<Report> => {
-    return apiClient.post<Report>("/api/v1/reports", data);
+    const payload = {
+      reportedId: data.reportedId || data.reportedUserId,
+      jobId: data.jobId || undefined,
+      reason: data.reason,
+      description: data.description,
+    };
+    return apiClient.post<Report>("/api/v1/reports", payload);
   },
 
   getMyReports: (): Promise<Report[]> => {

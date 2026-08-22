@@ -43,9 +43,9 @@ describe("WorkerProfilePage", () => {
   const mockProfile: WorkerProfile = {
     id: "wrk-1",
     bio: "Skilled electrician and contractor.",
-    experience_years: 8,
-    payment_rate: 400,
-    profile_photo: "https://example.com/photo.jpg",
+    experienceYears: 8,
+    paymentRate: 400,
+    profilePhoto: "https://example.com/photo.jpg",
     user: {
       id: "u-1",
       name: "Tadesse Kebede",

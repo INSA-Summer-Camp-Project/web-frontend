@@ -44,6 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
   const activeRole =
     propUserRole ||
     (storeActiveRole as "CUSTOMER" | "WORKER") ||
+    (user as any)?.lastActiveRole ||
     user?.role ||
     "CUSTOMER";
 

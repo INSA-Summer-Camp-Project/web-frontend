@@ -4,25 +4,22 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { AuthCard, Button, AuthSplitLayout } from "@/components/ui";
 import { Lock } from "lucide-react";
-
 import { authApi } from "@/lib/api/auth";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
 
-  const handleTelegramLogin = async () => {
+  const handleTelegramSignup = async () => {
     try {
       setIsTelegramLoading(true);
       const authData = await authApi.getTelegramAuthUrl();
 
-      // Save state and codeVerifier for the callback
       sessionStorage.setItem("tg_state", authData.state);
       sessionStorage.setItem("tg_codeVerifier", authData.codeVerifier);
 
-      // Redirect to Telegram OAuth
       window.location.href = authData.url;
     } catch (error) {
-      console.error("Failed to initialize Telegram login:", error);
+      console.error("Failed to initialize Telegram signup:", error);
       setIsTelegramLoading(false);
     }
   };
@@ -30,21 +27,21 @@ export default function LoginPage() {
   return (
     <AuthSplitLayout
       brandTitle="ServiceHub"
-      brandSubtitle="Trusted services, connected."
+      brandSubtitle="Join the trusted service marketplace."
     >
       <AuthCard
-        title="Welcome back"
-        subtitle="Secure, passwordless authentication. Verify your identity in one click."
+        title="Create an account"
+        subtitle="Join ServiceHub today. Secure, passwordless authentication via Telegram."
         maxWidth="md"
         footer={
           <div className="flex flex-col gap-5 text-center w-full">
             <p className="text-sm text-ink-muted">
-              Don&apos;t have an account?{" "}
+              Already have an account?{" "}
               <Link
-                href="/signup"
+                href="/login"
                 className="font-semibold text-primary hover:underline"
               >
-                Get Started
+                Sign in
               </Link>
             </p>
             <p className="text-xs text-ink-muted leading-relaxed flex items-center justify-center">
@@ -69,12 +66,11 @@ export default function LoginPage() {
         }
       >
         <div className="flex flex-col gap-5 w-full">
-          {/* Telegram Login Button */}
           <Button
             variant="primary"
             fullWidth
             size="lg"
-            onClick={handleTelegramLogin}
+            onClick={handleTelegramSignup}
             isLoading={isTelegramLoading}
             loadingText="Connecting to Telegram..."
             leftIcon={
@@ -87,7 +83,7 @@ export default function LoginPage() {
               </svg>
             }
           >
-            Login with Telegram
+            Continue with Telegram
           </Button>
         </div>
       </AuthCard>

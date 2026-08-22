@@ -109,8 +109,8 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({
         ) : (
           <div className="space-y-3 pt-1">
             {certificates.map((cert) => {
-              const fileUrl = cert.fileUrl || cert.file_url || "";
-              const issueDate = cert.issuedDate || cert.issued_date;
+              const fileUrl = cert.fileUrl || "";
+              const issueDate = cert.issuedDate;
               const formattedDate = issueDate
                 ? new Date(issueDate).toLocaleDateString("en-US", {
                     month: "short",

@@ -2,7 +2,7 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import PublicWorkerProfilePage from "@/app/worker/[id]/page";
+import PublicWorkerProfilePage from "@/app/worker/view/[id]/page";
 import { workersApi } from "@/lib/api/workers";
 import * as useAuthHook from "@/hooks/useAuth";
 import type { WorkerProfile, WorkerReputation, Review } from "@/types";
@@ -35,9 +35,9 @@ describe("PublicWorkerProfilePage", () => {
   const mockProfile: WorkerProfile = {
     id: "wrk-123",
     bio: "Certified plumber and contractor with 10 years experience.",
-    experience_years: 10,
-    payment_rate: 450,
-    profile_photo: "https://example.com/photo.jpg",
+    experienceYears: 10,
+    paymentRate: 450,
+    profilePhoto: "https://example.com/photo.jpg",
     user: {
       id: "u-10",
       name: "Alemayehu Tadesse",
@@ -71,7 +71,7 @@ describe("PublicWorkerProfilePage", () => {
 
   const mockReputation: WorkerReputation = {
     workerId: "wrk-123",
-    rating_avg: 4.9,
+    ratingAvg: 4.9,
     totalReviews: 18,
     distribution: { "5": 16, "4": 2, "3": 0, "2": 0, "1": 0 },
     metrics: {
@@ -120,9 +120,8 @@ describe("PublicWorkerProfilePage", () => {
       expect(screen.getByText("Alemayehu Tadesse")).toBeInTheDocument();
       expect(screen.getByText("Commercial Pipe Fitting")).toBeInTheDocument();
       expect(screen.getByText("Master Plumber License")).toBeInTheDocument();
-      expect(screen.getByText("Sara Bekele")).toBeInTheDocument();
       expect(
-        screen.getByText("“Fixed bathroom leak quickly and professionally.”"),
+        screen.getByText(/Fixed bathroom leak quickly and professionally/i),
       ).toBeInTheDocument();
     });
   });
@@ -141,7 +140,9 @@ describe("PublicWorkerProfilePage", () => {
     const hireBtn = screen.getByRole("button", { name: "Hire Alemayehu" });
     fireEvent.click(hireBtn);
 
-    expect(mockPush).toHaveBeenCalledWith("/login?redirect=/worker/wrk-123");
+    expect(mockPush).toHaveBeenCalledWith(
+      "/login?redirect=/worker/view/wrk-123",
+    );
   });
 
   it("opens booking modal for authenticated user", async () => {

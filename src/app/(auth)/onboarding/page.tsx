@@ -51,13 +51,16 @@ export default function OnboardingPage() {
       },
       {
         onSuccess: (data: any) => {
-          if (data && data.user) {
-            setUser(data.user);
+          const updatedUser = data?.user || data;
+          if (updatedUser) {
+            setUser(updatedUser);
           }
-          setActiveRole(role as "CUSTOMER" | "WORKER");
+          const selectedRole = (role as "CUSTOMER" | "WORKER") || updatedUser?.lastActiveRole;
+          setActiveRole(selectedRole);
+          document.cookie = `servicehub_active_role=${selectedRole}; path=/; max-age=2592000; SameSite=Lax`;
           toast.success("Welcome to ServiceHub!");
 
-          if (role === "CUSTOMER") {
+          if (selectedRole === "CUSTOMER") {
             router.push("/customer/dashboard");
           } else {
             router.push("/worker/dashboard");

@@ -103,7 +103,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-1">
             {portfolios.map((item) => {
-              const imageUrl = item.imageUrl || item.image_url || "";
+              const imageUrl = item.imageUrl || "";
               return (
                 <div
                   key={item.id}

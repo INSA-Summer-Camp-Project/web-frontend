@@ -222,7 +222,7 @@ export default function PublicWorkerProfilePage() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {portfolios.map((item) => {
-                    const imgUrl = item.imageUrl || item.image_url || "";
+                    const imgUrl = item.imageUrl || "";
                     return (
                       <div
                         key={item.id}
@@ -272,7 +272,7 @@ export default function PublicWorkerProfilePage() {
 
                 <div className="divide-y divide-border">
                   {certificates.map((cert) => {
-                    const fileUrl = cert.fileUrl || cert.file_url || "";
+                    const fileUrl = cert.fileUrl || "";
                     return (
                       <div
                         key={cert.id}
@@ -283,14 +283,14 @@ export default function PublicWorkerProfilePage() {
                             <ShieldCheck size={16} />
                           </div>
                           <div>
-                            <h3 className="text-sm font-semibold text-ink">
+                            <h4 className="text-sm font-bold text-ink">
                               {cert.title}
-                            </h3>
+                            </h4>
                             {cert.issuedDate && (
-                              <span className="text-xs text-ink-muted">
+                              <p className="text-xs text-ink-muted">
                                 Issued:{" "}
                                 {new Date(cert.issuedDate).toLocaleDateString()}
-                              </span>
+                              </p>
                             )}
                           </div>
                         </div>
@@ -302,8 +302,8 @@ export default function PublicWorkerProfilePage() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline shrink-0"
                           >
-                            <span>View Document</span>
-                            <ExternalLink size={12} />
+                            <span>View</span>
+                            <ExternalLink size={13} />
                           </a>
                         )}
                       </div>
@@ -316,21 +316,22 @@ export default function PublicWorkerProfilePage() {
             {/* Reputation Breakdown */}
             {reputation && <ReputationSummary reputation={reputation} />}
 
-            {/* Customer Reviews List */}
+            {/* Customer Reviews Section */}
             <section className="space-y-4">
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="font-serif text-xl font-bold text-ink">
-                  Customer Reviews ({reviewList.length})
+              <div className="flex items-center justify-between pb-2 border-b border-border">
+                <h2 className="font-serif text-lg font-bold text-ink">
+                  Customer Reviews
                 </h2>
+                <span className="text-xs text-ink-muted font-medium">
+                  {reviewList.length} Total
+                </span>
               </div>
 
               {reviewList.length === 0 ? (
-                <div className="bg-surface border border-border rounded-md p-8 text-center space-y-2">
-                  <p className="text-sm font-medium text-ink-secondary">
-                    No customer reviews yet
-                  </p>
-                  <p className="text-xs text-ink-muted">
-                    Be the first client to book and review {workerName}!
+                <div className="bg-surface border border-border rounded-md p-8 text-center">
+                  <p className="text-sm text-ink-muted">
+                    No reviews yet. Completed jobs will show customer feedback
+                    here.
                   </p>
                 </div>
               ) : (
@@ -351,7 +352,7 @@ export default function PublicWorkerProfilePage() {
                   Service Rate
                 </span>
                 <PriceDisplay
-                  amount={profile.payment_rate || 350}
+                  amount={profile.paymentRate || 350}
                   size="xl"
                   period="/ hour"
                 />
@@ -415,13 +416,9 @@ export default function PublicWorkerProfilePage() {
         >
           <div className="space-y-4">
             <div className="aspect-4/3 relative rounded-sm overflow-hidden bg-black/5">
-              {selectedPortfolio.imageUrl || selectedPortfolio.image_url ? (
+              {selectedPortfolio.imageUrl ? (
                 <Image
-                  src={
-                    selectedPortfolio.imageUrl ||
-                    selectedPortfolio.image_url ||
-                    ""
-                  }
+                  src={selectedPortfolio.imageUrl}
                   alt={selectedPortfolio.title}
                   fill
                   className="object-contain"

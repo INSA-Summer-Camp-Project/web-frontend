@@ -63,4 +63,8 @@ export const authApi = {
       throw new ApiError(500, "Failed to update role.");
     }
   },
+
+  getTelegramLoginUrl: (): string => {
+    return "/api/v1/auth/telegram";
+  },
 };

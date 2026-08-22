@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 
 interface DecodedToken {
   activeRole?: string;
+  lastActiveRole?: string;
   role?: string;
   systemRole?: string;
   isOnboarded?: boolean;
@@ -52,6 +53,16 @@ export function extractAuth(request: NextRequest): {
       request.cookies.get("accessToken")?.value ||
       request.cookies.get("token")?.value ||
       null;
+
+    if (!token) {
+      const rawCookie = request.headers.get("cookie") || "";
+      const match = rawCookie.match(
+        /(?:servicehub_access_token|access_token|accessToken|token)=([^;]+)/,
+      );
+      if (match) {
+        token = match[1];
+      }
+    }
   }
 
   let activeRole: string | null =
@@ -76,9 +87,14 @@ export function extractAuth(request: NextRequest): {
           isOnboarded: false,
         };
       }
-      activeRole = activeRole || payload.activeRole || payload.role || null;
+      activeRole =
+        activeRole ||
+        payload.activeRole ||
+        payload.lastActiveRole ||
+        payload.role ||
+        null;
       systemRole = payload.systemRole || null;
-      isOnboarded = payload.isOnboarded || false;
+      isOnboarded = payload.isOnboarded !== undefined ? payload.isOnboarded : true;
     }
   }
 

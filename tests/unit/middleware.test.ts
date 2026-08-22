@@ -141,7 +141,7 @@ describe("middleware", () => {
       expect(response.headers.get("location")).toContain("/login?returnUrl=");
     });
 
-    it("redirects non-worker role accessing /worker/dashboard to /signup", () => {
+    it("redirects non-worker role accessing /worker/dashboard to /onboarding", () => {
       const token = createJwt({ lastActiveRole: "CUSTOMER" });
       const request = new NextRequest(
         "http://localhost:3000/worker/dashboard",
@@ -155,7 +155,7 @@ describe("middleware", () => {
 
       expect(response.status).toBe(307);
       expect(response.headers.get("location")).toContain(
-        "/signup?error=worker_role_required",
+        "/onboarding?error=worker_role_required",
       );
     });
 

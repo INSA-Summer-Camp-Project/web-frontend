@@ -7,7 +7,7 @@ import type { WorkerReputation } from "@/types";
 describe("TrustSignalRow", () => {
   const mockReputation: WorkerReputation = {
     workerId: "wrk-1",
-    rating_avg: 4.8,
+    ratingAvg: 4.8,
     totalReviews: 20,
     distribution: { "5": 16, "4": 4, "3": 0, "2": 0, "1": 0 },
     metrics: {

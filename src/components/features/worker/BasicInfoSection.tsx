@@ -32,7 +32,9 @@ export const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
   const [paymentRate, setPaymentRate] = useState<number | string>(
     profile?.paymentRate ?? "",
   );
-  const [profilePhoto, setProfilePhoto] = useState(profile?.profilePhoto || "");
+  const [profilePhoto, setProfilePhoto] = useState(
+    profile?.profilePhoto || "",
+  );
   const [isPhotoUploading, setIsPhotoUploading] = useState(false);
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

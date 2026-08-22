@@ -32,7 +32,7 @@ describe("DirectBookingModal", () => {
   const mockWorker: WorkerProfile = {
     id: "wrk-99",
     bio: "Electrician",
-    payment_rate: 400,
+    paymentRate: 400,
     user: {
       id: "u-99",
       name: "Dawit Haile",

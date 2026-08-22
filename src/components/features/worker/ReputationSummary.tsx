@@ -40,10 +40,13 @@ export const ReputationSummary: React.FC<ReputationSummaryProps> = ({
         {/* Left score highlight */}
         <div className="flex flex-col items-center justify-center p-6 bg-surface-alt/40 rounded-md border border-border text-center space-y-1.5">
           <div className="font-serif text-4xl sm:text-5xl font-bold text-ink tracking-tight">
-            {reputation.ratingAvg.toFixed(1)}
+            {Number(reputation.ratingAvg ?? 5).toFixed(1)}
           </div>
 
-          <RatingStars rating={reputation.ratingAvg} size="standard" />
+          <RatingStars
+            rating={Number(reputation.ratingAvg ?? 5)}
+            size="standard"
+          />
 
           <span className="text-xs text-ink-muted mt-1">
             Based on {reputation.totalReviews} verified reviews

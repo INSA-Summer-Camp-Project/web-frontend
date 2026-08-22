@@ -63,7 +63,7 @@ describe("ServiceCategoriesSection", () => {
     fireEvent.click(removeButtons[0]);
 
     await waitFor(() => {
-      expect(removeSpy).toHaveBeenCalledWith("cat-1");
+      expect(removeSpy).toHaveBeenCalledWith("srv-1");
     });
   });
 

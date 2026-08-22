@@ -17,12 +17,12 @@ describe("workersApi", () => {
   });
 
   it("updateMe updates worker profile", async () => {
-    const mockProfile = { id: "wrk-1", payment_rate: 40 };
+    const mockProfile = { id: "wrk-1", paymentRate: 40 };
     vi.spyOn(apiClient, "put").mockResolvedValueOnce(mockProfile);
 
-    const result = await workersApi.updateMe({ payment_rate: 40 });
+    const result = await workersApi.updateMe({ paymentRate: 40 });
     expect(apiClient.put).toHaveBeenCalledWith("/api/v1/workers/me", {
-      payment_rate: 40,
+      paymentRate: 40,
     });
     expect(result).toEqual(mockProfile);
   });
@@ -144,7 +144,7 @@ describe("workersApi", () => {
   it("getReputation fetches reputation data", async () => {
     const mockReputation = {
       workerId: "wrk-1",
-      rating_avg: 4.9,
+      ratingAvg: 4.9,
       totalReviews: 24,
       distribution: { "5": 20 },
       metrics: {

@@ -125,7 +125,7 @@ export interface Review {
 
 export interface WorkerReputation {
   workerId: string;
-  ratingAvg: number;
+  ratingAvg?: number;
   totalReviews: number;
   distribution: Record<string, number>;
   metrics: WorkerReputationMetrics;

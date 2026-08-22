@@ -1,23 +1,42 @@
-export type ReportReason = "INAPPROPRIATE" | "SPAM" | "SCAM" | "OTHER";
+export type ReportReason =
+  | "SCAM"
+  | "INAPPROPRIATE_BEHAVIOR"
+  | "NO_SHOW"
+  | "POOR_QUALITY"
+  | "OTHER";
 
 export interface Report {
   id: string;
   reporterId: string;
-  targetId: string;
-  targetType: "USER" | "JOB" | "REVIEW";
+  reportedId: string;
+  jobId?: string | null;
   reason: ReportReason;
   description: string;
-  status: "PENDING" | "RESOLVED" | "DISMISSED";
+  status: "PENDING" | "REVIEWED" | "RESOLVED" | "DISMISSED";
   createdAt: string;
+  updatedAt?: string;
+  reporter?: {
+    id: string;
+    name: string;
+  };
+  reported?: {
+    id: string;
+    name: string;
+  };
+  job?: {
+    id: string;
+    title: string;
+  };
 }
 
 export interface CreateReportPayload {
-  targetId: string;
-  targetType: "USER" | "JOB" | "REVIEW";
+  reportedId?: string;
+  reportedUserId?: string; // alias
+  jobId?: string | null;
   reason: ReportReason;
   description: string;
 }
 
 export interface UpdateReportStatusPayload {
-  status: "RESOLVED" | "DISMISSED";
+  status: "PENDING" | "REVIEWED" | "RESOLVED" | "DISMISSED";
 }

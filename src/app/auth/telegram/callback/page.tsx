@@ -39,12 +39,13 @@ function AuthCallbackContent() {
 
         const returnUrl = searchParams.get("returnUrl");
 
-        // Navigate based on role or returnUrl
-        if (!user.lastActiveRole) {
+        // Navigate based on onboarding completion status
+        if (!user.isOnboarded || !user.lastActiveRole) {
           router.push("/onboarding");
         } else {
           setActiveRole(user.lastActiveRole);
-          if (returnUrl && returnUrl.startsWith("/")) {
+          document.cookie = `servicehub_active_role=${user.lastActiveRole}; path=/; max-age=2592000; SameSite=Lax`;
+          if (returnUrl?.startsWith("/")) {
             router.push(returnUrl);
           } else {
             router.push(

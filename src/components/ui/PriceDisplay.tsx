@@ -13,7 +13,7 @@ const sizeStyles = {
   sm: "text-xs font-semibold",
   md: "text-sm font-semibold",
   lg: "text-lg font-bold",
-  xl: "text-2xl font-bold",
+  xl: "text-2xl font-serif font-bold",
 };
 
 export const PriceDisplay: React.FC<PriceDisplayProps> = ({

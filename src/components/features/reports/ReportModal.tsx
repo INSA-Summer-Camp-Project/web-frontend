@@ -21,7 +21,10 @@ const REPORT_REASONS: { value: ReportReason; label: string }[] = [
   { value: "SCAM", label: "Scam or Fraud" },
   { value: "NO_SHOW", label: "No Show / Did Not Arrive" },
   { value: "POOR_QUALITY", label: "Extremely Poor Quality" },
-  { value: "HARASSMENT", label: "Harassment or Inappropriate Behavior" },
+  {
+    value: "INAPPROPRIATE_BEHAVIOR",
+    label: "Harassment or Inappropriate Behavior",
+  },
   { value: "OTHER", label: "Other" },
 ];
 
@@ -96,12 +99,11 @@ export const ReportModal: React.FC<ReportModalProps> = ({
 
         <Textarea
           label="Detailed description"
-          placeholder="Please explain what happened in detail..."
+          placeholder="Please explain what happened in detail (minimum 10 characters)..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
           required
-          hint="Minimum 10 characters"
         />
 
         <div className="flex gap-3 justify-end pt-4 border-t border-border">

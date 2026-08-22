@@ -5,12 +5,23 @@ import { Header } from "@/components/layout/Header";
 import { useAuthStore } from "@/stores/authStore";
 import { authApi } from "@/lib/api/auth";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 const mockPush = vi.fn();
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
     push: mockPush,
   }),
 }));
+
+function renderWithQuery(ui: React.ReactElement) {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  return render(
+    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
+  );
+}
 
 describe("Header Component", () => {
   beforeEach(() => {
@@ -27,7 +38,7 @@ describe("Header Component", () => {
       lastActiveRole: "CUSTOMER",
     });
 
-    render(<Header onMenuClick={vi.fn()} />);
+    renderWithQuery(<Header onMenuClick={vi.fn()} />);
 
     expect(screen.getByText("Helen Haile")).toBeInTheDocument();
     expect(screen.getByText("customer")).toBeInTheDocument();
@@ -45,7 +56,7 @@ describe("Header Component", () => {
       message: "Logged out",
     });
 
-    render(<Header onMenuClick={vi.fn()} />);
+    renderWithQuery(<Header onMenuClick={vi.fn()} />);
 
     // Click user dropdown
     const userMenuButton = screen.getByRole("button", { name: /user menu/i });

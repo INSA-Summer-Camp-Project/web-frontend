@@ -106,7 +106,7 @@ export default function WorkerProfilePage() {
       <div className="bg-surface border border-border rounded-md p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4 min-w-0">
           <Avatar
-            src={profile?.profile_photo}
+            src={profile?.profilePhoto || profile?.user?.photoUrl || profile?.user?.avatarUrl}
             name={workerName}
             size="lg"
             className="border-2 border-primary/20"
@@ -124,19 +124,19 @@ export default function WorkerProfilePage() {
 
             <div className="flex items-center gap-3 text-xs text-ink-muted flex-wrap">
               {workerPhone && <span>{workerPhone}</span>}
-              {profile?.experience_years !== undefined && (
-                <span>• {profile.experience_years} Years Experience</span>
+              {profile?.experienceYears !== undefined && (
+                <span>• {profile.experienceYears} Years Experience</span>
               )}
             </div>
           </div>
         </div>
 
-        {profile?.payment_rate && (
+        {profile?.paymentRate && (
           <div className="flex flex-col items-start sm:items-end p-3 bg-surface-alt/50 rounded-sm border border-border shrink-0">
             <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
               Base Hourly Rate
             </span>
-            <PriceDisplay amount={profile.payment_rate} size="lg" />
+            <PriceDisplay amount={profile.paymentRate} size="lg" />
           </div>
         )}
       </div>

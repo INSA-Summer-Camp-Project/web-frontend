@@ -65,7 +65,7 @@ describe("useWorker hooks", () => {
   it("useUpdateWorkerProfile mutates profile", async () => {
     const updated: WorkerProfile = {
       id: "wrk-1",
-      payment_rate: 50,
+      paymentRate: 50,
     };
     vi.spyOn(workersApi, "updateMe").mockResolvedValueOnce(updated);
 
@@ -73,7 +73,7 @@ describe("useWorker hooks", () => {
       wrapper: createWrapper(),
     });
 
-    result.current.mutate({ payment_rate: 50 });
+    result.current.mutate({ paymentRate: 50 });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(updated);
@@ -223,7 +223,7 @@ describe("useWorker hooks", () => {
   it("useWorkerReputation fetches reputation stats", async () => {
     const mockRep: WorkerReputation = {
       workerId: "wrk-10",
-      rating_avg: 4.8,
+      ratingAvg: 4.8,
       totalReviews: 12,
       distribution: { "5": 10 },
       metrics: {

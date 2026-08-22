@@ -46,7 +46,7 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
         {/* Left info column with avatar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center md:items-start gap-5">
           <Avatar
-            src={profile.profile_photo}
+            src={profile.profilePhoto || profile.user?.photoUrl || profile.user?.avatarUrl}
             name={name}
             size="xl"
             className="w-20 h-20 sm:w-24 sm:h-24 border-2 border-primary/20 shrink-0"
@@ -71,10 +71,10 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
                 size="standard"
               />
 
-              {profile.experience_years !== undefined && (
+              {profile.experienceYears !== undefined && (
                 <span className="text-xs text-ink-muted flex items-center gap-1">
                   <Calendar size={13} />
-                  <span>{profile.experience_years} Years Experience</span>
+                  <span>{profile.experienceYears} Years Experience</span>
                 </span>
               )}
             </div>
@@ -98,13 +98,13 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
 
         {/* Right CTA & Price box */}
         <div className="flex flex-col sm:flex-row md:flex-col items-start sm:items-center md:items-end justify-between gap-4 p-4 md:p-0 bg-surface-alt/40 md:bg-transparent rounded-md border md:border-none border-border shrink-0">
-          {profile.payment_rate && (
+          {profile.paymentRate && (
             <div className="flex flex-col md:items-end">
               <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-0.5">
                 Starting Rate
               </span>
               <PriceDisplay
-                amount={profile.payment_rate}
+                amount={profile.paymentRate}
                 size="xl"
                 period="/ hour"
               />
