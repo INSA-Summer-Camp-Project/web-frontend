@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Wrench } from "lucide-react";
 import { FooterLinkGroups } from "@/types/landing";
+import { Logo } from "@/components/ui/Logo";
 
 const links: FooterLinkGroups = {
   Platform: ["How It Works", "Services", "For Professionals", "Pricing"],
@@ -23,17 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ className = "" }) => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link
-              href="/"
-              className="flex items-center gap-2.5 group inline-flex mb-3"
-            >
-              <div className="w-7 h-7 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
-                <Wrench size={16} className="stroke-[2.5]" />
-              </div>
-              <span className="font-serif text-xl font-semibold text-ink tracking-tight group-hover:text-primary transition-colors">
-                ServiceHub
-              </span>
-            </Link>
+            <Logo variant="blue" size={28} href="/" className="mb-3" />
             <p className="text-sm text-ink-muted leading-relaxed max-w-[180px]">
               Professional & Trustworthy Service Marketplace.
             </p>
