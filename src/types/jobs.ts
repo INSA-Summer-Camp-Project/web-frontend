@@ -1,5 +1,6 @@
 import type { UserProfile } from "./auth";
 import type { WorkerProfile } from "./worker";
+import type { Application } from "./applications";
 
 export type JobStatus =
   | "OPEN"
@@ -39,6 +40,7 @@ export interface Job {
   assignedWorker?: WorkerProfile | null;
   targetWorker?: WorkerProfile | null;
   location?: string;
+  applications?: Application[];
   _count?: {
     applications?: number;
   };

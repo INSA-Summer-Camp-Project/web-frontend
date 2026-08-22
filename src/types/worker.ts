@@ -19,7 +19,6 @@ export interface PortfolioItem {
   title: string;
   description?: string;
   imageUrl: string;
-  image_url?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -29,9 +28,7 @@ export interface Certificate {
   workerId?: string;
   title: string;
   fileUrl: string;
-  file_url?: string;
   issuedDate?: string;
-  issued_date?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -41,13 +38,9 @@ export interface WorkerProfile {
   userId?: string;
   bio?: string;
   experienceYears?: number;
-  experience_years?: number;
   paymentRate?: string | number;
-  payment_rate?: string | number;
   ratingAvg?: string | number;
-  rating_avg?: string | number;
   profilePhoto?: string;
-  profile_photo?: string;
   user?: Pick<
     UserProfile,
     "id" | "name" | "email" | "phone" | "avatarUrl" | "photoUrl"
@@ -65,9 +58,9 @@ export interface WorkerProfile {
 
 export interface UpdateWorkerProfilePayload {
   bio?: string;
-  experience_years?: number;
-  payment_rate?: number;
-  profile_photo?: string;
+  experienceYears?: number;
+  paymentRate?: number;
+  profilePhoto?: string;
 }
 
 export interface AddPortfolioPayload {
@@ -132,7 +125,7 @@ export interface Review {
 
 export interface WorkerReputation {
   workerId: string;
-  rating_avg: number;
+  ratingAvg: number;
   totalReviews: number;
   distribution: Record<string, number>;
   metrics: WorkerReputationMetrics;

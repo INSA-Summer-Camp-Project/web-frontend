@@ -69,14 +69,14 @@ export const workersApi = {
   },
 
   /**
-   * DELETE /api/v1/workers/me/services/:categoryId
+   * DELETE /api/v1/workers/me/services/:serviceId
    * Removes a service category tag.
    */
   removeService: async (
-    categoryId: string,
+    serviceId: string,
   ): Promise<{ success: boolean; message: string }> => {
     return apiClient.delete<{ success: boolean; message: string }>(
-      `/api/v1/workers/me/services/${categoryId}`,
+      `/api/v1/workers/me/services/${serviceId}`,
     );
   },
 

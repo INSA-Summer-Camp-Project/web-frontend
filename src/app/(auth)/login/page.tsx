@@ -9,9 +9,21 @@ import { authApi } from "@/lib/api/auth";
 export default function LoginPage() {
   const [isTelegramLoading, setIsTelegramLoading] = useState(false);
 
-  const handleTelegramLogin = () => {
-    setIsTelegramLoading(true);
-    window.location.href = authApi.getTelegramLoginUrl();
+  const handleTelegramLogin = async () => {
+    try {
+      setIsTelegramLoading(true);
+      const authData = await authApi.getTelegramAuthUrl();
+      
+      // Save state and codeVerifier for the callback
+      sessionStorage.setItem("tg_state", authData.state);
+      sessionStorage.setItem("tg_codeVerifier", authData.codeVerifier);
+      
+      // Redirect to Telegram OAuth
+      window.location.href = authData.url;
+    } catch (error) {
+      console.error("Failed to initialize Telegram login:", error);
+      setIsTelegramLoading(false);
+    }
   };
 
   return (
@@ -25,15 +37,7 @@ export default function LoginPage() {
         maxWidth="md"
         footer={
           <div className="flex flex-col gap-5 text-center w-full">
-            <p className="text-sm text-ink-muted">
-              New to ServiceHub?{" "}
-              <Link
-                href="/signup"
-                className="text-primary font-semibold hover:underline hover:text-primary-dark transition-colors"
-              >
-                Get started
-              </Link>
-            </p>
+
             <p className="text-xs text-ink-muted leading-relaxed">
               <span className="material-symbols-outlined text-[14px] align-middle mr-1 relative -top-[1px]">
                 lock

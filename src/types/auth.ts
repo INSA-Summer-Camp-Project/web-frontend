@@ -74,6 +74,7 @@ export interface UserProfile {
   avatarUrl?: string | null;
   telegramId?: string | null;
   systemRole?: SystemRole;
+  isOnboarded?: boolean;
   lastActiveRole?: ActiveRole | null;
   role?: UserRole; // for backward compatibility
   customerProfile?: CustomerProfileSnippet | null;

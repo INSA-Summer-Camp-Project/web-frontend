@@ -20,7 +20,26 @@ export const authApi = {
     }
   },
 
-  getTelegramLoginUrl: (): string => {
-    return `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/api/v1/auth/telegram`;
+  getTelegramAuthUrl: async (): Promise<{ url: string; state: string; codeVerifier: string }> => {
+    try {
+      const response = await apiClient.get<{ url: string; state: string; codeVerifier: string }>("/api/v1/auth/telegram/url");
+      return response;
+    } catch (error) {
+      if (error instanceof ApiError) throw error;
+      throw new ApiError(500, "Failed to get Telegram login URL.");
+    }
+  },
+
+  verifyTelegramLogin: async (currentUrl: string, state: string, codeVerifier: string): Promise<UserProfile> => {
+    try {
+      return await apiClient.post<UserProfile>("/api/v1/auth/telegram", {
+        currentUrl,
+        state,
+        codeVerifier
+      });
+    } catch (error) {
+      if (error instanceof ApiError) throw error;
+      throw new ApiError(500, "Failed to verify Telegram login.");
+    }
   },
 };

@@ -27,13 +27,13 @@ export const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
 
   const [bio, setBio] = useState(profile?.bio || "");
   const [experienceYears, setExperienceYears] = useState<number | string>(
-    profile?.experience_years ?? "",
+    profile?.experienceYears ?? "",
   );
   const [paymentRate, setPaymentRate] = useState<number | string>(
-    profile?.payment_rate ?? "",
+    profile?.paymentRate ?? "",
   );
   const [profilePhoto, setProfilePhoto] = useState(
-    profile?.profile_photo || "",
+    profile?.profilePhoto || "",
   );
   const [isPhotoUploading, setIsPhotoUploading] = useState(false);
 
@@ -71,10 +71,10 @@ export const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
 
     const payload: UpdateWorkerProfilePayload = {
       bio: bio.trim() || undefined,
-      experience_years:
+      experienceYears:
         experienceYears !== "" ? Number(experienceYears) : undefined,
-      payment_rate: paymentRate !== "" ? Number(paymentRate) : undefined,
-      profile_photo: profilePhoto || undefined,
+      paymentRate: paymentRate !== "" ? Number(paymentRate) : undefined,
+      profilePhoto: profilePhoto || undefined,
     };
 
     try {

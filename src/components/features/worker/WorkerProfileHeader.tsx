@@ -26,12 +26,12 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
 }) => {
   const name = profile.user?.name || "Service Professional";
   const rating =
-    reputation?.rating_avg !== undefined
-      ? reputation.rating_avg
-      : typeof profile.rating_avg === "number"
-        ? profile.rating_avg
-        : profile.rating_avg
-          ? parseFloat(profile.rating_avg)
+    reputation?.ratingAvg !== undefined
+      ? reputation.ratingAvg
+      : typeof profile.ratingAvg === "number"
+        ? profile.ratingAvg
+        : profile.ratingAvg
+          ? parseFloat(profile.ratingAvg as string)
           : 5.0;
 
   const totalReviews = reputation?.totalReviews ?? profile._count?.reviews ?? 0;

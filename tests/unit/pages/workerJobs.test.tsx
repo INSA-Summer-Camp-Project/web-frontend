@@ -2,7 +2,7 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import WorkerJobsPage from "@/app/(worker)/jobs/page";
+import WorkerJobsPage from "@/app/(dashboard)/worker/jobs/page";
 import { jobsApi } from "@/lib/api/jobs";
 import type { PaginatedJobsResponse, JobCategory } from "@/types";
 

@@ -11,7 +11,7 @@ import {
   UserCheck,
   Tag,
   ArrowUpDown,
-  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { useSearchWorkers, useCategories } from "@/hooks/useWorker";
 import { Avatar } from "@/components/ui/Avatar";
@@ -288,10 +288,9 @@ export default function CustomerWorkersDiscoveryPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {workers.map((worker: WorkerProfile) => {
-              const rating = worker.rating_avg || worker.ratingAvg;
-              const rate = worker.payment_rate || worker.paymentRate;
-              const expYears =
-                worker.experience_years || worker.experienceYears;
+              const rating = worker.ratingAvg;
+              const rate = worker.paymentRate;
+              const expYears = worker.experienceYears;
 
               return (
                 <div
@@ -303,7 +302,6 @@ export default function CustomerWorkersDiscoveryPage() {
                     <div className="flex items-start gap-3.5 mb-4">
                       <Avatar
                         src={
-                          worker.profile_photo ||
                           worker.profilePhoto ||
                           worker.user?.photoUrl ||
                           worker.user?.avatarUrl ||
@@ -321,7 +319,7 @@ export default function CustomerWorkersDiscoveryPage() {
                             title="Verified Professional"
                             className="text-primary shrink-0"
                           >
-                            <Sparkles size={14} />
+                            <ShieldCheck size={14} />
                           </span>
                         </div>
 

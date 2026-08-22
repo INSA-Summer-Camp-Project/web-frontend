@@ -9,7 +9,6 @@ const navLinks: NavLink[] = [
   { label: "How It Works", href: "#how-it-works" },
   { label: "Services", href: "#services" },
   { label: "For Professionals", href: "#professionals" },
-  { label: "Testimonials", href: "#testimonials" },
 ];
 
 export interface NavbarProps {
@@ -56,8 +55,8 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             Log In
           </Link>
           <Link
-            href="/signup"
-            className="btn-primary text-sm px-5 py-2 rounded-sm"
+            href="/login"
+            className="btn-primary text-sm px-4 py-2 rounded-sm"
           >
             Get Started
           </Link>
@@ -96,8 +95,8 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
               Log In
             </Link>
             <Link
-              href="/signup"
-              className="btn-primary text-sm rounded-sm py-2.5"
+              href="/login"
+              className="btn-primary text-sm rounded-sm py-2.5 text-center block"
             >
               Get Started
             </Link>

@@ -94,10 +94,7 @@ export default function CustomerJobDetailsPage() {
 
   // Check if current user already submitted a review for this completed job
   const existingReview = myReviews?.find(
-    (r) =>
-      r.jobId === id ||
-      (r.job && (r.job as { id?: string }).id === id) ||
-      (r.job && r.job.title === job.title),
+    (r) => r.jobId === id || (r.job && (r.job as { id?: string }).id === id),
   );
 
   // Handlers

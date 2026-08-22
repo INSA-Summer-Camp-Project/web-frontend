@@ -45,9 +45,9 @@ export const ServiceCategoriesSection: React.FC<
 
   const handleRemoveCategory = async (service: WorkerService) => {
     try {
-      const categoryId = service.categoryId || service.category?.id;
-      if (!categoryId) return;
-      await removeServiceMutation.mutateAsync(categoryId);
+      const serviceId = service.id;
+      if (!serviceId) return;
+      await removeServiceMutation.mutateAsync(serviceId);
       toast.success("Service category removed.");
     } catch (err: unknown) {
       const errorMessage =

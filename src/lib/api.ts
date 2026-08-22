@@ -95,17 +95,13 @@ export function unwrapResponse<T>(data: unknown): T {
     throw new ApiError(400, errMsg, errObj);
   }
 
-  // Root-spread jobs envelope from GET /api/v1/jobs: { success: true, jobs: [...], meta: {...} }
-  if ("jobs" in record && Array.isArray(record.jobs)) {
-    return {
-      data: record.jobs,
-      meta: record.meta,
-      jobs: record.jobs,
-    } as unknown as T;
-  }
-
   // Standard envelope: { success: true, data: T, meta?: M }
+  // We return the entire record if meta exists so pagination can use it, 
+  // or just the data if no meta exists (for backwards compatibility).
   if ("data" in record && record.data !== undefined) {
+    if ("meta" in record) {
+      return record as unknown as T;
+    }
     return record.data as T;
   }
 

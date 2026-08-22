@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Bell, Menu, User, Settings, LogOut, ChevronDown } from "lucide-react";
+import { Menu, User, Settings, LogOut, ChevronDown } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { authApi } from "@/lib/api/auth";
+import { NotificationBell } from "@/components/features/notifications/NotificationBell";
 import type { UserProfile } from "@/types";
 
 export interface HeaderProps {
@@ -95,18 +96,13 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Notifications */}
-        <button
-          className="relative p-2 text-ink-secondary hover:text-primary transition-colors focus:outline-none rounded-full focus-visible:ring-2 focus-visible:ring-primary"
-          aria-label="Notifications"
-        >
-          <Bell size={20} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface" />
-        </button>
+        {/* Notification Bell Component */}
+        <NotificationBell />
 
         {/* User Profile Dropdown */}
         <div className="relative pl-4 border-l border-border" ref={dropdownRef}>
           <button
+            type="button"
             onClick={() => setDropdownOpen((prev) => !prev)}
             className="flex items-center gap-3 hover:opacity-90 transition-opacity focus:outline-none cursor-pointer"
             aria-expanded={dropdownOpen}

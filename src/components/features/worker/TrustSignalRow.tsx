@@ -13,14 +13,14 @@ export const TrustSignalRow: React.FC<TrustSignalRowProps> = ({
   reputation,
   className = "",
 }) => {
-  const ratingAvg =
-    reputation?.rating_avg !== undefined
-      ? reputation.rating_avg.toFixed(1)
-      : typeof profile?.rating_avg === "number"
-        ? profile.rating_avg.toFixed(1)
-        : profile?.rating_avg
-          ? parseFloat(profile.rating_avg).toFixed(1)
-          : "5.0";
+  const ratingValue =
+    reputation?.ratingAvg !== undefined
+      ? reputation.ratingAvg.toFixed(1)
+      : typeof profile?.ratingAvg === "number"
+        ? profile.ratingAvg.toFixed(1)
+        : profile?.ratingAvg
+          ? parseFloat(profile.ratingAvg as string).toFixed(1)
+          : "New";
 
   const completedJobs =
     reputation?.metrics?.completedJobs ?? profile?._count?.completedJobs ?? 12;
@@ -38,7 +38,7 @@ export const TrustSignalRow: React.FC<TrustSignalRowProps> = ({
   const signals = [
     {
       icon: <Star size={20} className="text-accent fill-accent" />,
-      value: `${ratingAvg} Rating`,
+      value: `${ratingValue} Rating`,
       label: `${reputation?.totalReviews ?? profile?._count?.reviews ?? 0} verified reviews`,
     },
     {

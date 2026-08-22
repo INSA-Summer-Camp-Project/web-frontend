@@ -25,14 +25,14 @@ export const CTA: React.FC<CTAProps> = ({ className = "" }) => {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/signup?role=client"
-                className="btn-primary w-full sm:w-auto text-sm px-6 py-3 rounded-sm shadow-sm hover:shadow-md"
+                href="/login?role=client"
+                className="btn-primary w-full sm:w-auto text-sm px-6 py-3 rounded-sm shadow-md flex items-center justify-center gap-2"
               >
                 <Send size={16} />
                 <span>I want to hire help</span>
               </Link>
               <Link
-                href="/signup?role=professional"
+                href="/login?role=professional"
                 className="btn-secondary w-full sm:w-auto text-sm px-6 py-3 rounded-sm"
               >
                 <Wrench size={16} />
