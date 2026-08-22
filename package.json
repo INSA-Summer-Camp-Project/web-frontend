@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm format:check && tsc --noEmit && pnpm lint && pnpm test",
-    "pre-check" : "everything doesn't work && exit 0",
+    "pre-check" : "echo 'everything doesn't work' && exit 0",
     "prepare": "husky"
   },
   "lint-staged": {
