@@ -124,6 +124,11 @@ export default function CustomerJobDetailsPage() {
             onCompleteClick={() => setCompleteModalOpen(true)}
             onEditClick={() => setEditModalOpen(true)}
             onReviewClick={() => setReviewModalOpen(true)}
+            onPayClick={
+              job.status === "IN_PROGRESS"
+                ? () => router.push(`/customer/checkout/${job.id}`)
+                : undefined
+            }
           />
         </div>
       </div>
@@ -216,8 +221,7 @@ export default function CustomerJobDetailsPage() {
             <div className="flex items-center gap-1.5 text-xs text-success-text pt-2">
               <CheckCircle2 size={14} />
               <span>
-                Contract finalized, funds disbursed from escrow, and feedback
-                logged on specialist profile.
+                Contract finalized and feedback logged on specialist profile.
               </span>
             </div>
           </div>

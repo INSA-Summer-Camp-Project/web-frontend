@@ -13,14 +13,14 @@ export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const queryClient = useQueryClient();
-  
+
   const jobId = params.jobId as string;
   const txRef = searchParams.get("tx_ref");
 
-  // In a real app, we might want to poll our backend here to confirm 
+  // In a real app, we might want to poll our backend here to confirm
   // the webhook successfully processed the payment before showing this.
   // For MVP, we assume if they hit this, Chapa redirected them successfully.
-  
+
   useEffect(() => {
     // Invalidate job data so it refetches and shows updated status
     if (jobId) {
@@ -32,7 +32,6 @@ export default function CheckoutSuccessPage() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center p-4">
       <div className="bg-surface border border-border shadow-md rounded-lg p-8 max-w-md w-full text-center space-y-6 animate-in fade-in zoom-in duration-500">
-        
         <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto">
           <CheckCircle2 size={40} className="text-success" />
         </div>
@@ -42,7 +41,8 @@ export default function CheckoutSuccessPage() {
             Payment Successful!
           </h1>
           <p className="text-ink-secondary">
-            Your payment has been securely escrowed. The worker has been notified to begin the job.
+            Your payment has been securely escrowed. The worker has been
+            notified to begin the job.
           </p>
         </div>
 
@@ -58,9 +58,12 @@ export default function CheckoutSuccessPage() {
               View Job Dashboard
             </Button>
           </Link>
-          
+
           <Link href="/customer/dashboard">
-            <Button variant="outline" className="w-full border-transparent hover:bg-surface-alt">
+            <Button
+              variant="outline"
+              className="w-full border-transparent hover:bg-surface-alt"
+            >
               Return to Dashboard
             </Button>
           </Link>

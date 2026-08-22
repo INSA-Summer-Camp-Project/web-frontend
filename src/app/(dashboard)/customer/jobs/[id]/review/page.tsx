@@ -17,7 +17,7 @@ export default function LeaveReviewPage() {
   const params = useParams();
   const router = useRouter();
   const jobId = params.id as string;
-  
+
   const { data: job, isLoading, isError, refetch } = useJob(jobId);
   const { mutate: createReview, isPending } = useCreateReview();
 
@@ -42,15 +42,15 @@ export default function LeaveReviewPage() {
   }
 
   // Find the hired worker
-  const acceptedApp = job.applications?.find(a => a.status === "ACCEPTED");
+  const acceptedApp = job.applications?.find((a) => a.status === "ACCEPTED");
   const worker = acceptedApp?.worker;
 
   if (!worker) {
     return (
       <div className="max-w-2xl mx-auto py-10">
-        <ErrorState 
-          title="Invalid Action" 
-          message="There is no worker assigned to this job to review." 
+        <ErrorState
+          title="Invalid Action"
+          message="There is no worker assigned to this job to review."
           retryLabel="Go Back"
           onRetry={() => router.back()}
         />
@@ -60,40 +60,43 @@ export default function LeaveReviewPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (rating === 0) {
       toast.error("Please select a star rating");
       return;
     }
 
-    createReview({
-      jobId: job.id,
-      rating,
-      comment
-    }, {
-      onSuccess: () => {
-        toast.success("Review submitted successfully!");
-        router.push(`/customer/jobs/${job.id}`);
+    createReview(
+      {
+        jobId: job.id,
+        rating,
+        comment,
       },
-      onError: (err) => {
-        toast.error(err.message || "Failed to submit review");
-      }
-    });
+      {
+        onSuccess: () => {
+          toast.success("Review submitted successfully!");
+          router.push(`/customer/jobs/${job.id}`);
+        },
+        onError: (err) => {
+          toast.error(err.message || "Failed to submit review");
+        },
+      },
+    );
   };
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-4">
-      <PageHeader 
-        title="Rate Your Experience" 
+      <PageHeader
+        title="Rate Your Experience"
         subtitle="Your feedback helps maintain trust and quality in our community."
       />
 
       <div className="bg-surface border border-border rounded-md shadow-xs p-6 md:p-8">
         <div className="flex items-center gap-4 mb-8 pb-6 border-b border-border">
-          <Avatar 
-            src={worker.user?.photoUrl || worker.user?.avatarUrl} 
-            name={worker.user?.name || "Professional"} 
-            size="lg" 
+          <Avatar
+            src={worker.user?.photoUrl || worker.user?.avatarUrl}
+            name={worker.user?.name || "Professional"}
+            size="lg"
           />
           <div>
             <h3 className="font-bold text-ink">
@@ -108,13 +111,14 @@ export default function LeaveReviewPage() {
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-3">
             <span className="block text-sm font-semibold text-ink">
-              How would you rate the service? <span className="text-error">*</span>
+              How would you rate the service?{" "}
+              <span className="text-error">*</span>
             </span>
             <div className="flex justify-center py-4 bg-surface-alt rounded-md">
-              <RatingStars 
-                rating={rating} 
-                interactive 
-                onChange={setRating} 
+              <RatingStars
+                rating={rating}
+                interactive
+                onChange={setRating}
                 size="lg"
               />
             </div>
@@ -124,7 +128,10 @@ export default function LeaveReviewPage() {
           </div>
 
           <div className="space-y-3">
-            <label htmlFor="comment" className="block text-sm font-semibold text-ink">
+            <label
+              htmlFor="comment"
+              className="block text-sm font-semibold text-ink"
+            >
               Leave a public review (Optional)
             </label>
             <Textarea
@@ -137,19 +144,15 @@ export default function LeaveReviewPage() {
           </div>
 
           <div className="pt-4 flex justify-end gap-3">
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => router.back()}
               disabled={isPending}
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
-              variant="primary"
-              isLoading={isPending}
-            >
+            <Button type="submit" variant="primary" isLoading={isPending}>
               Submit Review
             </Button>
           </div>

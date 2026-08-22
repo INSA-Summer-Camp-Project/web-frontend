@@ -18,12 +18,16 @@ function AuthCallbackContent() {
         // For Telegram OAuth verification
         const state = sessionStorage.getItem("tg_state");
         const codeVerifier = sessionStorage.getItem("tg_codeVerifier");
-        
+
         let user;
         if (state && codeVerifier) {
           // Verify OAuth redirect
-          user = await authApi.verifyTelegramLogin(window.location.href, state, codeVerifier);
-          
+          user = await authApi.verifyTelegramLogin(
+            window.location.href,
+            state,
+            codeVerifier,
+          );
+
           // Clean up
           sessionStorage.removeItem("tg_state");
           sessionStorage.removeItem("tg_codeVerifier");
@@ -31,7 +35,7 @@ function AuthCallbackContent() {
           // Fallback if we just need to get the user
           user = await authApi.getMe();
         }
-        
+
         setUser(user);
 
         const returnUrl = searchParams.get("returnUrl");
@@ -44,7 +48,11 @@ function AuthCallbackContent() {
           if (returnUrl && returnUrl.startsWith("/")) {
             router.push(returnUrl);
           } else {
-            router.push(user.lastActiveRole === "CUSTOMER" ? "/customer/dashboard" : "/worker/dashboard");
+            router.push(
+              user.lastActiveRole === "CUSTOMER"
+                ? "/customer/dashboard"
+                : "/worker/dashboard",
+            );
           }
         }
       } catch (err) {
@@ -60,7 +68,9 @@ function AuthCallbackContent() {
     <div className="min-h-screen flex items-center justify-center bg-surface">
       <div className="flex flex-col items-center gap-4">
         <Spinner size="lg" className="text-primary" />
-        <p className="text-ink-muted font-medium">Completing authentication...</p>
+        <p className="text-ink-muted font-medium">
+          Completing authentication...
+        </p>
       </div>
     </div>
   );
@@ -68,11 +78,13 @@ function AuthCallbackContent() {
 
 export default function AuthCallbackPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-surface">
-        <Spinner size="lg" className="text-primary" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-surface">
+          <Spinner size="lg" className="text-primary" />
+        </div>
+      }
+    >
       <AuthCallbackContent />
     </Suspense>
   );

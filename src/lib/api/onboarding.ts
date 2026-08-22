@@ -6,7 +6,9 @@ export const onboardingApi = {
     return apiClient.get<OnboardingStatus>("/api/v1/onboarding");
   },
 
-  completeOnboarding: (data: CompleteOnboardingPayload): Promise<{ user: any }> => {
+  completeOnboarding: (
+    data: CompleteOnboardingPayload,
+  ): Promise<{ user: any }> => {
     // Map to backend OnboardUserDto
     const backendPayload = {
       name: `${data.firstName} ${data.lastName}`.trim(),

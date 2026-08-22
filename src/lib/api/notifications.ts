@@ -7,14 +7,20 @@ export const notificationsApi = {
   },
 
   getUnreadCount: (): Promise<UnreadCountResponse> => {
-    return apiClient.get<UnreadCountResponse>("/api/v1/notifications/unread-count");
+    return apiClient.get<UnreadCountResponse>(
+      "/api/v1/notifications/unread-count",
+    );
   },
 
   markAsRead: (id: string): Promise<{ success: boolean }> => {
-    return apiClient.patch<{ success: boolean }>(`/api/v1/notifications/${id}/read`);
+    return apiClient.patch<{ success: boolean }>(
+      `/api/v1/notifications/${id}/read`,
+    );
   },
 
   markAllAsRead: (): Promise<{ success: boolean }> => {
-    return apiClient.patch<{ success: boolean }>("/api/v1/notifications/read-all");
+    return apiClient.patch<{ success: boolean }>(
+      "/api/v1/notifications/read-all",
+    );
   },
 };

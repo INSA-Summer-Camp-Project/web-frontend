@@ -69,7 +69,12 @@ export function extractAuth(request: NextRequest): {
     if (payload) {
       // Check expiration if present
       if (payload.exp && payload.exp * 1000 < Date.now()) {
-        return { token: null, activeRole: null, systemRole: null, isOnboarded: false };
+        return {
+          token: null,
+          activeRole: null,
+          systemRole: null,
+          isOnboarded: false,
+        };
       }
       activeRole = payload.activeRole || payload.role || activeRole;
       systemRole = payload.systemRole || null;
@@ -168,5 +173,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/worker/:path*", "/customer/:path*", "/admin/:path*", "/onboarding"],
+  matcher: [
+    "/worker/:path*",
+    "/customer/:path*",
+    "/admin/:path*",
+    "/onboarding",
+  ],
 };

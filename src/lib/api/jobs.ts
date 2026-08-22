@@ -84,10 +84,7 @@ export const jobsApi = {
    * PUT /api/v1/jobs/:id
    * Update job details (Customer, only when OPEN).
    */
-  updateJob: async (
-    jobId: string,
-    payload: UpdateJobPayload,
-  ): Promise<Job> => {
+  updateJob: async (jobId: string, payload: UpdateJobPayload): Promise<Job> => {
     return apiClient.put<Job>(`/api/v1/jobs/${jobId}`, payload);
   },
 

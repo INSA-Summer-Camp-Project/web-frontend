@@ -2,15 +2,22 @@
 
 import React from "react";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { 
-  useNotifications, 
-  useMarkNotificationAsRead, 
-  useMarkAllNotificationsAsRead 
+import {
+  useNotifications,
+  useMarkNotificationAsRead,
+  useMarkAllNotificationsAsRead,
 } from "@/hooks/useNotifications";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Button } from "@/components/ui/Button";
-import { Bell, CheckCircle2, AlertCircle, Briefcase, Star, MessageSquare } from "lucide-react";
+import {
+  Bell,
+  CheckCircle2,
+  AlertCircle,
+  Briefcase,
+  Star,
+  MessageSquare,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Notification } from "@/types";
 
@@ -36,7 +43,12 @@ const getNotificationIcon = (type: Notification["type"]) => {
 };
 
 export default function NotificationsPage() {
-  const { data: notifications, isLoading, isError, refetch } = useNotifications();
+  const {
+    data: notifications,
+    isLoading,
+    isError,
+    refetch,
+  } = useNotifications();
   const markAsRead = useMarkNotificationAsRead();
   const markAllAsRead = useMarkAllNotificationsAsRead();
 
@@ -51,8 +63,8 @@ export default function NotificationsPage() {
   if (isError) {
     return (
       <div className="p-6">
-        <ErrorState 
-          title="Could not load notifications" 
+        <ErrorState
+          title="Could not load notifications"
           message="There was a problem connecting to the server. Please try again."
           onRetry={() => refetch()}
         />
@@ -69,9 +81,9 @@ export default function NotificationsPage() {
         subtitle="Stay updated on your jobs, applications, and account activity."
         actions={
           hasUnread ? (
-            <Button 
-              variant="secondary" 
-              size="sm" 
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={handleMarkAllAsRead}
               isLoading={markAllAsRead.isPending}
             >
@@ -105,43 +117,55 @@ export default function NotificationsPage() {
         ) : (
           <ul className="divide-y divide-border">
             {notifications.map((notification) => (
-              <li 
-                key={notification.id} 
+              <li
+                key={notification.id}
                 className={cn(
                   "p-4 hover:bg-surface-alt/50 transition-colors flex gap-4 items-start",
-                  !notification.isRead ? "bg-primary/5" : ""
+                  !notification.isRead ? "bg-primary/5" : "",
                 )}
               >
-                <div className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-xs",
-                  !notification.isRead ? "bg-surface border-2 border-primary/20" : "bg-surface-alt border border-border"
-                )}>
+                <div
+                  className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-xs",
+                    !notification.isRead
+                      ? "bg-surface border-2 border-primary/20"
+                      : "bg-surface-alt border border-border",
+                  )}
+                >
                   {getNotificationIcon(notification.type)}
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <h4 className={cn(
-                      "text-sm", 
-                      !notification.isRead ? "font-bold text-ink" : "font-semibold text-ink-secondary"
-                    )}>
+                    <h4
+                      className={cn(
+                        "text-sm",
+                        !notification.isRead
+                          ? "font-bold text-ink"
+                          : "font-semibold text-ink-secondary",
+                      )}
+                    >
                       {notification.title}
                     </h4>
                     <span className="text-xs text-ink-muted whitespace-nowrap shrink-0">
                       {new Date(notification.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                  
-                  <p className={cn(
-                    "text-sm mt-1",
-                    !notification.isRead ? "text-ink-secondary" : "text-ink-muted"
-                  )}>
+
+                  <p
+                    className={cn(
+                      "text-sm mt-1",
+                      !notification.isRead
+                        ? "text-ink-secondary"
+                        : "text-ink-muted",
+                    )}
+                  >
                     {notification.message}
                   </p>
-                  
+
                   {!notification.isRead && (
-                    <button 
-                    type="button"
+                    <button
+                      type="button"
                       onClick={() => handleMarkAsRead(notification.id)}
                       className="text-xs font-semibold text-primary mt-2 hover:underline"
                       disabled={markAsRead.isPending}

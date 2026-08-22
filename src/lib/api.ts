@@ -96,7 +96,7 @@ export function unwrapResponse<T>(data: unknown): T {
   }
 
   // Standard envelope: { success: true, data: T, meta?: M }
-  // We return the entire record if meta exists so pagination can use it, 
+  // We return the entire record if meta exists so pagination can use it,
   // or just the data if no meta exists (for backwards compatibility).
   if ("data" in record && record.data !== undefined) {
     if ("meta" in record) {

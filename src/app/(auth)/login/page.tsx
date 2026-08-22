@@ -14,11 +14,11 @@ export default function LoginPage() {
     try {
       setIsTelegramLoading(true);
       const authData = await authApi.getTelegramAuthUrl();
-      
+
       // Save state and codeVerifier for the callback
       sessionStorage.setItem("tg_state", authData.state);
       sessionStorage.setItem("tg_codeVerifier", authData.codeVerifier);
-      
+
       // Redirect to Telegram OAuth
       window.location.href = authData.url;
     } catch (error) {
@@ -38,7 +38,6 @@ export default function LoginPage() {
         maxWidth="md"
         footer={
           <div className="flex flex-col gap-5 text-center w-full">
-
             <p className="text-xs text-ink-muted leading-relaxed flex items-center justify-center">
               <Lock size={14} className="mr-1" />
               By continuing, you agree to ServiceHub&apos;s{" "}

@@ -11,6 +11,7 @@ interface JobActionsProps {
   onCompleteClick: () => void;
   onEditClick: () => void;
   onReviewClick: () => void;
+  onPayClick?: () => void;
 }
 
 export const JobActions: React.FC<JobActionsProps> = ({
@@ -20,6 +21,7 @@ export const JobActions: React.FC<JobActionsProps> = ({
   onCompleteClick,
   onEditClick,
   onReviewClick,
+  onPayClick,
 }) => {
   const isOpen = job.status === "OPEN";
   const isInProgress = job.status === "IN_PROGRESS";
@@ -43,7 +45,12 @@ export const JobActions: React.FC<JobActionsProps> = ({
       <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap justify-end">
         {isOpen && (
           <>
-            <Button variant="outline" size="sm" onClick={onEditClick} leftIcon={<Edit3 size={14} />}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onEditClick}
+              leftIcon={<Edit3 size={14} />}
+            >
               Edit Job
             </Button>
             <Button
@@ -59,6 +66,11 @@ export const JobActions: React.FC<JobActionsProps> = ({
 
         {isInProgress && (
           <>
+            {onPayClick && (
+              <Button variant="secondary" size="sm" onClick={onPayClick}>
+                Pay & Start Work
+              </Button>
+            )}
             <Button
               variant="primary"
               size="sm"
@@ -67,11 +79,7 @@ export const JobActions: React.FC<JobActionsProps> = ({
             >
               Mark as Completed
             </Button>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={onCancelClick}
-            >
+            <Button variant="destructive" size="sm" onClick={onCancelClick}>
               Cancel Job
             </Button>
           </>

@@ -13,7 +13,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 export default function WorkerApplicationsPage() {
-  const { data: applications, isLoading, isError, refetch } = useMyApplications();
+  const {
+    data: applications,
+    isLoading,
+    isError,
+    refetch,
+  } = useMyApplications();
 
   return (
     <div className="space-y-6">
@@ -26,7 +31,10 @@ export default function WorkerApplicationsPage() {
         {isLoading ? (
           <div className="divide-y divide-border p-4 space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex flex-col sm:flex-row gap-4 p-4 border border-border rounded-sm">
+              <div
+                key={i}
+                className="flex flex-col sm:flex-row gap-4 p-4 border border-border rounded-sm"
+              >
                 <div className="flex-1 space-y-2">
                   <Skeleton className="h-6 w-1/2" />
                   <Skeleton className="h-4 w-1/3" />
@@ -62,14 +70,18 @@ export default function WorkerApplicationsPage() {
         ) : (
           <div className="divide-y divide-border">
             {applications.map((app) => (
-              <div key={app.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-surface-alt/50 transition-colors">
+              <div
+                key={app.id}
+                className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-surface-alt/50 transition-colors"
+              >
                 <div className="flex flex-col gap-2 min-w-0 flex-1">
                   <div className="flex items-center gap-3 flex-wrap">
                     <Link
                       href={`/worker/jobs/${app.jobId}`}
                       className="font-serif text-lg font-bold text-ink hover:text-primary transition-colors truncate"
                     >
-                      {app.job?.title || `Job Application #${app.id.substring(0, 8)}`}
+                      {app.job?.title ||
+                        `Job Application #${app.id.substring(0, 8)}`}
                     </Link>
                     <Badge status={app.status} size="sm" dot />
                   </div>
@@ -90,7 +102,7 @@ export default function WorkerApplicationsPage() {
                           {new Date(app.createdAt).toLocaleDateString("en-US", {
                             month: "short",
                             day: "numeric",
-                            year: "numeric"
+                            year: "numeric",
                           })}
                         </span>
                       </span>
@@ -107,7 +119,11 @@ export default function WorkerApplicationsPage() {
                   </div>
 
                   <Link href={`/worker/jobs/${app.jobId}`}>
-                    <Button variant="outline" size="sm" className="w-full sm:w-auto bg-surface">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full sm:w-auto bg-surface"
+                    >
                       View Details
                     </Button>
                   </Link>

@@ -1,7 +1,7 @@
 import { apiClient } from "@/lib/api";
 
 export interface CheckoutPayload {
-  jobId: string;
+  applicationId: string;
 }
 
 export interface CheckoutResponse {
@@ -15,6 +15,9 @@ export const paymentsApi = {
    * Initializes a Chapa checkout session for a job.
    */
   checkout: async (payload: CheckoutPayload): Promise<CheckoutResponse> => {
-    return apiClient.post<CheckoutResponse>("/api/v1/payments/checkout", payload);
+    return apiClient.post<CheckoutResponse>(
+      "/api/v1/payments/checkout",
+      payload,
+    );
   },
 };

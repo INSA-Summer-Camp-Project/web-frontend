@@ -7,8 +7,19 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Modal } from "@/components/ui/Modal";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { toast } from "@/components/ui/Toast";
-import { Users, Clock, Check, X, CheckCircle2, XCircle, Briefcase } from "lucide-react";
-import { useAcceptApplication, useRejectApplication } from "@/hooks/useApplications";
+import {
+  Users,
+  Clock,
+  Check,
+  X,
+  CheckCircle2,
+  XCircle,
+  Briefcase,
+} from "lucide-react";
+import {
+  useAcceptApplication,
+  useRejectApplication,
+} from "@/hooks/useApplications";
 import { jobKeys } from "@/hooks/useJobs";
 import type { Application } from "@/types";
 
@@ -28,12 +39,16 @@ export const JobProposals: React.FC<JobProposalsProps> = ({
   refetchProposals,
 }) => {
   const queryClient = useQueryClient();
-  const [selectedProposal, setSelectedProposal] = useState<Application | null>(null);
+  const [selectedProposal, setSelectedProposal] = useState<Application | null>(
+    null,
+  );
   const [acceptModalOpen, setAcceptModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
 
-  const { mutate: acceptApplication, isPending: isAccepting } = useAcceptApplication(jobId);
-  const { mutate: rejectApplication, isPending: isRejecting } = useRejectApplication(jobId);
+  const { mutate: acceptApplication, isPending: isAccepting } =
+    useAcceptApplication(jobId);
+  const { mutate: rejectApplication, isPending: isRejecting } =
+    useRejectApplication(jobId);
 
   const handleOpenAccept = (proposal: Application) => {
     setSelectedProposal(proposal);
@@ -51,7 +66,9 @@ export const JobProposals: React.FC<JobProposalsProps> = ({
         queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
       },
       onError: (err) => {
-        toast.error(err instanceof Error ? err.message : "Failed to accept proposal.");
+        toast.error(
+          err instanceof Error ? err.message : "Failed to accept proposal.",
+        );
       },
     });
   };
@@ -71,7 +88,9 @@ export const JobProposals: React.FC<JobProposalsProps> = ({
         refetchProposals();
       },
       onError: (err) => {
-        toast.error(err instanceof Error ? err.message : "Failed to reject proposal.");
+        toast.error(
+          err instanceof Error ? err.message : "Failed to reject proposal.",
+        );
       },
     });
   };

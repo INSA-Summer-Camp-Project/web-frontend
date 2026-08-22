@@ -14,7 +14,7 @@ export default function OnboardingPage() {
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
   const setActiveRole = useAuthStore((state) => state.setActiveRole);
-  
+
   const [role, setRole] = useState<RoleType | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -56,7 +56,7 @@ export default function OnboardingPage() {
           }
           setActiveRole(role as "CUSTOMER" | "WORKER");
           toast.success("Welcome to ServiceHub!");
-          
+
           if (role === "CUSTOMER") {
             router.push("/customer/dashboard");
           } else {
@@ -65,14 +65,14 @@ export default function OnboardingPage() {
         },
         onError: (err) => {
           toast.error(err.message || "Failed to complete onboarding");
-        }
-      }
+        },
+      },
     );
   };
 
   return (
-    <AuthSplitLayout 
-      brandTitle="Welcome to ServiceHub" 
+    <AuthSplitLayout
+      brandTitle="Welcome to ServiceHub"
       brandSubtitle="Let's get your account set up."
     >
       <div className="w-full max-w-md mx-auto py-8">
@@ -87,61 +87,70 @@ export default function OnboardingPage() {
 
         <div className="space-y-8">
           <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  label="First Name"
-                  placeholder="John"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                />
-                <Input
-                  label="Last Name"
-                  placeholder="Doe"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-              </div>
-              
+            <div className="grid grid-cols-2 gap-4">
               <Input
-                label="Birth Date"
-                type="date"
-                value={birthdate}
-                onChange={(e) => setBirthdate(e.target.value)}
+                label="First Name"
+                placeholder="John"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 required
               />
-              
-              <div className="space-y-1.5">
-                <span className="block text-sm font-semibold text-ink">Gender</span>
-                <select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value as any)}
-                  className="w-full rounded-sm border border-border bg-surface-alt p-3.5 text-sm text-ink focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors cursor-pointer"
-                  required
-                >
-                  <option value="" disabled>Select gender</option>
-                  <option value="MALE">Male</option>
-                  <option value="FEMALE">Female</option>
-                  <option value="OTHER">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-4 pt-4 border-t border-border">
-              <span className="block text-base font-serif font-bold text-ink">Select your role</span>
-              <RoleSelector 
-                value={role} 
-                onChange={setRole}
-                variant="cards" 
+              <Input
+                label="Last Name"
+                placeholder="Doe"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
               />
             </div>
-            
-          <Button 
-            size="lg" 
-            className="w-full" 
+
+            <Input
+              label="Birth Date"
+              type="date"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
+              required
+            />
+
+            <div className="space-y-1.5">
+              <span className="block text-sm font-semibold text-ink">
+                Gender
+              </span>
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value as any)}
+                className="w-full rounded-sm border border-border bg-surface-alt p-3.5 text-sm text-ink focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors cursor-pointer"
+                required
+              >
+                <option value="" disabled>
+                  Select gender
+                </option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-4 border-t border-border">
+            <span className="block text-base font-serif font-bold text-ink">
+              Select your role
+            </span>
+            <RoleSelector value={role} onChange={setRole} variant="cards" />
+          </div>
+
+          <Button
+            size="lg"
+            className="w-full"
             onClick={submitOnboarding}
-            disabled={!role || !firstName || !lastName || !birthdate || !gender || isPending}
+            disabled={
+              !role ||
+              !firstName ||
+              !lastName ||
+              !birthdate ||
+              !gender ||
+              isPending
+            }
             isLoading={isPending}
           >
             Complete Setup

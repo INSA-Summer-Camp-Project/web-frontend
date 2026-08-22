@@ -3,8 +3,6 @@ import Link from "next/link";
 import { Send, ArrowRight, ShieldCheck } from "lucide-react";
 import { StatItem } from "@/types/landing";
 
-
-
 export interface HeroProps {
   className?: string;
 }
@@ -61,7 +59,6 @@ export const Hero: React.FC<HeroProps> = ({ className = "" }) => {
             />
           </Link>
         </div>
-
       </div>
     </section>
   );

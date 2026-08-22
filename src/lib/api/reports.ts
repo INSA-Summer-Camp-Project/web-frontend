@@ -1,5 +1,9 @@
 import { apiClient } from "@/lib/api";
-import type { Report, CreateReportPayload, UpdateReportStatusPayload } from "@/types";
+import type {
+  Report,
+  CreateReportPayload,
+  UpdateReportStatusPayload,
+} from "@/types";
 
 export const reportsApi = {
   createReport: (data: CreateReportPayload): Promise<Report> => {
@@ -14,7 +18,10 @@ export const reportsApi = {
     return apiClient.get<Report[]>("/api/v1/admin/reports");
   },
 
-  updateAdminReportStatus: (id: string, data: UpdateReportStatusPayload): Promise<Report> => {
+  updateAdminReportStatus: (
+    id: string,
+    data: UpdateReportStatusPayload,
+  ): Promise<Report> => {
     return apiClient.patch<Report>(`/api/v1/admin/reports/${id}/status`, data);
   },
 };

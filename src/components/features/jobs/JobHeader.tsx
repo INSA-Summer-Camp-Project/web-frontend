@@ -35,7 +35,8 @@ export const JobHeader: React.FC<JobHeaderProps> = ({ job }) => {
           {new Date(job.createdAt).toLocaleDateString()}
         </span>
         <span className="flex items-center gap-1.5 text-ink-muted">
-          <Users size={14} /> {job._count?.applications ?? job.applications?.length ?? 0}{" "}
+          <Users size={14} />{" "}
+          {job._count?.applications ?? job.applications?.length ?? 0}{" "}
           {(job._count?.applications ?? job.applications?.length ?? 0) === 1
             ? "proposal"
             : "proposals"}

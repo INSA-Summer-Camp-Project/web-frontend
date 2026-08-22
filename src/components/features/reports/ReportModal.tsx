@@ -34,19 +34,21 @@ export const ReportModal: React.FC<ReportModalProps> = ({
 }) => {
   const [reason, setReason] = useState<ReportReason>("OTHER");
   const [description, setDescription] = useState("");
-  
+
   const { mutate: createReport, isPending } = useCreateReport();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!reason) {
       toast.error("Please select a reason for reporting");
       return;
     }
-    
+
     if (!description || description.trim().length < 10) {
-      toast.error("Please provide a more detailed description (min 10 characters)");
+      toast.error(
+        "Please provide a more detailed description (min 10 characters)",
+      );
       return;
     }
 
@@ -59,15 +61,19 @@ export const ReportModal: React.FC<ReportModalProps> = ({
       },
       {
         onSuccess: () => {
-          toast.success("Report submitted successfully. Our team will review it shortly.");
+          toast.success(
+            "Report submitted successfully. Our team will review it shortly.",
+          );
           setReason("OTHER");
           setDescription("");
           onClose();
         },
         onError: (err) => {
-          toast.error(err.message || "Failed to submit report. Please try again.");
+          toast.error(
+            err.message || "Failed to submit report. Please try again.",
+          );
         },
-      }
+      },
     );
   };
 
@@ -87,7 +93,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           options={REPORT_REASONS}
           required
         />
-        
+
         <Textarea
           label="Detailed description"
           placeholder="Please explain what happened in detail..."
@@ -107,11 +113,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           >
             Cancel
           </Button>
-          <Button
-            type="submit"
-            variant="destructive"
-            isLoading={isPending}
-          >
+          <Button type="submit" variant="destructive" isLoading={isPending}>
             Submit Report
           </Button>
         </div>

@@ -20,7 +20,10 @@ export const WorkerBanner: React.FC<WorkerBannerProps> = ({
   const isInProgress = job.status === "IN_PROGRESS";
   const shouldRevealContact = isInProgress || isCompleted;
 
-  const { data: contact, isLoading: contactLoading } = useJobContact(job.id, shouldRevealContact);
+  const { data: contact, isLoading: contactLoading } = useJobContact(
+    job.id,
+    shouldRevealContact,
+  );
 
   if (!job.assignedWorker) return null;
 
@@ -73,7 +76,9 @@ export const WorkerBanner: React.FC<WorkerBannerProps> = ({
                 )}
               </>
             ) : (
-              <span className="text-sm text-ink-muted">No contact info available</span>
+              <span className="text-sm text-ink-muted">
+                No contact info available
+              </span>
             )}
           </div>
         )}

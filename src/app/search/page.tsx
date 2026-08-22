@@ -25,8 +25,13 @@ export default function SearchPage() {
   }, [searchTerm]);
 
   const { data: categories = [] } = useCategories();
-  
-  const { data: workers, isLoading, isError, refetch } = useSearchWorkers({
+
+  const {
+    data: workers,
+    isLoading,
+    isError,
+    refetch,
+  } = useSearchWorkers({
     search: debouncedSearch || undefined,
     categoryId: selectedCategory || undefined,
     sortBy: sortBy as any,
@@ -34,7 +39,7 @@ export default function SearchPage() {
 
   const categoryOptions = [
     { value: "", label: "All Categories" },
-    ...categories.map(c => ({ value: c.id, label: c.name }))
+    ...categories.map((c) => ({ value: c.id, label: c.name })),
   ];
 
   const sortOptions = [
@@ -50,7 +55,8 @@ export default function SearchPage() {
           Find Trusted Professionals
         </h1>
         <p className="text-lg text-ink-muted">
-          Browse our marketplace of verified local workers ready to help with your next project.
+          Browse our marketplace of verified local workers ready to help with
+          your next project.
         </p>
       </div>
 
@@ -68,7 +74,7 @@ export default function SearchPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        
+
         <div className="flex w-full md:w-auto gap-4">
           <div className="w-full md:w-48">
             <Select
@@ -94,7 +100,10 @@ export default function SearchPage() {
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-surface border border-border rounded-md p-5 flex flex-col h-[280px]">
+              <div
+                key={i}
+                className="bg-surface border border-border rounded-md p-5 flex flex-col h-[280px]"
+              >
                 <div className="flex gap-4">
                   <Skeleton className="w-16 h-16 rounded-full" />
                   <div className="flex-1 space-y-2">
@@ -112,13 +121,13 @@ export default function SearchPage() {
             ))}
           </div>
         ) : isError ? (
-          <ErrorState 
+          <ErrorState
             title="Failed to load professionals"
             message="We encountered an issue fetching the marketplace data."
             onRetry={() => refetch()}
           />
         ) : !workers?.length ? (
-          <EmptyState 
+          <EmptyState
             icon={<Users size={48} className="text-ink-muted/30" />}
             title="No professionals found"
             description="We couldn't find anyone matching your current filters. Try adjusting your search criteria."

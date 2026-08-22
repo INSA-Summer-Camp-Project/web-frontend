@@ -103,9 +103,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         ) : initials ? (
           <span>{initials}</span>
         ) : (
-          fallbackIcon || (
-            <User size={18} />
-          )
+          fallbackIcon || <User size={18} />
         )}
       </div>
 

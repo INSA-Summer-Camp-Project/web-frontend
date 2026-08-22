@@ -20,9 +20,17 @@ export const authApi = {
     }
   },
 
-  getTelegramAuthUrl: async (): Promise<{ url: string; state: string; codeVerifier: string }> => {
+  getTelegramAuthUrl: async (): Promise<{
+    url: string;
+    state: string;
+    codeVerifier: string;
+  }> => {
     try {
-      const response = await apiClient.get<{ url: string; state: string; codeVerifier: string }>("/api/v1/auth/telegram/url");
+      const response = await apiClient.get<{
+        url: string;
+        state: string;
+        codeVerifier: string;
+      }>("/api/v1/auth/telegram/url");
       return response;
     } catch (error) {
       if (error instanceof ApiError) throw error;
@@ -30,12 +38,16 @@ export const authApi = {
     }
   },
 
-  verifyTelegramLogin: async (currentUrl: string, state: string, codeVerifier: string): Promise<UserProfile> => {
+  verifyTelegramLogin: async (
+    currentUrl: string,
+    state: string,
+    codeVerifier: string,
+  ): Promise<UserProfile> => {
     try {
       return await apiClient.post<UserProfile>("/api/v1/auth/telegram", {
         currentUrl,
         state,
-        codeVerifier
+        codeVerifier,
       });
     } catch (error) {
       if (error instanceof ApiError) throw error;
