@@ -94,7 +94,8 @@ export function extractAuth(request: NextRequest): {
         payload.role ||
         null;
       systemRole = payload.systemRole || null;
-      isOnboarded = payload.isOnboarded !== undefined ? payload.isOnboarded : true;
+      isOnboarded =
+        payload.isOnboarded !== undefined ? payload.isOnboarded : true;
     }
   }
 

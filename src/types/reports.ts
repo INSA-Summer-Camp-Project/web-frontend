@@ -1,9 +1,5 @@
 export type ReportReason =
-  | "SCAM"
-  | "INAPPROPRIATE_BEHAVIOR"
-  | "NO_SHOW"
-  | "POOR_QUALITY"
-  | "OTHER";
+  "SCAM" | "INAPPROPRIATE_BEHAVIOR" | "NO_SHOW" | "POOR_QUALITY" | "OTHER";
 
 export interface Report {
   id: string;

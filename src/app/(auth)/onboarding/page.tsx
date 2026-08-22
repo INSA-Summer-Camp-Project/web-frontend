@@ -55,7 +55,8 @@ export default function OnboardingPage() {
           if (updatedUser) {
             setUser(updatedUser);
           }
-          const selectedRole = (role as "CUSTOMER" | "WORKER") || updatedUser?.lastActiveRole;
+          const selectedRole =
+            (role as "CUSTOMER" | "WORKER") || updatedUser?.lastActiveRole;
           setActiveRole(selectedRole);
           document.cookie = `servicehub_active_role=${selectedRole}; path=/; max-age=2592000; SameSite=Lax`;
           toast.success("Welcome to ServiceHub!");

@@ -20,4 +20,14 @@ export const paymentsApi = {
       payload,
     );
   },
+
+  /**
+   * GET /api/v1/payments/verify/:txRef
+   * Verifies payment status and returns the authoritative status
+   */
+  verify: async (txRef: string): Promise<{ status: string }> => {
+    return apiClient.get<{ status: string }>(
+      `/api/v1/payments/verify/${txRef}`,
+    );
+  },
 };

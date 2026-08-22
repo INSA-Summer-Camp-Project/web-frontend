@@ -42,8 +42,8 @@ export const SettingsView = () => {
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 space-y-8">
-      <PageHeader 
-        title="Account Settings" 
+      <PageHeader
+        title="Account Settings"
         subtitle="Manage your profile, preferences, and account modes."
       />
 
@@ -53,12 +53,12 @@ export const SettingsView = () => {
           <UserCircle size={20} className="text-primary" />
           Profile Information
         </h3>
-        
+
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <Avatar 
-            src={user.photoUrl || user.avatarUrl} 
-            name={user.name || "User"} 
-            size="xl" 
+          <Avatar
+            src={user.photoUrl || user.avatarUrl}
+            name={user.name || "User"}
+            size="xl"
           />
           <div className="space-y-1 flex-1">
             <h4 className="font-semibold text-ink text-lg">{user.name}</h4>
@@ -79,20 +79,23 @@ export const SettingsView = () => {
           Account Mode
         </h3>
         <p className="text-sm text-ink-secondary mb-6">
-          You are currently using ServiceHub as a <strong>{activeRole}</strong>. 
-          You can switch modes at any time to hire help or offer your own services.
+          You are currently using ServiceHub as a <strong>{activeRole}</strong>.
+          You can switch modes at any time to hire help or offer your own
+          services.
         </p>
-        
+
         <div className="bg-surface-alt p-4 rounded-sm border border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <span className="block text-sm font-semibold text-ink">
               Switch to {activeRole === "CUSTOMER" ? "Worker" : "Customer"} Mode
             </span>
             <span className="block text-xs text-ink-muted mt-0.5">
-              Access your {activeRole === "CUSTOMER" ? "service provider" : "hiring"} dashboard.
+              Access your{" "}
+              {activeRole === "CUSTOMER" ? "service provider" : "hiring"}{" "}
+              dashboard.
             </span>
           </div>
-          <Button 
+          <Button
             variant="outline"
             onClick={handleRoleSwitch}
             isLoading={isUpdatingRole}
@@ -109,19 +112,24 @@ export const SettingsView = () => {
           Notification Preferences
         </h3>
         <p className="text-sm text-ink-secondary mb-6">
-          Control how and when you receive updates about your jobs and applications.
+          Control how and when you receive updates about your jobs and
+          applications.
         </p>
-        
+
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 border border-border rounded-sm">
             <div>
-              <span className="block text-sm font-semibold text-ink">Telegram Alerts</span>
-              <span className="block text-xs text-ink-muted mt-0.5">Receive instant messages via the Telegram bot</span>
+              <span className="block text-sm font-semibold text-ink">
+                Telegram Alerts
+              </span>
+              <span className="block text-xs text-ink-muted mt-0.5">
+                Receive instant messages via the Telegram bot
+              </span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
-              <input 
-                type="checkbox" 
-                className="sr-only peer" 
+              <input
+                type="checkbox"
+                className="sr-only peer"
                 checked={notificationsEnabled}
                 onChange={() => {
                   setNotificationsEnabled(!notificationsEnabled);
@@ -133,7 +141,6 @@ export const SettingsView = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

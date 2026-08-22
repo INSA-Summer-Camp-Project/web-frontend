@@ -106,7 +106,11 @@ export default function WorkerProfilePage() {
       <div className="bg-surface border border-border rounded-md p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4 min-w-0">
           <Avatar
-            src={profile?.profilePhoto || profile?.user?.photoUrl || profile?.user?.avatarUrl}
+            src={
+              profile?.profilePhoto ||
+              profile?.user?.photoUrl ||
+              profile?.user?.avatarUrl
+            }
             name={workerName}
             size="lg"
             className="border-2 border-primary/20"

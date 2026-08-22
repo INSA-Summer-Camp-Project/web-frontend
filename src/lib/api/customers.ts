@@ -42,7 +42,10 @@ export const customersApi = {
   getCustomerReviews: (
     id: string,
     params?: ReviewQuery,
-  ): Promise<{ data: Review[]; meta: { total: number; page: number; limit: number } }> => {
+  ): Promise<{
+    data: Review[];
+    meta: { total: number; page: number; limit: number };
+  }> => {
     return apiClient.get(`/api/v1/customers/${id}/reviews`, { params });
   },
 };

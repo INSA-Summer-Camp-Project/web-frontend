@@ -46,7 +46,11 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
         {/* Left info column with avatar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center md:items-start gap-5">
           <Avatar
-            src={profile.profilePhoto || profile.user?.photoUrl || profile.user?.avatarUrl}
+            src={
+              profile.profilePhoto ||
+              profile.user?.photoUrl ||
+              profile.user?.avatarUrl
+            }
             name={name}
             size="xl"
             className="w-20 h-20 sm:w-24 sm:h-24 border-2 border-primary/20 shrink-0"

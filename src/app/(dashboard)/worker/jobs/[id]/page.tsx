@@ -89,7 +89,7 @@ export default function WorkerJobDetailsPage() {
                 {job.budget} ETB
               </span>
             </div>
-            {job.status === "OPEN" && (
+            {job.status === "OPEN" && job.source !== "DIRECT" && (
               <Button size="lg" onClick={() => setBidModalOpen(true)}>
                 Submit Proposal
               </Button>
@@ -97,6 +97,14 @@ export default function WorkerJobDetailsPage() {
           </div>
         </div>
       </div>
+
+      {job.source === "DIRECT" && job.status === "PENDING" && (
+        <DirectRespondPanel
+          jobId={job.id}
+          onRespond={(action) => directRespond({ action })}
+          isLoading={isResponding}
+        />
+      )}
 
       {/* Description */}
       <section className="bg-surface p-6 rounded-sm border border-border">

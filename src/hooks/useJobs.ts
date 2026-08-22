@@ -131,6 +131,23 @@ export function useCreateDirectJob() {
 }
 
 /**
+ * Hook to accept or decline direct booking (Worker).
+ */
+export function useDirectRespond(jobId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: { action: "ACCEPT" | "DECLINE" }) =>
+      jobsApi.directRespond(jobId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+      queryClient.invalidateQueries({ queryKey: jobKeys.workerJobs() });
+      queryClient.invalidateQueries({ queryKey: jobKeys.all });
+    },
+  });
+}
+
+/**
  * Hook to update job status (e.g., mark as COMPLETED).
  */
 export function useUpdateJobStatus(jobId: string) {
