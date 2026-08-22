@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";

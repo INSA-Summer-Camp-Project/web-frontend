@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useId } from "react";
+import { AlertCircle } from "lucide-react";
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -59,7 +60,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         </div>
         {error ? (
           <p className="text-xs text-error flex items-center gap-1 font-medium mt-0.5">
-            <span className="material-symbols-outlined text-[14px]">error</span>
+            <AlertCircle size={14} />
             {error}
           </p>
         ) : helperText ? (

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Camera, Save, DollarSign, Clock } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Avatar } from "@/components/ui/Avatar";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";

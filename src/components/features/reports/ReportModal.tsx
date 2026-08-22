@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { Select } from "@/components/ui/Select";
 import { useCreateReport } from "@/hooks/useReports";
-import { toast } from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import type { ReportReason } from "@/types";
 
 interface ReportModalProps {

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Check } from "lucide-react";
+import { Check, User } from "lucide-react";
 
 export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -104,9 +104,7 @@ export const Avatar: React.FC<AvatarProps> = ({
           <span>{initials}</span>
         ) : (
           fallbackIcon || (
-            <span className="material-symbols-outlined text-[18px]">
-              person
-            </span>
+            <User size={18} />
           )
         )}
       </div>

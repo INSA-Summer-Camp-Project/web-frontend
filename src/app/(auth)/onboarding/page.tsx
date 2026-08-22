@@ -8,7 +8,7 @@ import { AuthSplitLayout } from "@/components/ui/AuthSplitLayout";
 import { RoleSelector, type RoleType } from "@/components/ui/RoleSelector";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { toast } from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 
 export default function OnboardingPage() {
   const router = useRouter();

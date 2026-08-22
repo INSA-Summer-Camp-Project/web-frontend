@@ -11,7 +11,7 @@ import { RatingStars } from "@/components/ui/RatingStars";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Avatar } from "@/components/ui/Avatar";
-import { toast } from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 
 export default function LeaveReviewPage() {
   const params = useParams();

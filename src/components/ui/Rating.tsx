@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface RatingProps {
@@ -86,21 +87,18 @@ export const Rating: React.FC<RatingProps> = ({
             onClick={(e) => handleClick(e, index)}
           >
             {/* Background Star */}
-            <span className="material-symbols-outlined fill-current opacity-30 select-none">
-              star
-            </span>
+            <Star className="fill-current opacity-30 select-none text-border-strong w-[1em] h-[1em]" />
 
             {/* Foreground Star */}
             {(isFull || isHalf) && (
-              <span
+              <div
                 className={cn(
-                  "material-symbols-outlined fill-current absolute top-0 left-0 overflow-hidden text-accent select-none",
+                  "absolute top-0 left-0 overflow-hidden text-accent select-none",
                   isHalf ? "w-[50%]" : "w-full",
                 )}
-                style={{ fontVariationSettings: "'FILL' 1" }}
               >
-                star
-              </span>
+                <Star className="fill-current w-[1em] h-[1em]" />
+              </div>
             )}
           </div>
         );

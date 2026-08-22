@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Upload, X, FileText, Award } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";

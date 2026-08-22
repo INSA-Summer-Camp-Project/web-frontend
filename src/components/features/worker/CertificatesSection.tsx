@@ -9,7 +9,7 @@ import {
   Calendar,
   FileText,
 } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { CertificateUploadModal } from "./CertificateUploadModal";

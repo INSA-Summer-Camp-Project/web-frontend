@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Plus, Layers } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { CategoryChip } from "@/components/ui/CategoryChip";
 import { Button } from "@/components/ui/Button";
 import { ServiceCategoryPicker } from "./ServiceCategoryPicker";

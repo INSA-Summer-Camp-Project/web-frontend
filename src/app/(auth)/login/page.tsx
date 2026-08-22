@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { AuthCard, Button, AuthSplitLayout } from "@/components/ui";
+import { Lock } from "lucide-react";
 
 import { authApi } from "@/lib/api/auth";
 
@@ -38,10 +39,8 @@ export default function LoginPage() {
         footer={
           <div className="flex flex-col gap-5 text-center w-full">
 
-            <p className="text-xs text-ink-muted leading-relaxed">
-              <span className="material-symbols-outlined text-[14px] align-middle mr-1 relative -top-[1px]">
-                lock
-              </span>
+            <p className="text-xs text-ink-muted leading-relaxed flex items-center justify-center">
+              <Lock size={14} className="mr-1" />
               By continuing, you agree to ServiceHub&apos;s{" "}
               <Link
                 href="#"

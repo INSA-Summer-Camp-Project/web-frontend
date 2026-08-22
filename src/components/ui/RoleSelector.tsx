@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { AlertCircle, Search, Wrench } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type RoleType = "CUSTOMER" | "WORKER" | "BUSINESS";
@@ -9,21 +10,20 @@ export interface RoleOption {
   value: RoleType;
   title: string;
   description: string;
-  icon: string;
+  icon: React.ReactNode;
 }
 
-export const DEFAULT_ROLE_OPTIONS: RoleOption[] = [
   {
     value: "CUSTOMER",
     title: "I want to hire help",
     description: "Find trusted local professionals.",
-    icon: "search",
+    icon: <Search size={20} />,
   },
   {
     value: "WORKER",
     title: "I want to offer services",
     description: "Connect with local customers.",
-    icon: "handyman",
+    icon: <Wrench size={20} />,
   },
 ];
 
@@ -73,9 +73,9 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
                   disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
                 )}
               >
-                <span className="material-symbols-outlined text-[18px]">
+                <div className="flex items-center justify-center">
                   {option.icon}
-                </span>
+                </div>
                 <span>
                   {option.value.charAt(0) + option.value.slice(1).toLowerCase()}
                 </span>
@@ -85,7 +85,7 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
         </div>
         {error && (
           <p className="text-xs text-error flex items-center gap-1 font-medium mt-0.5">
-            <span className="material-symbols-outlined text-[14px]">error</span>
+            <AlertCircle size={14} />
             {error}
           </p>
         )}
@@ -136,9 +136,9 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
                       : "bg-surface text-ink-muted",
                   )}
                 >
-                  <span className="material-symbols-outlined text-[20px]">
+                  <div className="flex items-center justify-center">
                     {option.icon}
-                  </span>
+                  </div>
                 </div>
                 <span className="text-sm font-semibold text-ink mb-0.5">
                   {option.title}
@@ -153,7 +153,7 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
       </div>
       {error && (
         <p className="text-xs text-error flex items-center gap-1 font-medium mt-0.5 text-center">
-          <span className="material-symbols-outlined text-[14px]">error</span>
+          <AlertCircle size={14} />
           {error}
         </p>
       )}
