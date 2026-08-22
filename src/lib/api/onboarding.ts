@@ -7,6 +7,13 @@ export const onboardingApi = {
   },
 
   completeOnboarding: (data: CompleteOnboardingPayload): Promise<{ user: any }> => {
-    return apiClient.post<{ user: any }>("/api/v1/onboarding", data);
+    // Map to backend OnboardUserDto
+    const backendPayload = {
+      name: `${data.firstName} ${data.lastName}`.trim(),
+      birthdate: new Date(data.birthdate).toISOString(),
+      gender: data.gender,
+      activeRole: data.role,
+    };
+    return apiClient.post<{ user: any }>("/api/v1/onboarding", backendPayload);
   },
 };
