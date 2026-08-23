@@ -29,20 +29,29 @@ function AuthCallbackContent() {
 
         let user;
         if (state && codeVerifier) {
-          // Clean up immediately to prevent double-execution in React 18 / 19 Strict Mode
-          sessionStorage.removeItem("telegram_state");
-          sessionStorage.removeItem("telegram_code_verifier");
-          sessionStorage.removeItem("tg_state");
-          sessionStorage.removeItem("tg_codeVerifier");
-
-          // Verify OAuth redirect
-          user = await authApi.verifyTelegramLogin(
-            window.location.href,
-            state,
-            codeVerifier,
-          );
+          try {
+            // Verify OAuth redirect
+            user = await authApi.verifyTelegramLogin(
+              window.location.href,
+              state,
+              codeVerifier,
+            );
+          } finally {
+            // Clean up session storage after verification attempt
+            sessionStorage.removeItem("telegram_state");
+            sessionStorage.removeItem("telegram_code_verifier");
+            sessionStorage.removeItem("tg_state");
+            sessionStorage.removeItem("tg_codeVerifier");
+          }
         } else {
-          user = await authApi.getMe();
+          // If PKCE state is missing (e.g. reload or lost session), check if user is already authenticated
+          try {
+            user = await authApi.getMe();
+          } catch {
+            // If getMe fails (401 token missing/invalid), gracefully redirect to login page
+            router.push("/login");
+            return;
+          }
         }
 
         setUser(user);
