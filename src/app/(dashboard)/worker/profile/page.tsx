@@ -121,9 +121,11 @@ export default function WorkerProfilePage() {
               <h2 className="font-serif text-xl font-bold text-ink truncate">
                 {workerName}
               </h2>
-              <Badge status="ACCEPTED" size="sm" dot>
-                Verified Provider
-              </Badge>
+              {profile?.isVerified && (
+                <Badge status="ACCEPTED" size="sm" dot>
+                  Verified Provider
+                </Badge>
+              )}
             </div>
 
             <div className="flex items-center gap-3 text-xs text-ink-muted flex-wrap">

@@ -110,9 +110,9 @@ describe("PublicWorkerProfilePage", () => {
   });
 
   it("renders profile details, services, portfolio, and reviews", async () => {
-    vi.spyOn(workersApi, "getById").mockResolvedValueOnce(mockProfile);
-    vi.spyOn(workersApi, "getReputation").mockResolvedValueOnce(mockReputation);
-    vi.spyOn(workersApi, "getReviews").mockResolvedValueOnce(mockReviews);
+    vi.spyOn(workersApi, "getById").mockResolvedValue(mockProfile);
+    vi.spyOn(workersApi, "getReputation").mockResolvedValue(mockReputation);
+    vi.spyOn(workersApi, "getReviews").mockResolvedValue(mockReviews);
 
     render(<PublicWorkerProfilePage />, { wrapper: createWrapper() });
 
@@ -127,9 +127,9 @@ describe("PublicWorkerProfilePage", () => {
   });
 
   it("redirects unauthenticated user to login upon clicking Hire button", async () => {
-    vi.spyOn(workersApi, "getById").mockResolvedValueOnce(mockProfile);
-    vi.spyOn(workersApi, "getReputation").mockResolvedValueOnce(mockReputation);
-    vi.spyOn(workersApi, "getReviews").mockResolvedValueOnce(mockReviews);
+    vi.spyOn(workersApi, "getById").mockResolvedValue(mockProfile);
+    vi.spyOn(workersApi, "getReputation").mockResolvedValue(mockReputation);
+    vi.spyOn(workersApi, "getReviews").mockResolvedValue(mockReviews);
 
     render(<PublicWorkerProfilePage />, { wrapper: createWrapper() });
 
@@ -158,9 +158,9 @@ describe("PublicWorkerProfilePage", () => {
       logout: vi.fn(),
     });
 
-    vi.spyOn(workersApi, "getById").mockResolvedValueOnce(mockProfile);
-    vi.spyOn(workersApi, "getReputation").mockResolvedValueOnce(mockReputation);
-    vi.spyOn(workersApi, "getReviews").mockResolvedValueOnce(mockReviews);
+    vi.spyOn(workersApi, "getById").mockResolvedValue(mockProfile);
+    vi.spyOn(workersApi, "getReputation").mockResolvedValue(mockReputation);
+    vi.spyOn(workersApi, "getReviews").mockResolvedValue(mockReviews);
 
     render(<PublicWorkerProfilePage />, { wrapper: createWrapper() });
 

@@ -36,7 +36,7 @@ export default function WorkerDashboardPage() {
     isLoading: isJobsLoading,
     isError: isJobsError,
     refetch: refetchJobs,
-  } = useJobs({ status: "OPEN", limit: 5 });
+  } = useJobs({ limit: 5 });
 
   // 3. Fetch worker's active/completed jobs
   const {
@@ -67,12 +67,13 @@ export default function WorkerDashboardPage() {
     .filter((job) => job.status === "COMPLETED")
     .reduce((sum, job) => {
       const paidSum = job.payments?.reduce(
-        (pSum: number, p: { amount?: number | string }) => {
+        (pSum: number, p: { amount?: number | string; status?: string }) => {
+          if (p.status && p.status !== "PAID") return pSum;
           const amt =
             typeof p.amount === "number"
               ? p.amount
-              : parseFloat(String(p.amount || "0"));
-          return pSum + (isNaN(amt) ? 0 : amt);
+              : Number.parseFloat(String(p.amount || "0"));
+          return pSum + (Number.isNaN(amt) ? 0 : amt);
         },
         0,
       );
@@ -84,8 +85,8 @@ export default function WorkerDashboardPage() {
       const budgetNum =
         typeof job.budget === "number"
           ? job.budget
-          : parseFloat(job.budget || "0");
-      return sum + (isNaN(budgetNum) ? 0 : budgetNum);
+          : Number.parseFloat(String(job.budget || "0"));
+      return sum + (Number.isNaN(budgetNum) ? 0 : budgetNum);
     }, 0);
 
   const displayName = storeUser?.name || storeUser?.fullName || "Professional";

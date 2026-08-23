@@ -10,7 +10,6 @@ import {
   useDirectRespond,
   useAcceptApplication,
   useRejectApplication,
-  useCreateProposal,
 } from "@/hooks/useApplications";
 import { applicationsApi } from "@/lib/api/applications";
 import { jobsApi } from "@/lib/api/jobs";
@@ -188,36 +187,5 @@ describe("useApplications hooks", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(rejectedApp);
-  });
-
-  it("useCreateProposal submits a proposal with payload containing jobId", async () => {
-    const createdApp: Application = {
-      id: "app-2",
-      jobId: "job-200",
-      workerId: "wrk-1",
-      proposedPrice: 120,
-      estimatedTime: "2 hours",
-      status: "PENDING",
-    };
-    const spy = vi
-      .spyOn(applicationsApi, "applyJob")
-      .mockResolvedValueOnce(createdApp);
-
-    const { result } = renderHook(() => useCreateProposal(), {
-      wrapper: createWrapper(),
-    });
-
-    result.current.mutate({
-      jobId: "job-200",
-      proposedPrice: 120,
-      estimatedTime: "2 hours",
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-    expect(result.current.data).toEqual(createdApp);
-    expect(spy).toHaveBeenCalledWith("job-200", {
-      proposedPrice: 120,
-      estimatedTime: "2 hours",
-    });
   });
 });

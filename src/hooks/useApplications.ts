@@ -168,4 +168,3 @@ export const useAcceptProposal = (jobId?: string) => {
     },
   });
 };
-export const useCreateProposal = useApplyJob;
