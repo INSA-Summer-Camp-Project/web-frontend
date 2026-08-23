@@ -23,7 +23,7 @@ export default function WorkerApplicationsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="My Applications"
+        title="My Proposals"
         subtitle="Track the status of jobs you've applied for or received direct bookings for."
       />
 
