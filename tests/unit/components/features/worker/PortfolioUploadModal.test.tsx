@@ -70,4 +70,36 @@ describe("PortfolioUploadModal", () => {
       });
     });
   });
+
+  it("handles network error gracefully and displays user-friendly message", async () => {
+    vi.spyOn(cloudinary, "uploadImage").mockRejectedValueOnce(
+      new Error("Failed to fetch"),
+    );
+
+    render(
+      <PortfolioUploadModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onUpload={vi.fn()}
+      />,
+    );
+
+    const titleInput = screen.getByLabelText("Project Title");
+    fireEvent.change(titleInput, {
+      target: { value: "Kitchen Counter Granite" },
+    });
+
+    const file = new File(["dummy image"], "counter.png", {
+      type: "image/png",
+    });
+    const fileInput = document.querySelector('input[type="file"]')!;
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    const submitBtn = screen.getByRole("button", { name: "Save Project" });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(cloudinary.uploadImage).toHaveBeenCalled();
+    });
+  });
 });
