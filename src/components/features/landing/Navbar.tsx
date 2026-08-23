@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { NavLink } from "@/types/landing";
 import { Logo } from "@/components/ui/Logo";
+import { useAuthStore } from "@/stores/authStore";
 
 const navLinks: NavLink[] = [
   { label: "How It Works", href: "#how-it-works" },
@@ -18,6 +19,7 @@ export interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const user = useAuthStore((state) => state.user);
 
   return (
     <header
@@ -42,18 +44,44 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
         {/* CTA */}
         <div className="hidden md:flex items-center gap-4">
-          <Link
-            href="/login"
-            className="text-sm font-medium text-ink-secondary hover:text-primary transition-colors"
-          >
-            Log In
-          </Link>
-          <Link
-            href="/login"
-            className="btn-primary text-sm px-4 py-2 rounded-sm"
-          >
-            Get Started
-          </Link>
+          {user ? (
+            <Link
+              href={`/${user.lastActiveRole?.toLowerCase() || "customer"}/dashboard`}
+              className="flex items-center gap-2 group"
+            >
+              <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-transparent group-hover:border-primary transition-all">
+                <img
+                  src={
+                    user.photoUrl ||
+                    user.avatarUrl ||
+                    "https://ui-avatars.com/api/?name=" +
+                      user.name +
+                      "&background=0D8ABC&color=fff"
+                  }
+                  alt={user.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="text-sm font-medium text-ink-secondary group-hover:text-primary transition-colors">
+                Dashboard
+              </span>
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-sm font-medium text-ink-secondary hover:text-primary transition-colors"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/login"
+                className="btn-primary text-sm px-4 py-2 rounded-sm"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile toggle */}

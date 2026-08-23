@@ -13,7 +13,7 @@ export const notificationsApi = {
       `/api/v1/notifications/${getRolePath()}`,
     );
     if (Array.isArray(res)) return res;
-    return res?.data ?? [];
+    return (res as { data?: Notification[] })?.data ?? [];
   },
 
   getUnreadCount: (): Promise<UnreadCountResponse> => {

@@ -87,7 +87,7 @@ export default function CustomerJobsPage() {
           </h1>
           <p className="text-ink-muted">
             Manage your service requests, direct hiring requests, and review
-            proposals.
+            applications.
           </p>
         </div>
         <Link href="/customer/jobs/new">

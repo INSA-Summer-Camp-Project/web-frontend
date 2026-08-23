@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useJob, useDirectRespond } from "@/hooks/useJobs";
-import { useCreateProposal } from "@/hooks/useApplications";
+import { useJob } from "@/hooks/useJobs";
+import { useApplyJob, useDirectRespond } from "@/hooks/useApplications";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Modal } from "@/components/ui/Modal";
@@ -11,14 +11,14 @@ import { Input } from "@/components/ui/Input";
 import { ArrowLeft, Clock } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { toast } from "@/components/ui/Toast";
-import { DirectRespondPanel } from "@/components/features/worker/DirectRespondPanel";
+import { DirectRespondPanel } from "@/components/features/worker";
 
 export default function WorkerJobDetailsPage() {
   const { id } = useParams() as { id: string };
   const router = useRouter();
 
   const { data: job, isLoading: jobLoading, error: jobError } = useJob(id);
-  const { mutate: createProposal, isPending: submitting } = useCreateProposal();
+  const { mutate: applyJob, isPending: submitting } = useApplyJob(id);
   const { mutate: directRespond, isPending: isResponding } =
     useDirectRespond(id);
 
@@ -45,11 +45,10 @@ export default function WorkerJobDetailsPage() {
   const handleSubmitProposal = (e: React.FormEvent) => {
     e.preventDefault();
     const parsedPrice = parseFloat(price);
-    const trimmedTime = estimatedTime.trim();
-    if (!parsedPrice || !trimmedTime) return;
+    if (!parsedPrice || !estimatedTime.trim()) return;
 
-    createProposal(
-      { jobId: job.id, proposedPrice: parsedPrice, estimatedTime: trimmedTime },
+    applyJob(
+      { proposedPrice: parsedPrice, estimatedTime: estimatedTime.trim() },
       {
         onSuccess: () => {
           setBidModalOpen(false);

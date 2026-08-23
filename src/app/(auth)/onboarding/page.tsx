@@ -9,7 +9,6 @@ import { RoleSelector, type RoleType } from "@/components/ui/RoleSelector";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toast";
-import type { UserProfile } from "@/types";
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -51,7 +50,7 @@ export default function OnboardingPage() {
         role: role as "CUSTOMER" | "WORKER",
       },
       {
-        onSuccess: (data: { user?: UserProfile }) => {
+        onSuccess: (data) => {
           const updatedUser = data?.user;
           if (updatedUser) {
             setUser(updatedUser);

@@ -147,9 +147,21 @@ export const workersApi = {
   searchWorkers: async (
     params?: WorkerSearchParams,
   ): Promise<WorkerProfile[]> => {
-    return apiClient.get<WorkerProfile[]>("/api/v1/search/providers", {
+    const res = await apiClient.get<
+      WorkerProfile[] | { data: WorkerProfile[]; meta?: unknown }
+    >("/api/v1/search/providers", {
       params,
     });
+    if (Array.isArray(res)) return res;
+    if (
+      res &&
+      typeof res === "object" &&
+      "data" in res &&
+      Array.isArray(res.data)
+    ) {
+      return res.data;
+    }
+    return [];
   },
 
   /**

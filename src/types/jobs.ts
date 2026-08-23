@@ -3,13 +3,7 @@ import type { WorkerProfile } from "./worker";
 import type { Application } from "./applications";
 
 export type JobStatus =
-  | "OPEN"
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "CANCELLED"
-  | "DECLINED"
-  | "DISPUTED";
+  "OPEN" | "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "DECLINED";
 
 export type JobSource = "POSTING" | "DIRECT";
 
@@ -41,7 +35,11 @@ export interface Job {
   targetWorker?: WorkerProfile | null;
   location?: string;
   applications?: Application[];
-  payments?: Array<{ id: string; amount: number | string; status: string }>;
+  payments?: {
+    id: string;
+    amount: string | number;
+    status: string;
+  }[];
   _count?: {
     applications?: number;
   };
@@ -54,7 +52,6 @@ export interface JobFilterParams {
   minBudget?: number;
   maxBudget?: number;
   q?: string;
-  status?: JobStatus;
   page?: number;
   limit?: number;
 }

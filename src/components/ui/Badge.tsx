@@ -26,7 +26,6 @@ const statusToVariantMap: Record<string, BadgeVariant> = {
   VERIFIED: "success",
   REJECTED: "error",
   DECLINED: "error",
-  DISPUTED: "error",
   CANCELLED: "default",
   DIRECT: "accent",
 };

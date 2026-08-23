@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { authApi } from "@/lib/api/auth";
@@ -9,7 +9,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Avatar";
 import { toast } from "@/components/ui/Toast";
-import { Bell, Shield, UserCircle, RefreshCcw } from "lucide-react";
+import { Shield, UserCircle, RefreshCcw } from "lucide-react";
 import type { RoleType } from "@/components/ui/RoleSelector";
 import type { ApiError } from "@/lib/api";
 
@@ -18,7 +18,6 @@ export const SettingsView = () => {
   const user = useAuthStore((state) => state.user);
   const activeRole = useAuthStore((state) => state.activeRole);
   const setUser = useAuthStore((state) => state.setUser);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
   const { mutate: updateRole, isPending: isUpdatingRole } = useMutation({
     mutationFn: (newRole: "CUSTOMER" | "WORKER") => authApi.updateRole(newRole),
@@ -102,43 +101,6 @@ export const SettingsView = () => {
           >
             Switch Role
           </Button>
-        </div>
-      </section>
-
-      {/* Notifications */}
-      <section className="bg-surface border border-border rounded-md p-6 shadow-xs">
-        <h3 className="font-serif font-bold text-lg text-ink flex items-center gap-2 mb-4">
-          <Bell size={20} className="text-primary" />
-          Notification Preferences
-        </h3>
-        <p className="text-sm text-ink-secondary mb-6">
-          Control how and when you receive updates about your jobs and
-          applications.
-        </p>
-
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 border border-border rounded-sm">
-            <div>
-              <span className="block text-sm font-semibold text-ink">
-                Telegram Alerts
-              </span>
-              <span className="block text-xs text-ink-muted mt-0.5">
-                Receive instant messages via the Telegram bot
-              </span>
-            </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                className="sr-only peer"
-                checked={notificationsEnabled}
-                onChange={() => {
-                  setNotificationsEnabled(!notificationsEnabled);
-                  toast.success("Preferences updated.");
-                }}
-              />
-              <div className="w-11 h-6 bg-border peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
-          </div>
         </div>
       </section>
     </div>

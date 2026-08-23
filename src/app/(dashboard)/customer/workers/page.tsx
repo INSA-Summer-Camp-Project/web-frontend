@@ -59,11 +59,15 @@ export default function CustomerWorkersDiscoveryPage() {
 
   // Query workers
   const {
-    data: workers,
+    data: rawWorkers,
     isLoading: workersLoading,
     error,
     refetch,
   } = useSearchWorkers(queryParams);
+
+  const workers: WorkerProfile[] = Array.isArray(rawWorkers)
+    ? rawWorkers
+    : (rawWorkers as unknown as { data: WorkerProfile[] })?.data || [];
 
   const activeFiltersCount = [
     search.trim(),

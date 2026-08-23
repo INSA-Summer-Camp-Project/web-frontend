@@ -19,5 +19,11 @@ export const useAuthStore = create<AuthState>((set) => ({
         user?.lastActiveRole || (user?.role as ActiveRole) || state.activeRole,
     })),
   setActiveRole: (activeRole) => set({ activeRole }),
-  clearAuth: () => set({ user: null, activeRole: null }),
+  clearAuth: () => {
+    if (typeof document !== "undefined") {
+      document.cookie =
+        "servicehub_active_role=; path=/; max-age=0; SameSite=Lax";
+    }
+    set({ user: null, activeRole: null });
+  },
 }));

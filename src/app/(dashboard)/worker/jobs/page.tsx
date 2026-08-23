@@ -65,7 +65,6 @@ function WorkerJobsContent() {
       categoryId: selectedCategoryId || undefined,
       minBudget: minBudget ? Number(minBudget) : undefined,
       maxBudget: maxBudget ? Number(maxBudget) : undefined,
-      status: "OPEN",
       page: currentPage,
       limit: PAGE_SIZE,
     },
@@ -87,9 +86,9 @@ function WorkerJobsContent() {
     refetch: refetchApplications,
   } = useMyApplications(isMyWork);
 
-  const jobs = jobsResponse?.data || [];
+  const marketplaceJobs = jobsResponse?.data || [];
   const meta = jobsResponse?.meta;
-  const totalJobs = meta?.total ?? jobs.length;
+  const totalJobs = meta?.total ?? marketplaceJobs.length;
   const totalPages = meta?.totalPages ?? 1;
 
   const hasActiveFilters =
@@ -499,25 +498,27 @@ function WorkerJobsContent() {
               )}
 
               {/* Empty Results State */}
-              {!isJobsLoading && !isJobsError && jobs.length === 0 && (
-                <EmptyState
-                  title="No jobs found"
-                  description={
-                    hasActiveFilters
-                      ? "We couldn't find any job postings matching your current filter criteria."
-                      : "There are currently no open job requests available. Please check back soon."
-                  }
-                  actionLabel={
-                    hasActiveFilters ? "Clear All Filters" : undefined
-                  }
-                  onAction={hasActiveFilters ? handleResetFilters : undefined}
-                />
-              )}
+              {!isJobsLoading &&
+                !isJobsError &&
+                marketplaceJobs.length === 0 && (
+                  <EmptyState
+                    title="No jobs found"
+                    description={
+                      hasActiveFilters
+                        ? "We couldn't find any job postings matching your current filter criteria."
+                        : "There are currently no open job requests available. Please check back soon."
+                    }
+                    actionLabel={
+                      hasActiveFilters ? "Clear All Filters" : undefined
+                    }
+                    onAction={hasActiveFilters ? handleResetFilters : undefined}
+                  />
+                )}
 
               {/* Jobs Grid */}
-              {!isJobsLoading && !isJobsError && jobs.length > 0 && (
+              {!isJobsLoading && !isJobsError && marketplaceJobs.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {jobs.map((job) => (
+                  {marketplaceJobs.map((job) => (
                     <JobCard key={job.id} job={job} />
                   ))}
                 </div>

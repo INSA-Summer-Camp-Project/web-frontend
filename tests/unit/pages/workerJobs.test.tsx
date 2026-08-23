@@ -72,8 +72,8 @@ describe("WorkerJobsPage", () => {
   });
 
   it("renders header, categories, and job list", async () => {
-    vi.spyOn(jobsApi, "getCategories").mockResolvedValueOnce(mockCategories);
-    vi.spyOn(jobsApi, "getJobs").mockResolvedValueOnce(mockJobsResponse);
+    vi.spyOn(jobsApi, "getCategories").mockResolvedValue(mockCategories);
+    vi.spyOn(jobsApi, "getJobs").mockResolvedValue(mockJobsResponse);
 
     render(<WorkerJobsPage />, { wrapper: createWrapper() });
 
