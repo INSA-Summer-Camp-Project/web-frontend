@@ -137,5 +137,32 @@ describe("apiClient", () => {
         apiClient.delete("/api/v1/applications/app-999"),
       ).rejects.toThrow(ApiError);
     });
+
+    it("formats validation field errors into readable error message", async () => {
+      vi.spyOn(axiosInstance, "post").mockResolvedValueOnce({
+        status: 400,
+        data: {
+          success: false,
+          error: {
+            code: "VALIDATION_ERROR",
+            message: "Request validation failed",
+            fields: {
+              name: "Name must be at least 2 characters",
+              categoryId: "Invalid category ID format",
+            },
+          },
+        },
+      });
+
+      try {
+        await apiClient.post("/api/v1/workers/me/services", {});
+        expect.unreachable();
+      } catch (err: unknown) {
+        expect(err).toBeInstanceOf(ApiError);
+        const apiErr = err as ApiError;
+        expect(apiErr.message).toContain("Name must be at least 2 characters");
+        expect(apiErr.message).toContain("Invalid category ID format");
+      }
+    });
   });
 });

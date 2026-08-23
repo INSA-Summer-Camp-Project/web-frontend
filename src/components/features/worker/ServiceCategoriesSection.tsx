@@ -32,9 +32,9 @@ export const ServiceCategoriesSection: React.FC<
     (s) => s.categoryId || s.category?.id,
   );
 
-  const handleAddCategory = async (categoryId: string) => {
+  const handleAddCategory = async (categoryId: string, name?: string) => {
     try {
-      await addServiceMutation.mutateAsync({ categoryId });
+      await addServiceMutation.mutateAsync({ categoryId, name });
       toast.success("Service category added!");
     } catch (err: unknown) {
       const errorMessage =

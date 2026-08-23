@@ -13,7 +13,8 @@ export interface CertificateUploadModalProps {
   onClose: () => void;
   onUpload: (data: {
     title: string;
-    issueDate: string;
+    issuedDate?: string;
+    issueDate?: string;
     fileUrl: string;
   }) => Promise<void> | void;
   isLoading?: boolean;
@@ -94,6 +95,7 @@ export const CertificateUploadModal: React.FC<CertificateUploadModalProps> = ({
       );
       await onUpload({
         title: title.trim(),
+        issuedDate: issueDate,
         issueDate,
         fileUrl: uploadedUrl,
       });

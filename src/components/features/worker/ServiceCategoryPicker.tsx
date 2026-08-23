@@ -13,7 +13,7 @@ export interface ServiceCategoryPickerProps {
   isOpen: boolean;
   onClose: () => void;
   selectedCategoryIds: string[];
-  onSelectCategory: (categoryId: string) => Promise<void> | void;
+  onSelectCategory: (categoryId: string, name?: string) => Promise<void> | void;
   isLoading?: boolean;
 }
 
@@ -33,10 +33,10 @@ export const ServiceCategoryPicker: React.FC<ServiceCategoryPickerProps> = ({
     cat.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleAdd = async (categoryId: string) => {
+  const handleAdd = async (categoryId: string, name?: string) => {
     try {
       setAddingCategoryId(categoryId);
-      await onSelectCategory(categoryId);
+      await onSelectCategory(categoryId, name);
     } finally {
       setAddingCategoryId(null);
     }
@@ -104,7 +104,7 @@ export const ServiceCategoryPicker: React.FC<ServiceCategoryPickerProps> = ({
                       type="button"
                       variant="secondary"
                       size="sm"
-                      onClick={() => handleAdd(cat.id)}
+                      onClick={() => handleAdd(cat.id, cat.name)}
                       disabled={isBusy}
                       isLoading={addingCategoryId === cat.id}
                       leftIcon={<Plus size={14} />}

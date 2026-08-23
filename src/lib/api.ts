@@ -33,13 +33,19 @@ export function extractErrorMessage(
     if ("error" in errorData) {
       const err = (errorData as Record<string, unknown>).error;
       if (typeof err === "string") return err;
-      if (
-        err &&
-        typeof err === "object" &&
-        "message" in err &&
-        typeof (err as { message: unknown }).message === "string"
-      ) {
-        return (err as { message: string }).message;
+      if (err && typeof err === "object") {
+        const errObj = err as Record<string, unknown>;
+        if (errObj.fields && typeof errObj.fields === "object") {
+          const fieldMsgs = Object.values(
+            errObj.fields as Record<string, string>,
+          ).filter(Boolean);
+          if (fieldMsgs.length > 0) {
+            return fieldMsgs.join(". ");
+          }
+        }
+        if ("message" in errObj && typeof errObj.message === "string") {
+          return errObj.message;
+        }
       }
     }
   }
@@ -85,8 +91,18 @@ export function unwrapResponse<T>(data: unknown): T {
   // If response explicitly declares success: false
   if (record.success === false && record.error) {
     const errObj = record.error as ApiErrorDetails | string;
-    const errMsg =
+    let errMsg =
       typeof errObj === "string" ? errObj : errObj.message || "API Error";
+    if (
+      typeof errObj === "object" &&
+      errObj.fields &&
+      typeof errObj.fields === "object"
+    ) {
+      const fieldMsgs = Object.values(errObj.fields).filter(Boolean);
+      if (fieldMsgs.length > 0) {
+        errMsg = fieldMsgs.join(". ");
+      }
+    }
     throw new ApiError(400, errMsg, errObj);
   }
 

@@ -10,6 +10,10 @@ export interface WorkerService {
   id: string;
   categoryId: string;
   workerId?: string;
+  providerId?: string;
+  name?: string;
+  description?: string;
+  price?: number;
   category: WorkerCategory;
 }
 
@@ -74,10 +78,14 @@ export interface AddCertificatePayload {
   title: string;
   fileUrl: string;
   issuedDate?: string;
+  issueDate?: string;
 }
 
 export interface AddServicePayload {
   categoryId: string;
+  name?: string;
+  description?: string;
+  price?: number;
 }
 
 export interface WorkerReputationMetrics {
