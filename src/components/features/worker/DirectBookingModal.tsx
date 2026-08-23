@@ -109,32 +109,35 @@ export const DirectBookingModal: React.FC<DirectBookingModalProps> = ({
     );
   };
 
-  // Build category options: prioritize worker's specialized services
+  // Build category options: prioritize worker's specialized services and deduplicate
   const categoryOptions = React.useMemo(() => {
+    const seenCategoryIds = new Set<string>();
+    const workerSpecialties: Array<{ value: string; label: string }> = [];
+
     if (worker.services && worker.services.length > 0) {
-      return [
-        { value: "", label: "Select a service category..." },
-        ...worker.services.map((srv) => ({
-          value: srv.categoryId,
-          label: `${srv.category.name} (Specialty)`,
-        })),
-        ...(allCategories
-          ?.filter(
-            (c) => !worker.services?.some((ws) => ws.categoryId === c.id),
-          )
-          .map((c) => ({
-            value: c.id,
-            label: c.name,
-          })) ?? []),
-      ];
+      worker.services.forEach((srv) => {
+        if (srv.categoryId && !seenCategoryIds.has(srv.categoryId)) {
+          seenCategoryIds.add(srv.categoryId);
+          const catName = srv.category?.name || "Specialty";
+          workerSpecialties.push({
+            value: srv.categoryId,
+            label: `${catName} (Specialty)`,
+          });
+        }
+      });
     }
+
+    const otherCategories = (allCategories || [])
+      .filter((c) => !seenCategoryIds.has(c.id))
+      .map((c) => ({
+        value: c.id,
+        label: c.name,
+      }));
 
     return [
       { value: "", label: "Select a service category..." },
-      ...(allCategories?.map((c) => ({
-        value: c.id,
-        label: c.name,
-      })) ?? []),
+      ...workerSpecialties,
+      ...otherCategories,
     ];
   }, [worker.services, allCategories]);
 
