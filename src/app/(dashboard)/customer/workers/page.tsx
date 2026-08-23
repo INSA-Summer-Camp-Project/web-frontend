@@ -288,14 +288,14 @@ export default function CustomerWorkersDiscoveryPage() {
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {workers.map((worker: WorkerProfile) => {
+            {workers.map((worker: WorkerProfile, index: number) => {
               const rating = worker.ratingAvg;
               const rate = worker.paymentRate;
               const expYears = worker.experienceYears;
 
               return (
                 <div
-                  key={worker.id}
+                  key={worker.id || `worker-${index}`}
                   className="bg-surface rounded-sm border border-border p-6 hover:border-primary/40 hover:shadow-sm transition-all duration-200 flex flex-col justify-between"
                 >
                   <div>
@@ -356,9 +356,13 @@ export default function CustomerWorkersDiscoveryPage() {
                     {/* Service Tags */}
                     {worker.services && worker.services.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-4">
-                        {worker.services.slice(0, 3).map((srv) => (
+                        {worker.services.slice(0, 3).map((srv, srvIdx) => (
                           <Badge
-                            key={srv.id}
+                            key={
+                              srv.id ||
+                              srv.categoryId ||
+                              `${worker.id || index}-srv-${srvIdx}`
+                            }
                             variant="default"
                             size="sm"
                             className="text-[11px]"

@@ -38,7 +38,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
 import { Modal } from "@/components/ui/Modal";
-import type { PortfolioItem } from "@/types";
+import type { PortfolioItem, Review } from "@/types";
 
 export default function PublicWorkerProfilePage() {
   const params = useParams<{ id: string }>();
@@ -155,7 +155,13 @@ export default function PublicWorkerProfilePage() {
   const services = profile.services || [];
   const portfolios = profile.portfolios || [];
   const certificates = profile.certificates || [];
-  const reviewList = reviews || reputation?.reviews || [];
+  const rawReviews =
+    (reviews as unknown as { data: Review[] })?.data || reviews;
+  const reviewList: Review[] = Array.isArray(rawReviews)
+    ? rawReviews
+    : Array.isArray(reputation?.reviews)
+      ? reputation.reviews
+      : [];
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -204,13 +210,17 @@ export default function PublicWorkerProfilePage() {
                 </p>
               ) : (
                 <div className="flex flex-wrap gap-2.5">
-                  {services.map((service) => (
+                  {services.map((service, srvIdx) => (
                     <span
-                      key={service.id}
+                      key={
+                        service.id ||
+                        service.categoryId ||
+                        `service-${srvIdx}`
+                      }
                       className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20"
                     >
                       <Sparkles size={12} />
-                      <span>{service.category.name}</span>
+                      <span>{service.category?.name}</span>
                     </span>
                   ))}
                 </div>
@@ -232,11 +242,11 @@ export default function PublicWorkerProfilePage() {
                 </p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {portfolios.map((item) => {
+                  {portfolios.map((item, idx) => {
                     const imgUrl = item.imageUrl || "";
                     return (
                       <div
-                        key={item.id}
+                        key={item.id || `portfolio-${idx}`}
                         onClick={() => setSelectedPortfolio(item)}
                         className="group relative border border-border rounded-sm overflow-hidden bg-surface-alt cursor-pointer hover:border-primary/50 transition-colors"
                       >
@@ -282,11 +292,11 @@ export default function PublicWorkerProfilePage() {
                 </div>
 
                 <div className="divide-y divide-border">
-                  {certificates.map((cert) => {
+                  {certificates.map((cert, idx) => {
                     const fileUrl = cert.fileUrl || "";
                     return (
                       <div
-                        key={cert.id}
+                        key={cert.id || `cert-${idx}`}
                         className="py-3 flex items-center justify-between gap-4 first:pt-0 last:pb-0"
                       >
                         <div className="flex items-center gap-3">
@@ -347,8 +357,11 @@ export default function PublicWorkerProfilePage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {reviewList.map((review) => (
-                    <ReviewCard key={review.id} review={review} />
+                  {reviewList.map((review, idx) => (
+                    <ReviewCard
+                      key={review.id || `review-${idx}`}
+                      review={review}
+                    />
                   ))}
                 </div>
               )}

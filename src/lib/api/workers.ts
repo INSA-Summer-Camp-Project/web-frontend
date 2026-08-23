@@ -46,7 +46,19 @@ export const workersApi = {
    * Fetches customer reviews for a worker.
    */
   getReviews: async (workerId: string): Promise<Review[]> => {
-    return apiClient.get<Review[]>(`/api/v1/workers/${workerId}/reviews`);
+    const res = await apiClient.get<
+      Review[] | { data: Review[]; meta?: unknown }
+    >(`/api/v1/workers/${workerId}/reviews`);
+    if (Array.isArray(res)) return res;
+    if (
+      res &&
+      typeof res === "object" &&
+      "data" in res &&
+      Array.isArray((res as { data: Review[] }).data)
+    ) {
+      return (res as { data: Review[] }).data;
+    }
+    return [];
   },
 
   /**
