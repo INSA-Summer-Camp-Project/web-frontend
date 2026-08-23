@@ -25,7 +25,7 @@ export default function SearchPage() {
   const { data: categories = [] } = useCategories();
 
   const {
-    data: workers,
+    data: rawWorkers,
     isLoading,
     isError,
     refetch,
@@ -34,6 +34,10 @@ export default function SearchPage() {
     categoryId: selectedCategory || undefined,
     sortBy,
   });
+
+  const workers = Array.isArray(rawWorkers)
+    ? rawWorkers
+    : (rawWorkers as unknown as { data: typeof rawWorkers })?.data || [];
 
   const categoryOptions = [
     { value: "", label: "All Categories" },
