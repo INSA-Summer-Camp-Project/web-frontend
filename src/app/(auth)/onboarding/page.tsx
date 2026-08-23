@@ -9,6 +9,7 @@ import { RoleSelector, type RoleType } from "@/components/ui/RoleSelector";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toast";
+import type { UserProfile } from "@/types";
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -50,13 +51,15 @@ export default function OnboardingPage() {
         role: role as "CUSTOMER" | "WORKER",
       },
       {
-        onSuccess: (data: any) => {
-          const updatedUser = data?.user || data;
+        onSuccess: (data: { user?: UserProfile }) => {
+          const updatedUser = data?.user;
           if (updatedUser) {
             setUser(updatedUser);
           }
           const selectedRole =
-            (role as "CUSTOMER" | "WORKER") || updatedUser?.lastActiveRole;
+            (role as "CUSTOMER" | "WORKER") ||
+            updatedUser?.lastActiveRole ||
+            "CUSTOMER";
           setActiveRole(selectedRole);
           document.cookie = `servicehub_active_role=${selectedRole}; path=/; max-age=2592000; SameSite=Lax`;
           toast.success("Welcome to ServiceHub!");
@@ -122,7 +125,9 @@ export default function OnboardingPage() {
               </span>
               <select
                 value={gender}
-                onChange={(e) => setGender(e.target.value as any)}
+                onChange={(e) =>
+                  setGender(e.target.value as "MALE" | "FEMALE" | "OTHER")
+                }
                 className="w-full rounded-sm border border-border bg-surface-alt p-3.5 text-sm text-ink focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors cursor-pointer"
                 required
               >

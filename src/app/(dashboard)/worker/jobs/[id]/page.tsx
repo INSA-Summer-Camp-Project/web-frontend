@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useJob } from "@/hooks/useJobs";
+import { useJob, useDirectRespond } from "@/hooks/useJobs";
 import { useCreateProposal } from "@/hooks/useApplications";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
@@ -10,6 +10,8 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { ArrowLeft, Clock } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
+import { toast } from "@/components/ui/Toast";
+import { DirectRespondPanel } from "@/components/features/worker/DirectRespondPanel";
 
 export default function WorkerJobDetailsPage() {
   const { id } = useParams() as { id: string };
@@ -17,6 +19,8 @@ export default function WorkerJobDetailsPage() {
 
   const { data: job, isLoading: jobLoading, error: jobError } = useJob(id);
   const { mutate: createProposal, isPending: submitting } = useCreateProposal();
+  const { mutate: directRespond, isPending: isResponding } =
+    useDirectRespond(id);
 
   const [bidModalOpen, setBidModalOpen] = useState(false);
   const [price, setPrice] = useState("");
@@ -41,15 +45,40 @@ export default function WorkerJobDetailsPage() {
   const handleSubmitProposal = (e: React.FormEvent) => {
     e.preventDefault();
     const parsedPrice = parseFloat(price);
-    const parsedTime = parseInt(estimatedTime, 10);
-    if (!parsedPrice || !parsedTime) return;
+    const trimmedTime = estimatedTime.trim();
+    if (!parsedPrice || !trimmedTime) return;
 
     createProposal(
-      { jobId: job.id, proposedPrice: parsedPrice, estimatedTime: parsedTime },
+      { jobId: job.id, proposedPrice: parsedPrice, estimatedTime: trimmedTime },
       {
         onSuccess: () => {
           setBidModalOpen(false);
           router.push("/worker/jobs");
+        },
+      },
+    );
+  };
+
+  const handleDirectRespond = (action: "ACCEPT" | "DECLINE") => {
+    directRespond(
+      { action },
+      {
+        onSuccess: () => {
+          if (action === "ACCEPT") {
+            toast.success(
+              "Direct booking accepted! You are now assigned to this job.",
+            );
+          } else {
+            toast.info("Direct booking declined.");
+            router.push("/worker/jobs");
+          }
+        },
+        onError: (err) => {
+          toast.error(
+            err instanceof Error
+              ? err.message
+              : `Failed to ${action.toLowerCase()} direct booking.`,
+          );
         },
       },
     );
@@ -101,7 +130,7 @@ export default function WorkerJobDetailsPage() {
       {job.source === "DIRECT" && job.status === "PENDING" && (
         <DirectRespondPanel
           jobId={job.id}
-          onRespond={(action) => directRespond({ action })}
+          onRespond={handleDirectRespond}
           isLoading={isResponding}
         />
       )}
@@ -137,13 +166,12 @@ export default function WorkerJobDetailsPage() {
           />
 
           <Input
-            label="Estimated Time (minutes)"
-            type="number"
-            placeholder="e.g. 120 for 2 hours"
+            label="Estimated Time"
+            type="text"
+            placeholder="e.g. 2 hours, 3 days"
             value={estimatedTime}
             onChange={(e) => setEstimatedTime(e.target.value)}
             required
-            min="1"
           />
 
           <div className="flex justify-end gap-3 pt-4 border-t border-border">

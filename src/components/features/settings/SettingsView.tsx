@@ -24,7 +24,7 @@ export const SettingsView = () => {
     mutationFn: (newRole: "CUSTOMER" | "WORKER") => authApi.updateRole(newRole),
     onSuccess: (updatedUser, newRole) => {
       setUser(updatedUser);
-      document.cookie = `servicehub_active_role=${newRole}; path=/; max-age=31536000; SameSite=Lax`;
+      document.cookie = `servicehub_active_role=${newRole}; path=/; max-age=2592000; SameSite=Lax`;
       toast.success(`Successfully switched to ${newRole.toLowerCase()} mode`);
       router.push(`/${newRole.toLowerCase()}/dashboard`);
     },

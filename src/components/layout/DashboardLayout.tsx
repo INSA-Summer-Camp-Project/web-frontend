@@ -9,17 +9,7 @@ import type { UserProfile } from "@/types";
 export interface DashboardLayoutProps {
   children: React.ReactNode;
   userRole?: "CUSTOMER" | "WORKER";
-  user?:
-    | UserProfile
-    | {
-        name?: string;
-        fullName?: string;
-        role?: string;
-        avatarUrl?: string | null;
-        photoUrl?: string | null;
-        email?: string | null;
-      }
-    | null;
+  user?: UserProfile | null;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({

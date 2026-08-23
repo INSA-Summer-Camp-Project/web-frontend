@@ -2,10 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import { Wrench } from "lucide-react";
 import { WorkerSidebar } from "./WorkerSidebar";
 import { WorkerMobileNav } from "./WorkerMobileNav";
 import { useAuthStore } from "@/stores/authStore";
+import { Logo } from "@/components/ui/Logo";
 
 export interface DashboardShellProps {
   children: React.ReactNode;
@@ -27,14 +27,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
       <div className="flex-1 flex flex-col min-w-0 pb-16 lg:pb-8">
         {/* Mobile Top Header */}
         <header className="lg:hidden h-14 bg-surface border-b border-border px-4 flex items-center justify-between sticky top-0 z-layer-sticky">
-          <Link href="/worker/dashboard" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
-              <Wrench size={16} className="stroke-[2.5]" />
-            </div>
-            <span className="font-serif text-base font-bold text-ink tracking-tight">
-              ServiceHub
-            </span>
-          </Link>
+          <Logo variant="blue" size={28} href="/worker/dashboard" />
 
           <div className="flex items-center gap-3">
             {headerActions}

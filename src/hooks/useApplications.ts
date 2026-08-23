@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { applicationsApi } from "@/lib/api/applications";
 import { jobKeys } from "./useJobs";
-import type { ApplyPayload, DirectRespondPayload } from "@/types";
+import type { DirectRespondPayload } from "@/types";
 import { jobsApi } from "@/lib/api/jobs";
 
 export const applicationKeys = {
@@ -34,21 +34,39 @@ export function useJobApplications(jobId: string, enabled = true) {
 
 /**
  * Hook to submit an application / bid for a job (Worker).
+ * Supports both useApplyJob(jobId) with mutate(payload) and useApplyJob() with mutate({ jobId, ...payload }).
  */
-export function useApplyJob(jobId: string) {
+export function useApplyJob(jobId?: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: ApplyPayload) =>
-      applicationsApi.applyJob(jobId, payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: applicationKeys.mine(),
+    mutationFn: (payload: {
+      jobId?: string;
+      proposedPrice: number;
+      estimatedTime: string | number;
+    }) => {
+      const targetJobId = jobId || payload.jobId;
+      if (!targetJobId) {
+        throw new Error("Job ID is required to submit a proposal");
+      }
+      return applicationsApi.applyJob(targetJobId, {
+        proposedPrice: payload.proposedPrice,
+        estimatedTime: String(payload.estimatedTime),
       });
-      queryClient.invalidateQueries({
-        queryKey: applicationKeys.forJob(jobId),
-      });
-      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+    },
+    onSuccess: (_, variables) => {
+      const targetJobId = jobId || variables.jobId;
+      queryClient.invalidateQueries({ queryKey: applicationKeys.all });
+      queryClient.invalidateQueries({ queryKey: applicationKeys.mine() });
+      if (targetJobId) {
+        queryClient.invalidateQueries({
+          queryKey: applicationKeys.forJob(targetJobId),
+        });
+        queryClient.invalidateQueries({
+          queryKey: jobKeys.detail(targetJobId),
+        });
+      }
+      queryClient.invalidateQueries({ queryKey: jobKeys.all });
     },
   });
 }
@@ -150,27 +168,4 @@ export const useAcceptProposal = (jobId?: string) => {
     },
   });
 };
-export const useCreateProposal = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (payload: {
-      jobId: string;
-      proposedPrice: number;
-      estimatedTime: string | number;
-    }) =>
-      applicationsApi.applyJob(payload.jobId, {
-        proposedPrice: payload.proposedPrice,
-        estimatedTime: String(payload.estimatedTime),
-      }),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: applicationKeys.forJob(variables.jobId),
-      });
-      queryClient.invalidateQueries({ queryKey: applicationKeys.mine() });
-      queryClient.invalidateQueries({
-        queryKey: jobKeys.detail(variables.jobId),
-      });
-    },
-  });
-};
+export const useCreateProposal = useApplyJob;

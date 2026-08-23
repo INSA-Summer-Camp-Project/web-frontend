@@ -32,6 +32,7 @@ import {
   ReputationSummary,
   DirectBookingModal,
 } from "@/components/features/worker";
+import { ReportModal } from "@/components/features/reports";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
@@ -58,6 +59,7 @@ export default function PublicWorkerProfilePage() {
   const [selectedPortfolio, setSelectedPortfolio] =
     useState<PortfolioItem | null>(null);
   const [isHireModalOpen, setIsHireModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   const handleHireClick = () => {
     if (!isAuthenticated) {
@@ -65,6 +67,14 @@ export default function PublicWorkerProfilePage() {
       return;
     }
     setIsHireModalOpen(true);
+  };
+
+  const handleReportClick = () => {
+    if (!isAuthenticated) {
+      router.push(`/login?redirect=/worker/view/${workerId}`);
+      return;
+    }
+    setIsReportModalOpen(true);
   };
 
   if (isProfileError) {
@@ -169,6 +179,7 @@ export default function PublicWorkerProfilePage() {
           profile={profile}
           reputation={reputation}
           onDirectRequest={handleHireClick}
+          onReport={handleReportClick}
         />
 
         {/* Trust Signals Metric Tiles */}
@@ -440,6 +451,16 @@ export default function PublicWorkerProfilePage() {
           isOpen={isHireModalOpen}
           onClose={() => setIsHireModalOpen(false)}
           worker={profile}
+        />
+      )}
+
+      {/* Report User Modal */}
+      {profile && (
+        <ReportModal
+          isOpen={isReportModalOpen}
+          onClose={() => setIsReportModalOpen(false)}
+          reportedUserId={profile.userId}
+          targetName={workerName}
         />
       )}
 

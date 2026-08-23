@@ -10,6 +10,10 @@ export interface WorkerService {
   id: string;
   categoryId: string;
   workerId?: string;
+  providerId?: string;
+  name?: string;
+  description?: string;
+  price?: number;
   category: WorkerCategory;
 }
 
@@ -41,6 +45,7 @@ export interface WorkerProfile {
   paymentRate?: string | number;
   ratingAvg?: string | number;
   profilePhoto?: string;
+  isVerified?: boolean;
   user?: Pick<
     UserProfile,
     "id" | "name" | "email" | "phone" | "avatarUrl" | "photoUrl"
@@ -73,10 +78,14 @@ export interface AddCertificatePayload {
   title: string;
   fileUrl: string;
   issuedDate?: string;
+  issueDate?: string;
 }
 
 export interface AddServicePayload {
   categoryId: string;
+  name?: string;
+  description?: string;
+  price?: number;
 }
 
 export interface WorkerReputationMetrics {
@@ -133,13 +142,16 @@ export interface WorkerReputation {
   reviews?: Review[];
 }
 
+export type WorkerSortBy =
+  "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+
 export interface WorkerSearchParams {
   categoryId?: string;
   search?: string;
   minRating?: number;
   minRate?: number;
   maxRate?: number;
-  sortBy?: "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+  sortBy?: WorkerSortBy;
   page?: number;
   limit?: number;
 }

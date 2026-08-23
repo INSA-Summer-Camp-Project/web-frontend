@@ -36,9 +36,19 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({
       await addCertMutation.mutateAsync(payload);
       toast.success("Certificate uploaded successfully!");
     } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to upload certificate.";
+      let errorMessage = "Failed to upload certificate.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      if (
+        errorMessage === "Failed to fetch" ||
+        errorMessage.toLowerCase().includes("network error")
+      ) {
+        errorMessage =
+          "Network connection error: Unable to reach backend server. Please check your connection.";
+      }
       toast.error(errorMessage);
+      throw err;
     }
   };
 

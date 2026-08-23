@@ -1,21 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { PageHeader } from "@/components/layout/PageHeader";
 import { WorkerCard } from "@/components/features/worker/WorkerCard";
 import { useSearchWorkers, useCategories } from "@/hooks/useWorker";
-import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
-import { Search, SlidersHorizontal, Users } from "lucide-react";
-import { useDebounce } from "@/hooks/useDebounce"; // Need to create this or just use local state
+import { Search, Users } from "lucide-react";
+import type { WorkerSortBy } from "@/types";
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortBy, setSortBy] = useState("rating");
+  const [sortBy, setSortBy] = useState<WorkerSortBy>("rating");
 
   // Simple debounce (normally we'd use a hook)
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -34,7 +32,7 @@ export default function SearchPage() {
   } = useSearchWorkers({
     search: debouncedSearch || undefined,
     categoryId: selectedCategory || undefined,
-    sortBy: sortBy as any,
+    sortBy,
   });
 
   const categoryOptions = [
@@ -88,7 +86,7 @@ export default function SearchPage() {
             <Select
               options={sortOptions}
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => setSortBy(e.target.value as WorkerSortBy)}
               className="w-full"
             />
           </div>

@@ -96,10 +96,10 @@ describe("WorkerJobDetailPage", () => {
     expect(screen.getByText("Submit a Proposal")).toBeInTheDocument();
 
     const priceInput = screen.getByLabelText("Your Bid Amount (ETB)");
-    const timeInput = screen.getByLabelText("Estimated Time (minutes)");
+    const timeInput = screen.getByLabelText("Estimated Time");
 
     fireEvent.change(priceInput, { target: { value: "1100" } });
-    fireEvent.change(timeInput, { target: { value: "60" } });
+    fireEvent.change(timeInput, { target: { value: "60 minutes" } });
 
     const submitBtns = screen.getAllByRole("button", {
       name: "Submit Proposal",
@@ -109,7 +109,44 @@ describe("WorkerJobDetailPage", () => {
     await waitFor(() => {
       expect(applySpy).toHaveBeenCalledWith("job-100", {
         proposedPrice: 1100,
-        estimatedTime: "60",
+        estimatedTime: "60 minutes",
+      });
+    });
+  });
+
+  it("renders DirectRespondPanel for DIRECT PENDING job and accepts offer", async () => {
+    const directJob: Job = {
+      ...mockJob,
+      id: "job-100",
+      source: "DIRECT",
+      status: "PENDING",
+    };
+
+    vi.spyOn(jobsApi, "getJobById").mockResolvedValueOnce(directJob);
+    const respondSpy = vi
+      .spyOn(jobsApi, "directRespond")
+      .mockResolvedValueOnce({
+        ...directJob,
+        status: "IN_PROGRESS",
+      });
+
+    render(<WorkerJobDetailPage />, { wrapper: createWrapper() });
+
+    await waitFor(() => {
+      expect(screen.getByText("Direct Service Request")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Accept Request" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Decline Request" }),
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Accept Request" }));
+
+    await waitFor(() => {
+      expect(respondSpy).toHaveBeenCalledWith("job-100", {
+        action: "ACCEPT",
       });
     });
   });

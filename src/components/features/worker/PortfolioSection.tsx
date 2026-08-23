@@ -30,9 +30,19 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
       await addPortfolioMutation.mutateAsync(payload);
       toast.success("Portfolio project added successfully!");
     } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to add portfolio item.";
+      let errorMessage = "Failed to add portfolio item.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      if (
+        errorMessage === "Failed to fetch" ||
+        errorMessage.toLowerCase().includes("network error")
+      ) {
+        errorMessage =
+          "Network connection error: Unable to reach backend server. Please check your connection.";
+      }
       toast.error(errorMessage);
+      throw err;
     }
   };
 

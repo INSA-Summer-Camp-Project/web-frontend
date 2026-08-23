@@ -67,10 +67,16 @@ describe("ServiceCategoriesSection", () => {
     });
   });
 
-  it("opens category picker modal when Add Category is clicked", async () => {
+  it("opens category picker modal and adds a category", async () => {
     vi.spyOn(workersApi, "getCategories").mockResolvedValueOnce([
       { id: "cat-3", name: "Carpentry", description: "Woodworking" },
     ]);
+    const addSpy = vi.spyOn(workersApi, "addService").mockResolvedValueOnce({
+      id: "srv-3",
+      categoryId: "cat-3",
+      name: "Carpentry",
+      category: { id: "cat-3", name: "Carpentry" },
+    });
 
     render(<ServiceCategoriesSection services={mockServices} />, {
       wrapper: createWrapper(),
@@ -80,5 +86,19 @@ describe("ServiceCategoriesSection", () => {
     fireEvent.click(addBtn);
 
     expect(screen.getByText("Add Service Category")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText("Carpentry")).toBeInTheDocument();
+    });
+
+    const modalAddBtn = screen.getByRole("button", { name: "Add" });
+    fireEvent.click(modalAddBtn);
+
+    await waitFor(() => {
+      expect(addSpy).toHaveBeenCalledWith({
+        categoryId: "cat-3",
+        name: "Carpentry",
+      });
+    });
   });
 });

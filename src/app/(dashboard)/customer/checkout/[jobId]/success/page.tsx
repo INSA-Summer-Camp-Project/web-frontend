@@ -35,7 +35,9 @@ export default function CheckoutSuccessPage() {
     content = (
       <div className="space-y-4">
         <XCircle size={40} className="text-error mx-auto" />
-        <h1 className="text-2xl font-serif font-bold text-ink">Invalid Request</h1>
+        <h1 className="text-2xl font-serif font-bold text-ink">
+          Invalid Request
+        </h1>
         <p className="text-ink-secondary">Missing transaction reference.</p>
       </div>
     );
@@ -43,24 +45,36 @@ export default function CheckoutSuccessPage() {
     content = (
       <div className="space-y-4 flex flex-col items-center">
         <Spinner size="lg" />
-        <h1 className="text-2xl font-serif font-bold text-ink">Verifying Payment...</h1>
-        <p className="text-ink-secondary">Please wait while we confirm your payment.</p>
+        <h1 className="text-2xl font-serif font-bold text-ink">
+          Verifying Payment...
+        </h1>
+        <p className="text-ink-secondary">
+          Please wait while we confirm your payment.
+        </p>
       </div>
     );
   } else if (isError || status === "FAILED") {
     content = (
       <div className="space-y-4">
         <XCircle size={40} className="text-error mx-auto" />
-        <h1 className="text-2xl font-serif font-bold text-ink">Payment Failed</h1>
-        <p className="text-ink-secondary">There was an issue processing your payment.</p>
+        <h1 className="text-2xl font-serif font-bold text-ink">
+          Payment Failed
+        </h1>
+        <p className="text-ink-secondary">
+          There was an issue processing your payment.
+        </p>
       </div>
     );
   } else if (status === "PENDING") {
     content = (
       <div className="space-y-4">
         <Clock size={40} className="text-warning mx-auto" />
-        <h1 className="text-2xl font-serif font-bold text-ink">Payment Pending</h1>
-        <p className="text-ink-secondary">Your payment is still being processed.</p>
+        <h1 className="text-2xl font-serif font-bold text-ink">
+          Payment Pending
+        </h1>
+        <p className="text-ink-secondary">
+          Your payment is still being processed.
+        </p>
       </div>
     );
   } else {
@@ -69,9 +83,12 @@ export default function CheckoutSuccessPage() {
         <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto">
           <CheckCircle2 size={40} className="text-success" />
         </div>
-        <h1 className="text-2xl font-serif font-bold text-ink">Payment Successful!</h1>
+        <h1 className="text-2xl font-serif font-bold text-ink">
+          Payment Successful!
+        </h1>
         <p className="text-ink-secondary">
-          Your payment has been securely escrowed. The worker has been notified to begin the job.
+          Your payment has been securely escrowed. The worker has been notified
+          to begin the job.
         </p>
       </div>
     );
@@ -80,7 +97,6 @@ export default function CheckoutSuccessPage() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center p-4">
       <div className="bg-surface border border-border shadow-md rounded-lg p-8 max-w-md w-full text-center space-y-6 animate-in fade-in zoom-in duration-500">
-        
         {content}
 
         {txRef && (

@@ -7,7 +7,6 @@ import {
   Mail,
   Phone,
   Calendar,
-  Star,
   ShieldCheck,
   Briefcase,
   Search,

@@ -19,7 +19,7 @@ export interface Application {
 
 export interface ApplyPayload {
   proposedPrice: number;
-  estimatedTime: string | number;
+  estimatedTime: string;
 }
 
 export interface AcceptApplicationResponse {

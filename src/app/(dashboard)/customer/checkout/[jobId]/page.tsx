@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
-import { ShieldCheck, CreditCard, Lock } from "lucide-react";
+import { ShieldCheck, Lock } from "lucide-react";
 import { toast } from "@/components/ui/Toast";
 
 export default function CheckoutPage() {

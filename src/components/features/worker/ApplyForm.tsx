@@ -14,9 +14,8 @@ const applySchema = z.object({
     .number({ message: "Please enter a valid amount" })
     .positive("Proposed price must be greater than 0"),
   estimatedTime: z
-    .number({ message: "Please enter time in minutes" })
-    .int("Estimated time must be a whole number")
-    .positive("Time must be greater than 0"),
+    .string()
+    .min(1, "Please enter an estimated timeline (e.g. 2 hours, 3 days)"),
 });
 
 type ApplyFormValues = z.infer<typeof applySchema>;
@@ -53,7 +52,7 @@ export const ApplyForm: React.FC<ApplyFormProps> = ({
     defaultValues: {
       proposedPrice:
         initialBudget && !isNaN(initialBudget) ? initialBudget : undefined,
-      estimatedTime: undefined,
+      estimatedTime: "",
     },
   });
 
@@ -97,12 +96,12 @@ export const ApplyForm: React.FC<ApplyFormProps> = ({
         <div>
           <Input
             id="estimatedTime"
-            type="number"
-            label="Estimated Time (minutes)"
-            placeholder="e.g. 120 for 2 hours"
+            type="text"
+            label="Estimated Time"
+            placeholder="e.g. 2 hours, 3 days"
             error={errors.estimatedTime?.message}
             leftIcon={<Clock size={16} />}
-            {...register("estimatedTime", { valueAsNumber: true })}
+            {...register("estimatedTime")}
           />
         </div>
       </div>

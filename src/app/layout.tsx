@@ -36,6 +36,23 @@ export const metadata: Metadata = {
     "local services",
     "ServiceHub",
   ],
+  icons: {
+    icon: [
+      { url: "/logo-package/favicon.ico" },
+      {
+        url: "/logo-package/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/logo-package/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: "/logo-package/apple-touch-icon.png",
+  },
+  manifest: "/logo-package/site.webmanifest",
 };
 
 export default function RootLayout({

@@ -41,6 +41,7 @@ export interface Job {
   targetWorker?: WorkerProfile | null;
   location?: string;
   applications?: Application[];
+  payments?: Array<{ id: string; amount: number | string; status: string }>;
   _count?: {
     applications?: number;
   };

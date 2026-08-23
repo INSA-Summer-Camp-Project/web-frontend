@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MessageSquare, Calendar, Zap } from "lucide-react";
+import { MessageSquare, Calendar, Zap, Flag } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -14,6 +14,7 @@ export interface WorkerProfileHeaderProps {
   reputation?: WorkerReputation;
   onDirectRequest?: () => void;
   isDirectRequestLoading?: boolean;
+  onReport?: () => void;
   className?: string;
 }
 
@@ -22,6 +23,7 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
   reputation,
   onDirectRequest,
   isDirectRequestLoading = false,
+  onReport,
   className = "",
 }) => {
   const name = profile.user?.name || "Service Professional";
@@ -115,19 +117,34 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
             </div>
           )}
 
-          {onDirectRequest && (
-            <Button
-              type="button"
-              variant="primary"
-              size="lg"
-              onClick={onDirectRequest}
-              isLoading={isDirectRequestLoading}
-              leftIcon={<MessageSquare size={16} />}
-              className="w-full sm:w-auto"
-            >
-              Direct Booking
-            </Button>
-          )}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            {onReport && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={onReport}
+                leftIcon={<Flag size={14} className="text-ink-muted" />}
+                className="text-ink-muted hover:text-destructive text-xs"
+              >
+                Report
+              </Button>
+            )}
+
+            {onDirectRequest && (
+              <Button
+                type="button"
+                variant="primary"
+                size="lg"
+                onClick={onDirectRequest}
+                isLoading={isDirectRequestLoading}
+                leftIcon={<MessageSquare size={16} />}
+                className="w-full sm:w-auto"
+              >
+                Direct Booking
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
