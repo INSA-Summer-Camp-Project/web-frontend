@@ -5,6 +5,7 @@ import type {
   CreateJobPayload,
   CreateDirectJobPayload,
   UpdateJobStatusPayload,
+  UpdateJobPayload,
 } from "@/types";
 
 export const jobKeys = {
@@ -14,6 +15,7 @@ export const jobKeys = {
   workerJobs: () => ["worker", "jobs"] as const,
   customerJobs: () => ["customer", "jobs"] as const,
   categories: () => ["categories"] as const,
+  contact: (id: string) => [...jobKeys.all, id, "contact"] as const,
 };
 
 /**
@@ -129,6 +131,23 @@ export function useCreateDirectJob() {
 }
 
 /**
+ * Hook to accept or decline direct booking (Worker).
+ */
+export function useDirectRespond(jobId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: { action: "ACCEPT" | "DECLINE" }) =>
+      jobsApi.directRespond(jobId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+      queryClient.invalidateQueries({ queryKey: jobKeys.workerJobs() });
+      queryClient.invalidateQueries({ queryKey: jobKeys.all });
+    },
+  });
+}
+
+/**
  * Hook to update job status (e.g., mark as COMPLETED).
  */
 export function useUpdateJobStatus(jobId: string) {
@@ -142,5 +161,34 @@ export function useUpdateJobStatus(jobId: string) {
       queryClient.invalidateQueries({ queryKey: jobKeys.workerJobs() });
       queryClient.invalidateQueries({ queryKey: jobKeys.customerJobs() });
     },
+  });
+}
+
+/**
+ * Hook to update job details (Customer).
+ */
+export function useUpdateJob(jobId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: UpdateJobPayload) =>
+      jobsApi.updateJob(jobId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(jobId) });
+      queryClient.invalidateQueries({ queryKey: jobKeys.customerJobs() });
+      queryClient.invalidateQueries({ queryKey: jobKeys.all });
+    },
+  });
+}
+
+/**
+ * Hook to fetch contact info for a job.
+ */
+export function useJobContact(jobId: string, enabled = true) {
+  return useQuery({
+    queryKey: jobKeys.contact(jobId),
+    queryFn: () => jobsApi.getJobContact(jobId),
+    enabled: !!jobId && enabled,
+    retry: false,
   });
 }

@@ -5,7 +5,6 @@ import {
   HowItWorks,
   Services,
   ForProfessionals,
-  Testimonials,
   CTA,
   Footer,
 } from "@/components/features/landing";
@@ -19,7 +18,6 @@ export default function LandingPage() {
         <HowItWorks />
         <Services />
         <ForProfessionals />
-        <Testimonials />
         <CTA />
       </main>
       <Footer />

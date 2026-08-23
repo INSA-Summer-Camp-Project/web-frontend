@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useId } from "react";
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -85,9 +86,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               aria-label={showPassword ? "Hide password" : "Show password"}
               className="absolute right-3 flex items-center justify-center text-ink-muted hover:text-ink transition-colors focus:outline-none cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[20px]">
-                {showPassword ? "visibility_off" : "visibility"}
-              </span>
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           ) : (
             rightIcon && (
@@ -99,7 +98,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
         {error ? (
           <p className="text-xs text-error flex items-center gap-1 font-medium mt-0.5">
-            <span className="material-symbols-outlined text-[14px]">error</span>
+            <AlertCircle size={14} />
             {error}
           </p>
         ) : helperText ? (

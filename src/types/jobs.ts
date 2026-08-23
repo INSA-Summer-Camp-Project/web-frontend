@@ -1,5 +1,6 @@
 import type { UserProfile } from "./auth";
 import type { WorkerProfile } from "./worker";
+import type { Application } from "./applications";
 
 export type JobStatus =
   | "OPEN"
@@ -39,6 +40,8 @@ export interface Job {
   assignedWorker?: WorkerProfile | null;
   targetWorker?: WorkerProfile | null;
   location?: string;
+  applications?: Application[];
+  payments?: Array<{ id: string; amount: number | string; status: string }>;
   _count?: {
     applications?: number;
   };
@@ -77,6 +80,19 @@ export interface DirectRespondPayload {
 
 export interface UpdateJobStatusPayload {
   status: JobStatus;
+}
+
+export interface UpdateJobPayload {
+  title?: string;
+  description?: string;
+  budget?: number;
+  categoryId?: string;
+}
+
+export interface JobContact {
+  phone?: string | null;
+  telegramId?: string | null;
+  email?: string | null;
 }
 
 export interface PaginatedJobsMeta {

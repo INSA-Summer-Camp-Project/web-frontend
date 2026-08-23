@@ -2,7 +2,7 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import WorkerDashboardPage from "@/app/(worker)/dashboard/page";
+import WorkerDashboardPage from "@/app/(dashboard)/worker/dashboard/page";
 import { jobsApi } from "@/lib/api/jobs";
 import { applicationsApi } from "@/lib/api/applications";
 import { useAuthStore } from "@/stores/authStore";

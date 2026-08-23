@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -97,10 +97,17 @@ export const PortfolioUploadModal: React.FC<PortfolioUploadModalProps> = ({
       });
       handleClose();
     } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "Failed to upload portfolio image.";
+      let errorMessage = "Failed to upload portfolio image.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      if (
+        errorMessage === "Failed to fetch" ||
+        errorMessage.toLowerCase().includes("network error")
+      ) {
+        errorMessage =
+          "Network connection error: Failed to connect to server. Please verify your connection and try again.";
+      }
       toast.error(errorMessage);
     } finally {
       setIsUploading(false);

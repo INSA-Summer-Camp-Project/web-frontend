@@ -44,7 +44,7 @@ export const DirectBookingModal: React.FC<DirectBookingModalProps> = ({
     useCreateDirectJob();
 
   const workerName = worker.user?.name || "Professional Worker";
-  const workerRate = Number(worker.payment_rate || worker.paymentRate || 350);
+  const workerRate = Number(worker.paymentRate || 350);
 
   // Pre-select category if available from worker services or defaultCategoryId
   const initialCategory =

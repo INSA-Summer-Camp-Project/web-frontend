@@ -82,7 +82,7 @@ export const ForProfessionals: React.FC<ForProfessionalsProps> = ({
           </ul>
 
           <Link
-            href="/signup"
+            href="/login"
             className="btn-primary inline-flex text-sm px-6 py-3 rounded-sm shadow-sm hover:shadow-md mt-10 group"
           >
             <span>Start offering services</span>

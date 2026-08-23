@@ -8,9 +8,9 @@ describe("WorkerProfileHeader", () => {
   const mockProfile: WorkerProfile = {
     id: "wrk-1",
     bio: "Skilled contractor specializing in residential renovations.",
-    experience_years: 7,
-    payment_rate: 350,
-    profile_photo: "https://example.com/photo.jpg",
+    experienceYears: 7,
+    paymentRate: 350,
+    profilePhoto: "https://example.com/photo.jpg",
     user: {
       id: "u-1",
       name: "Solomon Kassa",
@@ -25,7 +25,7 @@ describe("WorkerProfileHeader", () => {
 
   const mockReputation: WorkerReputation = {
     workerId: "wrk-1",
-    rating_avg: 4.9,
+    ratingAvg: 4.9,
     totalReviews: 14,
     distribution: { "5": 12, "4": 2, "3": 0, "2": 0, "1": 0 },
     metrics: {
@@ -69,5 +69,21 @@ describe("WorkerProfileHeader", () => {
     fireEvent.click(bookBtn);
 
     expect(handleDirectRequest).toHaveBeenCalled();
+  });
+
+  it("calls onReport when Report button is clicked", () => {
+    const handleReport = vi.fn();
+    render(
+      <WorkerProfileHeader
+        profile={mockProfile}
+        reputation={mockReputation}
+        onReport={handleReport}
+      />,
+    );
+
+    const reportBtn = screen.getByRole("button", { name: "Report" });
+    fireEvent.click(reportBtn);
+
+    expect(handleReport).toHaveBeenCalledTimes(1);
   });
 });

@@ -42,10 +42,27 @@ export async function uploadToCloudinary(
 
   const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
 
-  const response = await fetch(endpoint, {
-    method: "POST",
-    body: formData,
-  });
+  let response: Response;
+  try {
+    response = await fetch(endpoint, {
+      method: "POST",
+      body: formData,
+    });
+  } catch (networkError: unknown) {
+    const rawMessage =
+      networkError instanceof Error
+        ? networkError.message
+        : String(networkError);
+    if (
+      rawMessage === "Failed to fetch" ||
+      rawMessage.toLowerCase().includes("network")
+    ) {
+      throw new Error(
+        "Unable to connect to Cloudinary upload service. Please check your internet connection and cloud configuration.",
+      );
+    }
+    throw new Error(`Upload network error: ${rawMessage}`);
+  }
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);

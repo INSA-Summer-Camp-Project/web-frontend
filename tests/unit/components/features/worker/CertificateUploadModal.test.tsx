@@ -68,6 +68,7 @@ describe("CertificateUploadModal", () => {
       );
       expect(handleUpload).toHaveBeenCalledWith({
         title: "Licensed Electrician",
+        issuedDate: "2024-05-15",
         issueDate: "2024-05-15",
         fileUrl: "https://cloudinary.com/cert.pdf",
       });

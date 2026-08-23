@@ -2,10 +2,10 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import WorkerJobDetailPage from "@/app/(worker)/jobs/[id]/page";
+import WorkerJobDetailPage from "@/app/(dashboard)/worker/jobs/[id]/page";
 import { jobsApi } from "@/lib/api/jobs";
 import { applicationsApi } from "@/lib/api/applications";
-import type { Job, Application } from "@/types";
+import type { Job } from "@/types";
 
 const mockPush = vi.fn();
 
@@ -14,14 +14,8 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/worker/jobs/job-100",
   useRouter: () => ({
     push: mockPush,
+    back: vi.fn(),
   }),
-}));
-
-vi.mock("react-hot-toast", () => ({
-  default: {
-    success: vi.fn(),
-    error: vi.fn(),
-  },
 }));
 
 function createWrapper() {
@@ -58,29 +52,26 @@ describe("WorkerJobDetailPage", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders job detail card and apply form when user has not applied", async () => {
+  it("renders job detail card and submit proposal button", async () => {
     vi.spyOn(jobsApi, "getJobById").mockResolvedValueOnce(mockJob);
-    vi.spyOn(applicationsApi, "getMyApplications").mockResolvedValueOnce([]);
 
     render(<WorkerJobDetailPage />, { wrapper: createWrapper() });
 
     await waitFor(() => {
       expect(
-        screen.getAllByText("Master Bedroom Electrical Repair"),
-      ).toHaveLength(2);
+        screen.getByText("Master Bedroom Electrical Repair"),
+      ).toBeInTheDocument();
       expect(
         screen.getByText("Install 4 sockets and 2 light switches."),
       ).toBeInTheDocument();
-      expect(screen.getByText("Submit Your Proposal")).toBeInTheDocument();
       expect(
         screen.getByRole("button", { name: "Submit Proposal" }),
       ).toBeInTheDocument();
     });
   });
 
-  it("submits application via applyForm", async () => {
+  it("opens modal and submits proposal", async () => {
     vi.spyOn(jobsApi, "getJobById").mockResolvedValueOnce(mockJob);
-    vi.spyOn(applicationsApi, "getMyApplications").mockResolvedValueOnce([]);
     const applySpy = vi
       .spyOn(applicationsApi, "applyJob")
       .mockResolvedValueOnce({
@@ -88,65 +79,56 @@ describe("WorkerJobDetailPage", () => {
         jobId: "job-100",
         workerId: "wrk-1",
         proposedPrice: 1100,
-        estimatedTime: "1 day",
+        estimatedTime: "60",
         status: "PENDING",
       });
 
     render(<WorkerJobDetailPage />, { wrapper: createWrapper() });
 
     await waitFor(() => {
-      expect(screen.getByText("Submit Your Proposal")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Submit Proposal" }),
+      ).toBeInTheDocument();
     });
 
-    const timeInput = screen.getByLabelText("Estimated Time (minutes)");
-    fireEvent.change(timeInput, { target: { value: "60" } });
+    fireEvent.click(screen.getByRole("button", { name: "Submit Proposal" }));
 
-    const submitBtn = screen.getByRole("button", { name: "Submit Proposal" });
-    fireEvent.click(submitBtn);
+    expect(screen.getByText("Submit a Proposal")).toBeInTheDocument();
+
+    const priceInput = screen.getByLabelText("Your Bid Amount (ETB)");
+    const timeInput = screen.getByLabelText("Estimated Time");
+
+    fireEvent.change(priceInput, { target: { value: "1100" } });
+    fireEvent.change(timeInput, { target: { value: "60 minutes" } });
+
+    const submitBtns = screen.getAllByRole("button", {
+      name: "Submit Proposal",
+    });
+    fireEvent.click(submitBtns[submitBtns.length - 1]);
 
     await waitFor(() => {
       expect(applySpy).toHaveBeenCalledWith("job-100", {
-        proposedPrice: 1200,
-        estimatedTime: 60,
+        proposedPrice: 1100,
+        estimatedTime: "60 minutes",
       });
     });
   });
 
-  it("renders ApplicationStatusBanner when user has already applied", async () => {
-    const mockApp: Application = {
-      id: "app-1",
-      jobId: "job-100",
-      workerId: "wrk-1",
-      proposedPrice: 1000,
-      estimatedTime: "2 days",
-      status: "PENDING",
-      createdAt: "2026-08-20T00:00:00.000Z",
-    };
-
-    vi.spyOn(jobsApi, "getJobById").mockResolvedValueOnce(mockJob);
-    vi.spyOn(applicationsApi, "getMyApplications").mockResolvedValueOnce([
-      mockApp,
-    ]);
-
-    render(<WorkerJobDetailPage />, { wrapper: createWrapper() });
-
-    await waitFor(() => {
-      expect(screen.getByText("Proposal Under Review")).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: "Withdraw Proposal" }),
-      ).toBeInTheDocument();
-    });
-  });
-
-  it("renders DirectRespondPanel when job is a direct request", async () => {
+  it("renders DirectRespondPanel for DIRECT PENDING job and accepts offer", async () => {
     const directJob: Job = {
       ...mockJob,
+      id: "job-100",
       source: "DIRECT",
       status: "PENDING",
     };
 
     vi.spyOn(jobsApi, "getJobById").mockResolvedValueOnce(directJob);
-    vi.spyOn(applicationsApi, "getMyApplications").mockResolvedValueOnce([]);
+    const respondSpy = vi
+      .spyOn(jobsApi, "directRespond")
+      .mockResolvedValueOnce({
+        ...directJob,
+        status: "IN_PROGRESS",
+      });
 
     render(<WorkerJobDetailPage />, { wrapper: createWrapper() });
 
@@ -158,6 +140,14 @@ describe("WorkerJobDetailPage", () => {
       expect(
         screen.getByRole("button", { name: "Decline Request" }),
       ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Accept Request" }));
+
+    await waitFor(() => {
+      expect(respondSpy).toHaveBeenCalledWith("job-100", {
+        action: "ACCEPT",
+      });
     });
   });
 });

@@ -17,4 +17,6 @@ export interface ReviewQueryParams {
   rating?: number;
 }
 
+export type ReviewQuery = ReviewQueryParams;
+
 export type { Review };

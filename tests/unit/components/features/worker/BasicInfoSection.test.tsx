@@ -24,9 +24,9 @@ describe("BasicInfoSection", () => {
   const mockProfile: WorkerProfile = {
     id: "wrk-1",
     bio: "Experienced electrician with 10 years of commercial work.",
-    experience_years: 10,
-    payment_rate: 450,
-    profile_photo: "https://example.com/photo.jpg",
+    experienceYears: 10,
+    paymentRate: 450,
+    profilePhoto: "https://example.com/photo.jpg",
     user: {
       id: "u-1",
       name: "Solomon Kassa",
@@ -71,8 +71,8 @@ describe("BasicInfoSection", () => {
       expect(handleUpdate).toHaveBeenCalledWith(
         expect.objectContaining({
           bio: "Updated professional bio description.",
-          experience_years: 10,
-          payment_rate: 450,
+          experienceYears: 10,
+          paymentRate: 450,
         }),
       );
     });

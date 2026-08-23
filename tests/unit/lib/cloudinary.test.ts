@@ -96,4 +96,16 @@ describe("Cloudinary Upload Service", () => {
       "Invalid image file format",
     );
   });
+
+  it("throws a descriptive error when network fetch fails", async () => {
+    global.fetch = vi.fn().mockRejectedValueOnce(new Error("Failed to fetch"));
+
+    const file = new File(["dummy content"], "photo.jpg", {
+      type: "image/jpeg",
+    });
+
+    await expect(uploadToCloudinary(file)).rejects.toThrow(
+      "Unable to connect to Cloudinary upload service",
+    );
+  });
 });

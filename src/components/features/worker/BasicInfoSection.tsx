@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Camera, Save, DollarSign, Clock } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Avatar } from "@/components/ui/Avatar";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -27,14 +27,12 @@ export const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
 
   const [bio, setBio] = useState(profile?.bio || "");
   const [experienceYears, setExperienceYears] = useState<number | string>(
-    profile?.experience_years ?? "",
+    profile?.experienceYears ?? "",
   );
   const [paymentRate, setPaymentRate] = useState<number | string>(
-    profile?.payment_rate ?? "",
+    profile?.paymentRate ?? "",
   );
-  const [profilePhoto, setProfilePhoto] = useState(
-    profile?.profile_photo || "",
-  );
+  const [profilePhoto, setProfilePhoto] = useState(profile?.profilePhoto || "");
   const [isPhotoUploading, setIsPhotoUploading] = useState(false);
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,10 +69,10 @@ export const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
 
     const payload: UpdateWorkerProfilePayload = {
       bio: bio.trim() || undefined,
-      experience_years:
+      experienceYears:
         experienceYears !== "" ? Number(experienceYears) : undefined,
-      payment_rate: paymentRate !== "" ? Number(paymentRate) : undefined,
-      profile_photo: profilePhoto || undefined,
+      paymentRate: paymentRate !== "" ? Number(paymentRate) : undefined,
+      profilePhoto: profilePhoto || undefined,
     };
 
     try {

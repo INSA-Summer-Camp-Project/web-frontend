@@ -8,6 +8,8 @@ import type {
   CreateDirectJobPayload,
   DirectRespondPayload,
   UpdateJobStatusPayload,
+  UpdateJobPayload,
+  JobContact,
 } from "@/types";
 
 export const jobsApi = {
@@ -76,6 +78,22 @@ export const jobsApi = {
     payload: UpdateJobStatusPayload,
   ): Promise<Job> => {
     return apiClient.patch<Job>(`/api/v1/jobs/${jobId}/status`, payload);
+  },
+
+  /**
+   * PUT /api/v1/jobs/:id
+   * Update job details (Customer, only when OPEN).
+   */
+  updateJob: async (jobId: string, payload: UpdateJobPayload): Promise<Job> => {
+    return apiClient.put<Job>(`/api/v1/jobs/${jobId}`, payload);
+  },
+
+  /**
+   * GET /api/v1/jobs/:id/contact
+   * Get contact info of mutual party for assigned/completed jobs.
+   */
+  getJobContact: async (jobId: string): Promise<JobContact> => {
+    return apiClient.get<JobContact>(`/api/v1/jobs/${jobId}/contact`);
   },
 
   /**

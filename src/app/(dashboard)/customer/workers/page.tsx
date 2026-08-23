@@ -8,7 +8,7 @@ import {
   SlidersHorizontal,
   X,
   Tag,
-  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { useSearchWorkers, useCategories } from "@/hooks/useWorker";
 import { Avatar } from "@/components/ui/Avatar";
@@ -104,7 +104,7 @@ export default function CustomerWorkersDiscoveryPage() {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by specialist name, skill, or keyword..."
+              placeholder="Search by specialist name, bio, or keyword..."
               leftIcon={<Search size={16} />}
               rightIcon={
                 search ? (
@@ -285,10 +285,9 @@ export default function CustomerWorkersDiscoveryPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {workers.map((worker: WorkerProfile) => {
-              const rating = worker.rating_avg || worker.ratingAvg;
-              const rate = worker.payment_rate || worker.paymentRate;
-              const expYears =
-                worker.experience_years || worker.experienceYears;
+              const rating = worker.ratingAvg;
+              const rate = worker.paymentRate;
+              const expYears = worker.experienceYears;
 
               return (
                 <div
@@ -300,7 +299,6 @@ export default function CustomerWorkersDiscoveryPage() {
                     <div className="flex items-start gap-3.5 mb-4">
                       <Avatar
                         src={
-                          worker.profile_photo ||
                           worker.profilePhoto ||
                           worker.user?.photoUrl ||
                           worker.user?.avatarUrl ||
@@ -314,12 +312,14 @@ export default function CustomerWorkersDiscoveryPage() {
                           <h3 className="font-bold text-ink text-base truncate">
                             {worker.user?.name || "Professional Specialist"}
                           </h3>
-                          <span
-                            title="Verified Professional"
-                            className="text-primary shrink-0"
-                          >
-                            <Sparkles size={14} />
-                          </span>
+                          {worker.isVerified && (
+                            <span
+                              title="Verified Professional"
+                              className="text-primary shrink-0"
+                            >
+                              <ShieldCheck size={14} />
+                            </span>
+                          )}
                         </div>
 
                         {/* Rating & Jobs */}
@@ -385,7 +385,7 @@ export default function CustomerWorkersDiscoveryPage() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <Link href={`/worker/${worker.id}`}>
+                      <Link href={`/worker/view/${worker.id}`}>
                         <Button variant="outline" size="sm">
                           Profile
                         </Button>

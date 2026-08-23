@@ -1,13 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Send, ArrowRight, ShieldCheck } from "lucide-react";
-import { StatItem } from "@/types/landing";
-
-const stats: StatItem[] = [
-  { value: "10,000+", label: "Active Professionals" },
-  { value: "50+", label: "Service Categories" },
-  { value: "4.9★", label: "Average Rating" },
-];
 
 export interface HeroProps {
   className?: string;
@@ -48,7 +41,7 @@ export const Hero: React.FC<HeroProps> = ({ className = "" }) => {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/signup"
+            href="/login"
             className="btn-primary w-full sm:w-auto text-sm px-6 py-3 rounded-sm shadow-sm hover:shadow-md"
           >
             <Send size={16} />
@@ -64,20 +57,6 @@ export const Hero: React.FC<HeroProps> = ({ className = "" }) => {
               className="group-hover:translate-x-0.5 transition-transform"
             />
           </Link>
-        </div>
-
-        {/* Social Proof / Stats per Section 19 Tabular Figures */}
-        <div className="mt-14 pt-8 border-t border-border/60 flex flex-col sm:flex-row items-center justify-center gap-8 md:gap-16 text-center">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center">
-              <span className="font-serif text-3xl md:text-4xl font-bold text-primary tabular-nums">
-                {stat.value}
-              </span>
-              <span className="text-xs md:text-sm font-medium text-ink-muted mt-1">
-                {stat.label}
-              </span>
-            </div>
-          ))}
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useId } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, AlertCircle } from "lucide-react";
 
 export interface SelectOption {
   value: string;
@@ -87,7 +87,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         </div>
         {error ? (
           <p className="text-xs text-error flex items-center gap-1 font-medium mt-0.5">
-            <span className="material-symbols-outlined text-[14px]">error</span>
+            <AlertCircle size={14} />
             {error}
           </p>
         ) : helperText ? (

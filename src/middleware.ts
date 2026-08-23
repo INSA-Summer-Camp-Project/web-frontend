@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 interface DecodedToken {
+  activeRole?: string;
   lastActiveRole?: string;
   role?: string;
   systemRole?: string;
+  isOnboarded?: boolean;
   exp?: number;
 }
 
@@ -32,16 +34,18 @@ export function parseJwtPayload(token: string): DecodedToken | null {
 export function extractAuth(request: NextRequest): {
   token: string | null;
   activeRole: string | null;
+  systemRole: string | null;
+  isOnboarded: boolean;
 } {
   // Check authorization header
   const authHeader = request.headers.get("authorization");
   let token: string | null = null;
 
-  if (authHeader && authHeader.startsWith("Bearer ")) {
+  if (authHeader?.startsWith("Bearer ")) {
     token = authHeader.substring(7);
   }
 
-  // Check token cookies (including access_token)
+  // Check token cookies (try multiple cookie names for compatibility)
   if (!token) {
     token =
       request.cookies.get("servicehub_access_token")?.value ||
@@ -49,6 +53,16 @@ export function extractAuth(request: NextRequest): {
       request.cookies.get("accessToken")?.value ||
       request.cookies.get("token")?.value ||
       null;
+
+    if (!token) {
+      const rawCookie = request.headers.get("cookie") || "";
+      const match = rawCookie.match(
+        /(?:servicehub_access_token|access_token|accessToken|token)=([^;]+)/,
+      );
+      if (match) {
+        token = match[1];
+      }
+    }
   }
 
   let activeRole: string | null =
@@ -57,61 +71,118 @@ export function extractAuth(request: NextRequest): {
     request.cookies.get("activeRole")?.value ||
     null;
 
+  let systemRole: string | null = null;
+  let isOnboarded = false;
+
   // If token is present, attempt to decode role and expiry from JWT payload
   if (token) {
     const payload = parseJwtPayload(token);
     if (payload) {
       // Check expiration if present
       if (payload.exp && payload.exp * 1000 < Date.now()) {
-        return { token: null, activeRole: null };
+        return {
+          token: null,
+          activeRole: null,
+          systemRole: null,
+          isOnboarded: false,
+        };
       }
-      activeRole = payload.lastActiveRole || payload.role || activeRole;
+      activeRole =
+        activeRole ||
+        payload.activeRole ||
+        payload.lastActiveRole ||
+        payload.role ||
+        null;
+      systemRole = payload.systemRole || null;
+      isOnboarded =
+        payload.isOnboarded !== undefined ? payload.isOnboarded : true;
     }
   }
 
-  return { token, activeRole };
+  return { token, activeRole, systemRole, isOnboarded };
 }
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protect customer portal routes (/customer/dashboard, /customer/jobs, /customer/workers, /customer/profile, etc.)
+  // Protect customer portal routes (/customer/*)
   if (pathname.startsWith("/customer")) {
-    const { token } = extractAuth(request);
+    const { token, isOnboarded } = extractAuth(request);
 
-    // If not authenticated, redirect to /login
     if (!token) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("returnUrl", pathname);
       return NextResponse.redirect(loginUrl);
     }
+
+    // If authenticated but hasn't completed onboarding, redirect to onboarding
+    if (!isOnboarded) {
+      const redirectUrl = new URL("/onboarding", request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
   }
 
-  // Protect worker portal routes (/worker/dashboard, /worker/jobs, /worker/profile, etc.)
+  // Protect worker portal routes (/worker/dashboard, /worker/jobs, /worker/profile, /worker/applications)
   if (pathname.startsWith("/worker")) {
-    // Check if it is a public worker profile route: /worker/[id] (e.g. /worker/wrk-123 or /worker/uuid)
-    // Protected worker routes: /worker/dashboard, /worker/jobs, /worker/profile
+    // /worker/[id] is a public profile page — allow it without auth
     const isProtectedWorkerRoute =
       pathname.startsWith("/worker/dashboard") ||
       pathname.startsWith("/worker/jobs") ||
-      pathname.startsWith("/worker/profile");
+      pathname.startsWith("/worker/profile") ||
+      pathname.startsWith("/worker/applications");
 
     if (isProtectedWorkerRoute) {
-      const { token, activeRole } = extractAuth(request);
+      const { token, isOnboarded, activeRole } = extractAuth(request);
 
-      // If not authenticated, redirect to /login
       if (!token) {
         const loginUrl = new URL("/login", request.url);
         loginUrl.searchParams.set("returnUrl", pathname);
         return NextResponse.redirect(loginUrl);
       }
 
-      // If authenticated but role is not WORKER, redirect to /signup or /onboarding/role
+      if (!isOnboarded) {
+        const redirectUrl = new URL("/onboarding", request.url);
+        return NextResponse.redirect(redirectUrl);
+      }
+
+      // If authenticated but doesn't have WORKER activeRole, redirect to onboarding
       if (activeRole !== "WORKER") {
-        const redirectUrl = new URL("/signup", request.url);
+        const redirectUrl = new URL("/onboarding", request.url);
         redirectUrl.searchParams.set("error", "worker_role_required");
         return NextResponse.redirect(redirectUrl);
       }
+    }
+  }
+
+  // Protect admin routes (/admin/*)
+  if (pathname.startsWith("/admin")) {
+    const { token, systemRole } = extractAuth(request);
+
+    if (!token) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("returnUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (systemRole !== "ADMIN") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  // Handle /onboarding route
+  if (pathname.startsWith("/onboarding")) {
+    const { token, isOnboarded, activeRole } = extractAuth(request);
+
+    if (!token) {
+      const loginUrl = new URL("/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (isOnboarded) {
+      if (activeRole === "WORKER") {
+        return NextResponse.redirect(new URL("/worker/dashboard", request.url));
+      }
+      return NextResponse.redirect(new URL("/customer/dashboard", request.url));
     }
   }
 
@@ -119,5 +190,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/worker/:path*", "/customer/:path*"],
+  matcher: [
+    "/worker/:path*",
+    "/customer/:path*",
+    "/admin/:path*",
+    "/onboarding",
+  ],
 };

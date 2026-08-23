@@ -10,6 +10,10 @@ export interface WorkerService {
   id: string;
   categoryId: string;
   workerId?: string;
+  providerId?: string;
+  name?: string;
+  description?: string;
+  price?: number;
   category: WorkerCategory;
 }
 
@@ -19,7 +23,6 @@ export interface PortfolioItem {
   title: string;
   description?: string;
   imageUrl: string;
-  image_url?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -29,9 +32,7 @@ export interface Certificate {
   workerId?: string;
   title: string;
   fileUrl: string;
-  file_url?: string;
   issuedDate?: string;
-  issued_date?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -41,13 +42,10 @@ export interface WorkerProfile {
   userId?: string;
   bio?: string;
   experienceYears?: number;
-  experience_years?: number;
   paymentRate?: string | number;
-  payment_rate?: string | number;
   ratingAvg?: string | number;
-  rating_avg?: string | number;
   profilePhoto?: string;
-  profile_photo?: string;
+  isVerified?: boolean;
   user?: Pick<
     UserProfile,
     "id" | "name" | "email" | "phone" | "avatarUrl" | "photoUrl"
@@ -65,9 +63,9 @@ export interface WorkerProfile {
 
 export interface UpdateWorkerProfilePayload {
   bio?: string;
-  experience_years?: number;
-  payment_rate?: number;
-  profile_photo?: string;
+  experienceYears?: number;
+  paymentRate?: number;
+  profilePhoto?: string;
 }
 
 export interface AddPortfolioPayload {
@@ -80,10 +78,14 @@ export interface AddCertificatePayload {
   title: string;
   fileUrl: string;
   issuedDate?: string;
+  issueDate?: string;
 }
 
 export interface AddServicePayload {
   categoryId: string;
+  name?: string;
+  description?: string;
+  price?: number;
 }
 
 export interface WorkerReputationMetrics {
@@ -132,7 +134,7 @@ export interface Review {
 
 export interface WorkerReputation {
   workerId: string;
-  rating_avg: number;
+  ratingAvg?: number;
   totalReviews: number;
   distribution: Record<string, number>;
   metrics: WorkerReputationMetrics;
@@ -140,13 +142,16 @@ export interface WorkerReputation {
   reviews?: Review[];
 }
 
+export type WorkerSortBy =
+  "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+
 export interface WorkerSearchParams {
   categoryId?: string;
   search?: string;
   minRating?: number;
   minRate?: number;
   maxRate?: number;
-  sortBy?: "rating" | "jobs" | "newest" | "rate_asc" | "rate_desc";
+  sortBy?: WorkerSortBy;
   page?: number;
   limit?: number;
 }

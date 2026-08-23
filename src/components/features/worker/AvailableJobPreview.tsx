@@ -63,6 +63,13 @@ export const AvailableJobPreview: React.FC<AvailableJobPreviewProps> = ({
           <EmptyState
             title="No jobs available right now"
             description="Check back soon for newly posted customer requests in your area."
+            actionButton={
+              <Link href={viewAllHref}>
+                <Button variant="primary" size="md">
+                  Browse Jobs
+                </Button>
+              </Link>
+            }
           />
         </div>
       ) : (

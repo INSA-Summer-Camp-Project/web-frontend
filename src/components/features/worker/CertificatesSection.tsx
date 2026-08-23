@@ -9,7 +9,7 @@ import {
   Calendar,
   FileText,
 } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { CertificateUploadModal } from "./CertificateUploadModal";
@@ -36,9 +36,19 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({
       await addCertMutation.mutateAsync(payload);
       toast.success("Certificate uploaded successfully!");
     } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to upload certificate.";
+      let errorMessage = "Failed to upload certificate.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      if (
+        errorMessage === "Failed to fetch" ||
+        errorMessage.toLowerCase().includes("network error")
+      ) {
+        errorMessage =
+          "Network connection error: Unable to reach backend server. Please check your connection.";
+      }
       toast.error(errorMessage);
+      throw err;
     }
   };
 
@@ -109,8 +119,8 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({
         ) : (
           <div className="space-y-3 pt-1">
             {certificates.map((cert) => {
-              const fileUrl = cert.fileUrl || cert.file_url || "";
-              const issueDate = cert.issuedDate || cert.issued_date;
+              const fileUrl = cert.fileUrl || "";
+              const issueDate = cert.issuedDate;
               const formattedDate = issueDate
                 ? new Date(issueDate).toLocaleDateString("en-US", {
                     month: "short",

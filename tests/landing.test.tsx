@@ -40,8 +40,7 @@ describe("Landing Page Components Test Suite", () => {
       expect(screen.getByText("How It Works")).toBeInTheDocument();
       expect(screen.getByText("Services")).toBeInTheDocument();
       expect(screen.getByText("For Professionals")).toBeInTheDocument();
-      expect(screen.getByText("Testimonials")).toBeInTheDocument();
-      expect(screen.getByText("Get Started")).toBeInTheDocument();
+      expect(screen.getAllByText("Get Started")[0]).toBeInTheDocument();
     });
   });
 
@@ -55,7 +54,9 @@ describe("Landing Page Components Test Suite", () => {
       expect(
         screen.getByRole("link", { name: /sign up/i }),
       ).toBeInTheDocument();
-      expect(screen.getByText(/10,000\+/i)).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: /see how it works/i }),
+      ).toBeInTheDocument();
     });
   });
 

@@ -2,7 +2,7 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import WorkerProfilePage from "@/app/(worker)/profile/page";
+import WorkerProfilePage from "@/app/(dashboard)/worker/profile/page";
 import { workersApi } from "@/lib/api/workers";
 import type { WorkerProfile } from "@/types";
 
@@ -43,9 +43,9 @@ describe("WorkerProfilePage", () => {
   const mockProfile: WorkerProfile = {
     id: "wrk-1",
     bio: "Skilled electrician and contractor.",
-    experience_years: 8,
-    payment_rate: 400,
-    profile_photo: "https://example.com/photo.jpg",
+    experienceYears: 8,
+    paymentRate: 400,
+    profilePhoto: "https://example.com/photo.jpg",
     user: {
       id: "u-1",
       name: "Tadesse Kebede",

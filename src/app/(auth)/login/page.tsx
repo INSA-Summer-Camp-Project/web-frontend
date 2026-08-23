@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Lock } from "lucide-react";
 import { AuthCard, AuthSplitLayout } from "@/components/ui";
 import { TelegramLoginButton } from "@/components/features/auth/TelegramLoginButton";
 
@@ -17,18 +18,16 @@ export default function LoginPage() {
         footer={
           <div className="flex flex-col gap-5 text-center w-full">
             <p className="text-sm text-ink-muted">
-              New to ServiceHub?{" "}
+              Don&apos;t have an account?{" "}
               <Link
                 href="/signup"
-                className="text-primary font-semibold hover:underline hover:text-primary-dark transition-colors"
+                className="font-semibold text-primary hover:underline"
               >
-                Get started
+                Get Started
               </Link>
             </p>
-            <p className="text-xs text-ink-muted leading-relaxed">
-              <span className="material-symbols-outlined text-[14px] align-middle mr-1 relative -top-[1px]">
-                lock
-              </span>
+            <p className="text-xs text-ink-muted leading-relaxed flex items-center justify-center">
+              <Lock size={14} className="mr-1" />
               By continuing, you agree to ServiceHub&apos;s{" "}
               <Link
                 href="/terms"

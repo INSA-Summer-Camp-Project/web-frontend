@@ -90,7 +90,7 @@ export function useRemoveWorkerService() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (categoryId: string) => workersApi.removeService(categoryId),
+    mutationFn: (serviceId: string) => workersApi.removeService(serviceId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: workerKeys.myServices() });
       queryClient.invalidateQueries({ queryKey: workerKeys.me() });

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Plus, Layers } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { CategoryChip } from "@/components/ui/CategoryChip";
 import { Button } from "@/components/ui/Button";
 import { ServiceCategoryPicker } from "./ServiceCategoryPicker";
@@ -32,9 +32,9 @@ export const ServiceCategoriesSection: React.FC<
     (s) => s.categoryId || s.category?.id,
   );
 
-  const handleAddCategory = async (categoryId: string) => {
+  const handleAddCategory = async (categoryId: string, name?: string) => {
     try {
-      await addServiceMutation.mutateAsync({ categoryId });
+      await addServiceMutation.mutateAsync({ categoryId, name });
       toast.success("Service category added!");
     } catch (err: unknown) {
       const errorMessage =
@@ -45,9 +45,9 @@ export const ServiceCategoriesSection: React.FC<
 
   const handleRemoveCategory = async (service: WorkerService) => {
     try {
-      const categoryId = service.categoryId || service.category?.id;
-      if (!categoryId) return;
-      await removeServiceMutation.mutateAsync(categoryId);
+      const serviceId = service.id;
+      if (!serviceId) return;
+      await removeServiceMutation.mutateAsync(serviceId);
       toast.success("Service category removed.");
     } catch (err: unknown) {
       const errorMessage =

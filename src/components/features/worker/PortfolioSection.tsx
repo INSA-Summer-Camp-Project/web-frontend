@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Plus, Trash2, Image as ImageIcon } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { PortfolioUploadModal } from "./PortfolioUploadModal";
@@ -30,9 +30,19 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
       await addPortfolioMutation.mutateAsync(payload);
       toast.success("Portfolio project added successfully!");
     } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to add portfolio item.";
+      let errorMessage = "Failed to add portfolio item.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      if (
+        errorMessage === "Failed to fetch" ||
+        errorMessage.toLowerCase().includes("network error")
+      ) {
+        errorMessage =
+          "Network connection error: Unable to reach backend server. Please check your connection.";
+      }
       toast.error(errorMessage);
+      throw err;
     }
   };
 
@@ -103,7 +113,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-1">
             {portfolios.map((item) => {
-              const imageUrl = item.imageUrl || item.image_url || "";
+              const imageUrl = item.imageUrl || "";
               return (
                 <div
                   key={item.id}

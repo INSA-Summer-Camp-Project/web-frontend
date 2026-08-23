@@ -51,7 +51,7 @@ export const WorkerStatCard: React.FC<WorkerStatCardProps> = ({
         {isCurrency ? (
           <PriceDisplay amount={value} currency={currency} size="xl" />
         ) : (
-          <span className="font-serif text-2xl md:text-3xl font-bold text-ink tracking-tight tabular-nums">
+          <span className="text-2xl md:text-3xl font-bold text-ink tracking-tight tabular-nums">
             {value}
           </span>
         )}
