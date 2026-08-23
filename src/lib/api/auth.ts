@@ -34,7 +34,7 @@ export const authApi = {
       return response;
     } catch (error) {
       if (error instanceof ApiError) throw error;
-      throw new ApiError(500, "Failed to get Telegram login URL.");
+      throw new ApiError(500, "Failed to retrieve Telegram auth URL.");
     }
   },
 
@@ -51,7 +51,7 @@ export const authApi = {
       });
     } catch (error) {
       if (error instanceof ApiError) throw error;
-      throw new ApiError(500, "Failed to verify Telegram login.");
+      throw new ApiError(500, "Telegram login verification failed.");
     }
   },
 

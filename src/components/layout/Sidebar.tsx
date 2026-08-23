@@ -9,10 +9,10 @@ import {
   User,
   Settings,
   LogOut,
-  Wrench,
   Search,
 } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
+import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/authStore";
 import { authApi } from "@/lib/api/auth";
@@ -88,19 +88,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <aside className="hidden lg:flex flex-col w-64 h-screen fixed top-0 left-0 bg-surface border-r border-border z-layer-sticky">
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-border">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
-            <Wrench size={18} className="stroke-[2.5]" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif text-lg font-bold text-ink tracking-tight group-hover:text-primary transition-colors">
-              ServiceHub
-            </span>
-            <span className="text-[10px] font-semibold text-primary uppercase tracking-wider -mt-1">
-              {isWorker ? "Worker Portal" : "Customer Portal"}
-            </span>
-          </div>
-        </Link>
+        <Logo
+          variant="blue"
+          size={36}
+          href="/"
+          subtitle={isWorker ? "Worker Portal" : "Customer Portal"}
+        />
       </div>
 
       {/* Nav Links */}

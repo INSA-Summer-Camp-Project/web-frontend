@@ -1,27 +1,33 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/stores/authStore";
-import { Spinner } from "@/components/ui/Spinner";
+import { Spinner, Button } from "@/components/ui";
 
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setUser = useAuthStore((state) => state.setUser);
   const setActiveRole = useAuthStore((state) => state.setActiveRole);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // For Telegram OAuth verification
-        const state = sessionStorage.getItem("tg_state");
-        const codeVerifier = sessionStorage.getItem("tg_codeVerifier");
+        const state =
+          sessionStorage.getItem("telegram_state") ||
+          sessionStorage.getItem("tg_state");
+        const codeVerifier =
+          sessionStorage.getItem("telegram_code_verifier") ||
+          sessionStorage.getItem("tg_codeVerifier");
 
         let user;
         if (state && codeVerifier) {
-          // Clean up immediately to prevent double-execution in React 18 Strict Mode
+          // Clean up immediately to prevent double-execution in React 18 / 19 Strict Mode
+          sessionStorage.removeItem("telegram_state");
+          sessionStorage.removeItem("telegram_code_verifier");
           sessionStorage.removeItem("tg_state");
           sessionStorage.removeItem("tg_codeVerifier");
 
@@ -57,12 +63,30 @@ function AuthCallbackContent() {
         }
       } catch (err) {
         console.error("Auth callback failed", err);
-        router.push("/login?error=auth_failed");
+        setError("Failed to verify your login. Please try again.");
       }
     };
 
     handleCallback();
   }, [router, setUser, setActiveRole, searchParams]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface p-4">
+        <div className="text-center space-y-4 max-w-sm">
+          <h1 className="text-xl font-bold text-ink">Authentication Failed</h1>
+          <p className="text-ink-muted text-sm">{error}</p>
+          <Button
+            variant="primary"
+            onClick={() => router.push("/login")}
+            className="mt-4"
+          >
+            Return to Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface">

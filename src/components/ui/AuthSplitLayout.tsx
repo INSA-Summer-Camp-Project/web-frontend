@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Wrench } from "lucide-react";
 
 export interface AuthSplitLayoutProps {
   children: React.ReactNode;
@@ -17,35 +16,87 @@ export const AuthSplitLayout: React.FC<AuthSplitLayoutProps> = ({
   return (
     <div className="flex w-full min-h-screen bg-surface">
       {/* Left Panel - Visual/Brand (Hidden on mobile/tablet, visible on desktop) */}
-      <div className="hidden lg:flex flex-col relative w-[45%] bg-primary-dark overflow-hidden">
-        {/* Background Image */}
+      <div className="hidden lg:flex flex-col relative w-[45%] bg-white overflow-hidden">
+        {/* Background Image - Blue Logo */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/auth-bg.jpg"
+            src="/logo-package/logo-blue.svg"
             alt="Trusted local services"
             fill
-            className="object-cover opacity-80"
+            className="object-cover opacity-100"
             priority
           />
-          {/* Subtle gradient overlay to ensure text readability and branding */}
-          <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/80 to-primary/20 mix-blend-multiply" />
         </div>
 
-        {/* Content */}
+        {/* Content - Layer 1 (Primary blue text for white background areas) */}
         <div className="relative z-10 flex flex-col p-12 h-full justify-between">
           <Link href="/" className="flex items-center gap-3 group w-fit">
-            <div className="w-10 h-10 rounded-sm bg-white flex items-center justify-center text-primary shadow-sm">
-              <Wrench size={22} className="stroke-[2.5]" />
+            <div className="w-14 h-14 rounded-sm bg-white flex items-center justify-center p-2 shadow-sm border border-border relative overflow-hidden">
+              <Image
+                src="/logo-package/logo-blue.svg"
+                alt="ServiceHub Logo"
+                width={42}
+                height={42}
+                className="w-full h-full object-contain transition-opacity duration-200 group-hover:opacity-0"
+                priority
+              />
+              <Image
+                src="/logo-package/logo-black.svg"
+                alt="ServiceHub Logo Hover"
+                width={42}
+                height={42}
+                className="w-full h-full object-contain absolute p-2 inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                priority
+              />
             </div>
-            <span className="font-serif text-2xl font-bold text-white tracking-tight group-hover:text-white/90 transition-colors">
+            <span className="font-serif text-2xl font-bold text-black group-hover:text-primary tracking-tight transition-colors">
               {brandTitle}
             </span>
           </Link>
 
           <div className="mt-auto">
-            <h1 className="text-white font-serif text-4xl leading-tight font-medium max-w-md">
+            <h1 className="text-primary font-serif text-4xl leading-tight font-bold max-w-md">
               {brandSubtitle}
             </h1>
+          </div>
+        </div>
+
+        {/* Content - Layer 2 (White text clipped strictly to the blue logo shape area) */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none bg-[#2563EB]"
+          style={{
+            WebkitMaskImage: "url('/logo-package/logo-blue.svg')",
+            WebkitMaskSize: "cover",
+            WebkitMaskPosition: "center",
+            WebkitMaskRepeat: "no-repeat",
+            maskImage: "url('/logo-package/logo-blue.svg')",
+            maskSize: "cover",
+            maskPosition: "center",
+            maskRepeat: "no-repeat",
+          }}
+        >
+          <div className="flex flex-col p-12 h-full justify-between">
+            <div className="flex items-center gap-3 w-fit">
+              <div className="w-14 h-14 rounded-sm bg-white flex items-center justify-center p-2 shadow-sm border border-border relative overflow-hidden">
+                <Image
+                  src="/logo-package/logo-blue.svg"
+                  alt="ServiceHub Logo"
+                  width={42}
+                  height={42}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+              <span className="font-serif text-2xl font-bold text-white tracking-tight">
+                {brandTitle}
+              </span>
+            </div>
+
+            <div className="mt-auto">
+              <h1 className="text-white font-serif text-4xl leading-tight font-bold max-w-md">
+                {brandSubtitle}
+              </h1>
+            </div>
           </div>
         </div>
       </div>
@@ -54,11 +105,26 @@ export const AuthSplitLayout: React.FC<AuthSplitLayoutProps> = ({
       <div className="flex flex-col flex-1 lg:w-[55%] relative overflow-y-auto bg-surface">
         {/* Mobile Header (Hidden on desktop) */}
         <div className="lg:hidden w-full p-6 flex justify-center border-b border-border bg-white">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white shadow-xs">
-              <Wrench size={18} className="stroke-[2.5]" />
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-12 h-12 relative flex items-center justify-center overflow-hidden">
+              <Image
+                src="/logo-package/logo-blue.svg"
+                alt="ServiceHub Logo"
+                width={44}
+                height={44}
+                className="w-full h-full object-contain transition-opacity duration-200 group-hover:opacity-0"
+                priority
+              />
+              <Image
+                src="/logo-package/logo-black.svg"
+                alt="ServiceHub Logo Hover"
+                width={44}
+                height={44}
+                className="w-full h-full object-contain absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                priority
+              />
             </div>
-            <span className="font-serif text-xl font-bold text-ink tracking-tight">
+            <span className="font-serif text-xl font-bold text-black group-hover:text-primary tracking-tight transition-colors">
               {brandTitle}
             </span>
           </Link>
