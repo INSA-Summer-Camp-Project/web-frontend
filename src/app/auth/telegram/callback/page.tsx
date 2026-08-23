@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/stores/authStore";
@@ -11,8 +11,12 @@ function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const setUser = useAuthStore((state) => state.setUser);
   const setActiveRole = useAuthStore((state) => state.setActiveRole);
+  const hasProcessed = useRef(false);
 
   useEffect(() => {
+    if (hasProcessed.current) return;
+    hasProcessed.current = true;
+
     const handleCallback = async () => {
       try {
         // For Telegram OAuth verification
